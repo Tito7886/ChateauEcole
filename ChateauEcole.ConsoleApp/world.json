@@ -561,21 +561,21 @@
       "requiredFlags": [
         "telephone_charge"
       ],
-      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve la sortie. La vraie. — R. »"
+      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve la sortie. La vraie. — N. »"
     },
     {
       "id": "masque",
       "requiredItems": [
         "masque_gaz"
       ],
-      "text": "N° INCONNU : « Le masque. Garde-le sur toi. Ne demande pas comment je sais ce que tu viens de trouver. — R. »"
+      "text": "N° INCONNU : « Le masque. Garde-le sur toi. Ne demande pas comment je sais ce que tu viens de trouver. — N. »"
     },
     {
       "id": "clef_soussol",
       "requiredItems": [
         "clef_soussol"
       ],
-      "text": "N° INCONNU : « Tu l'as sortie des toilettes ?! ... Respect. Le sous-sol, maintenant. Ne t'attarde pas en bas. — R. »"
+      "text": "N° INCONNU : « Tu l'as sortie des toilettes ?! ... Respect. Le sous-sol, maintenant. Ne t'attarde pas en bas. — N. »"
     },
     {
       "id": "musique",
@@ -583,14 +583,14 @@
         "medaillon",
         "partition"
       ],
-      "text": "N° INCONNU : « Lumière, médaille, mélodie. Tu as tout, {NOM}. L'aumônerie. COURS. — R. »"
+      "text": "N° INCONNU : « Lumière, médaille, mélodie. Tu as tout, {NOM}. L'aumônerie. COURS. — N. »"
     },
     {
       "id": "passage",
       "requiredFlags": [
         "visited_passage"
       ],
-      "text": "N° INCONNU : « je per— le sign— quoi qu'il arrive ne te retourne pas. Ne te retourne PAS. — R. »"
+      "text": "N° INCONNU : « je per— le sign— quoi qu'il arrive ne te retourne pas. Ne te retourne PAS. — N. »"
     },
     {
       "id": "eglise",

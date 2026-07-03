@@ -45,7 +45,7 @@ public class GameEngine
     {
         _io.Clear();
         _io.WriteLine("==========================================");
-        _io.WriteLine("        LE LYCÉE SAINT-LÉGER");
+        _io.WriteLine("        LE LYCÉE NOTRE-DAME");
         _io.WriteLine("  Personne ne devrait rester ici la nuit.");
         _io.WriteLine("==========================================");
         ShowHighScores();
