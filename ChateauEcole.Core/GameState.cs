@@ -24,9 +24,15 @@ public class GameState
     public int MaxInventory { get; set; } = 8;
     public bool IsDead { get; set; }
 
+    /// <summary>Lapinou apprivoisé accompagne le joueur (compagnon persistant, sérialisé).</summary>
+    public bool LapinouSuit { get; set; }
+
     /// <summary>La réanimation unique a-t-elle déjà été consommée ?</summary>
     public bool ResurrectionUsed { get; set; }
     public bool IsVictory { get; set; }
+
+    /// <summary>Vrai si la victoire a été obtenue par le sacrifice de Lapinou (fin immorale).</summary>
+    public bool VictoryImmoral { get; set; }
 
     public void Reset(string startRoom)
     {
@@ -38,6 +44,8 @@ public class GameState
         Score = 0;
         IsDead = false;
         IsVictory = false;
+        VictoryImmoral = false;
+        LapinouSuit = false;
         ResurrectionUsed = false;
     }
 }

@@ -8,6 +8,9 @@ public class HighScore
     public string Name { get; set; } = "";
     public int Score { get; set; }
     public bool Victory { get; set; }
+
+    /// <summary>Marque affichée pour une victoire (ex. « [ÉVADÉ] », « [À QUEL PRIX] »). Null = défaut.</summary>
+    public string? Mark { get; set; }
     public DateTime Date { get; set; }
 }
 
@@ -70,10 +73,10 @@ public class SaveService
         catch { return new List<HighScore>(); }
     }
 
-    public void AddHighScore(string name, int score, bool victory)
+    public void AddHighScore(string name, int score, bool victory, string? mark = null)
     {
         var scores = LoadHighScores();
-        scores.Add(new HighScore { Name = name, Score = score, Victory = victory, Date = DateTime.Now });
+        scores.Add(new HighScore { Name = name, Score = score, Victory = victory, Mark = mark, Date = DateTime.Now });
         scores = scores.OrderByDescending(s => s.Score).Take(10).ToList();
         try { File.WriteAllText(ScoresPath, JsonSerializer.Serialize(scores, Opts)); }
         catch { }

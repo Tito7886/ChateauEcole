@@ -36,6 +36,12 @@ public class Room
 
     /// <summary>Libellé du choix affiché pour l'action spéciale.</summary>
     public string? SpecialActionLabel { get; set; }
+
+    /// <summary>Si défini, l'action spéciale n'apparaît que lorsque ce flag est posé (ex. mini-jeu débloqué).</summary>
+    public string? SpecialActionRequiredFlag { get; set; }
+
+    /// <summary>Serrure à combinaison optionnelle (ex. porte du sous-sol). Data-driven, générique.</summary>
+    public CodeLock? CodeLock { get; set; }
 }
 
 /// <summary>
@@ -78,6 +84,47 @@ public class RoomAction
 
     /// <summary>Objet proposé « à prendre ou à laisser » : la décision revient au joueur.</summary>
     public string? OffersItem { get; set; }
+
+    /// <summary>L'action n'apparaît que si cet objet est dans l'inventaire (ex. la carotte pour Lapinou).</summary>
+    public string? RequiredItem { get; set; }
+
+    /// <summary>Si vrai, RequiredItem est consommé quand l'action est jouée.</summary>
+    public bool ConsumesItem { get; set; }
+
+    /// <summary>Si vrai, attache Lapinou comme compagnon (GameState.LapinouSuit = true).</summary>
+    public bool SetsCompanion { get; set; }
+}
+
+/// <summary>
+/// Serrure à combinaison générique, pilotée par les données. Une action « Composer le code »
+/// demande une saisie et pose SetsFlag si elle correspond à Combination ; une action
+/// « Récapituler » relit les chiffres déjà trouvés (fragments dont le flag est posé).
+/// </summary>
+public class CodeLock
+{
+    /// <summary>La bonne combinaison (ex. « 912 »).</summary>
+    public string Combination { get; set; } = "";
+
+    /// <summary>Flag posé quand la bonne combinaison est saisie (ex. « soussol_ouvert »).</summary>
+    public string SetsFlag { get; set; } = "";
+
+    public string Label { get; set; } = "Composer le code";
+    public string RecapLabel { get; set; } = "Récapituler les chiffres trouvés";
+    public string Prompt { get; set; } = "Compose le code :";
+    public string SuccessText { get; set; } = "Un déclic. La serrure cède.";
+    public string FailText { get; set; } = "La serrure refuse la combinaison.";
+    public string EmptyRecapText { get; set; } = "Tu n'as encore noté aucun chiffre.";
+    public string RecapHeader { get; set; } = "Chiffres notés jusqu'ici :";
+
+    /// <summary>Fragments du code (flag + texte affiché au récapitulatif).</summary>
+    public List<CodeFragment> Fragments { get; set; } = new();
+}
+
+/// <summary>Un fragment de code : affiché au récapitulatif quand son Flag est posé.</summary>
+public class CodeFragment
+{
+    public string Flag { get; set; } = "";
+    public string Text { get; set; } = "";
 }
 
 /// <summary>Un texte conditionné par un flag, pour faire évoluer une salle.</summary>

@@ -47,49 +47,79 @@ dictionnaire `_specialActions` de `GameEngine`, référencée par `specialAction
   inférieur, jamais appliqué sur un score négatif). La règle est annoncée en
   début de partie, le coût est rappelé au moment du choix, et le joueur est
   prévenu après coup que la sauvegarde est consumée. Flag : GameState.ResurrectionUsed.
-- **Meilleurs scores** : top 10 avec prénom, [ÉVADÉ] ou [disparu]. Le score
-  n'est enregistré que lorsque la partie se termine vraiment.
+- **Meilleurs scores** : top 10 avec prénom et marque de fin — `[ÉVADÉ]` (fin juste),
+  `[À QUEL PRIX]` (fin immorale), `[disparu]` (mort). Le score n'est enregistré que
+  lorsque la partie se termine vraiment.
 - **Fichiers** : `%AppData%\ChateauEcole\sauvegarde.json` et `highscores.json`.
+
+## Progression v2 : 3 branches parallèles + un choix moral
+
+Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut réunir
+**trois éléments indépendants**, dans l'ordre qu'on veut :
+
+1. **Médaille** — `medaillon` : apprivoiser **Lapinou** (mascotte de l'aumônerie) avec la
+   **carotte** (cuisines de la cantine). Il te confie son médaillon et **te suit** ensuite
+   (compagnon, `GameState.LapinouSuit`, invulnérable). **Seule source** du médaillon.
+2. **Mélodie** — `partition` : salle de Musique, au sous-sol, derrière une **serrure à
+   code 3 chiffres** (`912`). Les 3 chiffres sont des **fragments** à récolter (indices
+   croisés) : bureau du proviseur (9), toilettes avec masque (1), chifoumi de Bernard (2).
+3. **Essence du savoir animalier** — le **choix moral**, seulement révélé quand on a déjà
+   médaille + mélodie et qu'on tente l'orgue :
+   - **voie juste** : retourner LOIN, en salle de Sciences, gagner le mini-jeu de la
+     **grenouille** → `grenouille_morte`. Effort honnête.
+   - **voie immorale** : **sacrifier Lapinou**, présent à l'orgue — immédiat, gratuit, cruel.
+
+**Traversée** : `lampe_torche` (Techno, libre) pour franchir le passage vers l'église.
+
+**Deux fins** : JUSTE (`EndJuste`, Lapinou sort avec toi, `[ÉVADÉ]`) vs IMMORALE
+(`EndImmoral`, Lapinou meurt, `[À QUEL PRIX]`). Le choix ne se pose qu'à qui a médaille +
+mélodie sans l'essence : la tentation, c'est la **flemme** de refaire les 6 salles de trajet.
+
+Nouvelles capacités moteur : **serrure à code** générique (`Room.CodeLock`, data-driven),
+**état compagnon** (`GameState.LapinouSuit`), **deux fins** (`EndJuste`/`EndImmoral` + marque
+de score), action générique enrichie (`RequiredItem`/`ConsumesItem`/`SetsCompanion`), gating
+d'action spéciale (`SpecialActionRequiredFlag`).
 
 ## Mini-jeux et contenu optionnel
 
-- **Mme Bernard (Maths)** : chifoumi pour la clef de Sciences. Humeur aléatoire
-  à la 1re visite, mais défi GARANTI dès la 2e visite (pity timer, compteur
-  GameState.Counters). Un post-it du couloir du 1er oriente vers elle dès le départ.
-- **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s avec décompte
-  visible, sinon choix par défaut perdant) — rattrapé = -5 pts et éjection dans la
-  cour. Alternative : brandir la feuille de verbes irréguliers anglais (trouvée tôt,
-  dans un casier du couloir du 1er) = victoire immédiate. Récompense : balles de tennis.
-- **Classe de 6e** : la chose au fond de la salle. Une balle de tennis (consommée)
-  la distrait et libère un chargeur de téléphone. Insister à mains nues (2e tentative
-  sans balles) = mort (le 1er refus sert d'avertissement).
-- **Téléphone + SMS de « R. »** : téléphone cassé trouvé au départ (Français) +
-  chargeur (6e) = le téléphone s'allume, puis un mystérieux « R. » envoie des SMS
-  qui commentent la progression (règles data-driven dans world.json, section "sms",
-  un SMS max par tour). Le signal meurt dans le passage sous-terrain.
-- **Cantine** : le sandwich (utile, amadoue le surveillant) et la « Surprise du chef »
-  — un piège MORTEL (le menu la souligne trois fois, trois mains différentes : tu étais
-  prévenue).
-- **Salles évolutives** : `stateTexts` sur une salle = textes affichés lors des
-  visites suivantes selon les flags posés (prof vaincu, chose partie, etc.).
+- **Mme Bernard (Maths)** : chifoumi. Récompense = **3e chiffre du code** (fragment_3).
+  Aléatoire à la 1re visite, défi GARANTI dès la 2e (pity timer). Post-it du couloir du 1er.
+- **Serrure du sous-sol** : composer les 3 chiffres (`912`) ; action « Récapituler » pour
+  relire les fragments trouvés. Data-driven (`codeLock` dans world.json).
+- **Grenouille (Sciences)** : voie honnête de l'essence, débloquée seulement après avoir
+  tenté l'orgue (`sortie_tentee`). Best-of-3 aléatoire, retentable. Loin de l'église exprès.
+- **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s, décompte visible).
+  Raccourci : verbes irréguliers (casier du couloir du 1er). Récompense : balles de tennis.
+- **Classe de 6e** : une balle de tennis distrait la chose → chargeur. Insister à mains nues
+  (2e tentative) = mort (avertissement à la 1re).
+- **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (6e) = SMS d'un
+  mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
+  doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le passage.
+- **Cantine** : sandwich (surveillant → bureau) et carotte (Lapinou). La « Surprise du chef »
+  est un piège MORTEL (menu souligné trois fois).
+- **Easter eggs Nestor** : oreilles vertes fugaces, ombre verte, « N... ce bg de ouf ! »
+  disséminés dans les salles d'ambiance. Jamais expliqués.
 
 ## Solution du jeu (spoiler)
 
-1. Classe de Français (départ) : fouiller le bureau (téléphone), inspecter puis pousser la bibliothèque → passage secret vers l'Histoire.
-2. Classe de Maths : battre Mme Bernard au chifoumi → clef de la classe de Sciences.
-3. Classe de Sciences (2e étage) : examiner → masque à gaz.
-4. Toilettes (1er) : examiner AVEC le masque → clef du sous-sol (sans masque : mort !).
-5. Classe de Techno (RDC) : examiner → lampe torche.
-6. Cantine (cour) : examiner → sandwich. Salle des profs : le sandwich amadoue le surveillant → bureau du Proviseur (indice).
-7. Sous-sol (avec la clef) → Salle de Musique : examiner → médaillon + partition.
-8. Aumônerie (avec la lampe) → passage sous-terrain → église Saint-Léger.
-9. Jouer la partition et déposer le médaillon sur l'orgue → VICTOIRE.
+Traversée : **lampe** (Techno, libre). Les trois éléments de l'orgue, dans n'importe quel ordre :
 
-Contenu optionnel : verbes irréguliers (casier du couloir du 1er) → faire fuir le prof de sport
-(Gymnase) → balles de tennis → distraire la chose (6e) → chargeur → téléphone allumé → SMS de « R. ».
+1. **Médaille** : carotte (cuisines de la cantine) → aumônerie, « Donner la carotte à Lapinou »
+   → médaillon + Lapinou te suit.
+2. **Mélodie** : récolter les 3 chiffres du code — bureau du proviseur (via sandwich →
+   surveillant) = 9 ; toilettes AVEC le masque (Sciences, libre) = 1 ; chifoumi Bernard = 2.
+   Composer `912` sur la serrure du sous-sol → Salle de Musique → partition.
+3. **Église** (aumônerie → passage, avec la lampe) → « S'approcher de l'orgue ».
+   - Avec médaille + mélodie + **grenouille** → **FIN JUSTE** (Lapinou sort avec toi).
+   - Avec médaille + mélodie sans grenouille : le jeu ouvre le mini-jeu grenouille (Sciences,
+     tout en haut) et propose le choix. Voie juste = y aller. Voie immorale = **sacrifier
+     Lapinou** → **FIN IMMORALE**.
 
-Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef » de la
-cantine, insister à mains nues sur la chose de la 6e.
+Branche optionnelle : verbes irréguliers → prof de sport → balles → chose de la 6e → chargeur
+→ téléphone → SMS de « N. ».
+
+Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef »,
+insister à mains nues sur la chose de la 6e.
 
 ## Roadmap 2D (old-school)
 

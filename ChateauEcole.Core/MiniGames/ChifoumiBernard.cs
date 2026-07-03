@@ -69,8 +69,10 @@ public static class ChifoumiBernard
 
         if (joueurWins > bernardWins)
         {
-            io.WriteLine("Mme Bernard : « Bravo Bichette, félicitations ! Tiens, je te donne ceci. »");
-            engine.AddItem("clef_sciences");
+            io.WriteLine("Mme Bernard : « Bravo Bichette, félicitations ! Tu sais quoi ? Le proviseur adorait les codes. »");
+            io.WriteLine("Elle griffonne un chiffre sur un coin de copie et te le tend :");
+            io.WriteLine("* « Le TROISIÈME chiffre de la serrure du sous-sol, c'est un 2. Ne le perds pas, Bichette. »");
+            engine.State.Flags.Add("fragment_3_trouve");
             engine.State.Flags.Add("bernard_vaincue");
         }
         else

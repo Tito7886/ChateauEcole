@@ -30,12 +30,14 @@ public class GameEngine
         {
             ["chifoumi_bernard"] = ChifoumiBernard.Jouer,
             ["prof_sport"] = ProfDeSport.Jouer,
-            ["choix_cantine"] = CantineChoix.Jouer
+            ["choix_cantine"] = CantineChoix.Jouer,
+            ["grenouille_sciences"] = GrenouilleSciences.Jouer,
+            ["rituel_orgue"] = RituelOrgue.Jouer
         };
     }
 
     /// <summary>Remplace {NOM} par le prénom du joueur dans les textes du monde.</summary>
-    private string T(string text) => text.Replace("{NOM}", State.PlayerName);
+    public string T(string text) => text.Replace("{NOM}", State.PlayerName);
 
     // ------------------------------------------------------------------
     // Boucle principale
@@ -95,7 +97,8 @@ public class GameEngine
         if (State.IsVictory)
         {
             _save.DeleteCheckpoint();
-            _save.AddHighScore(State.PlayerName, State.Score, victory: true);
+            string marque = State.VictoryImmoral ? "[À QUEL PRIX]" : "[ÉVADÉ]";
+            _save.AddHighScore(State.PlayerName, State.Score, victory: true, mark: marque);
             ShowHighScores();
             int c = _io.AskChoice("Voulez-vous rejouer ?", new List<string> { "Oui", "Non" });
             if (c == 0) { NewGame(); return true; }
@@ -155,7 +158,7 @@ public class GameEngine
         int rang = 1;
         foreach (var s in scores.Take(5))
         {
-            string marque = s.Victory ? "[ÉVADÉ]" : "[disparu]";
+            string marque = s.Victory ? (s.Mark ?? "[ÉVADÉ]") : "[disparu]";
             _io.WriteLine($"  {rang}. {s.Name} — {s.Score} pts {marque}");
             rang++;
         }
@@ -186,6 +189,10 @@ public class GameEngine
             if (etat != null)
                 _io.WriteLine(T(etat.Text));
         }
+
+        // Compagnon : présence discrète affichée par le moteur (pas en dur dans une salle).
+        if (State.LapinouSuit)
+            _io.WriteLine("* Lapinou trottine à tes côtés, truffe frémissante.");
     }
 
     private void DoTurn(Room room)
@@ -205,16 +212,27 @@ public class GameEngine
         {
             if (roomAction.RequiredFlags.Any(f => !State.Flags.Contains(f))) continue;
             if (roomAction.RequiredFlagsAbsent.Any(f => State.Flags.Contains(f))) continue;
+            if (roomAction.RequiredItem != null && !State.Inventory.Contains(roomAction.RequiredItem)) continue;
             if (!roomAction.Repeatable && State.Flags.Contains(ActionDoneFlag(room, roomAction))) continue;
 
             RoomAction a = roomAction; // capture locale
             choices.Add((a.Label, () => DoAction(room, a)));
         }
 
+        // Serrure à combinaison (tant qu'elle n'est pas ouverte) : composer / récapituler.
+        if (room.CodeLock != null && !State.Flags.Contains(room.CodeLock.SetsFlag))
+        {
+            CodeLock cl = room.CodeLock;
+            choices.Add((cl.Label, () => DoComposeCode(cl)));
+            choices.Add((cl.RecapLabel, () => DoRecapCode(cl)));
+        }
+
         if (room.Examine != null)
             choices.Add(("Examiner", () => DoExamine(room)));
 
-        if (room.SpecialActionId != null &&
+        bool specialDébloquée = room.SpecialActionRequiredFlag == null
+                                || State.Flags.Contains(room.SpecialActionRequiredFlag);
+        if (room.SpecialActionId != null && specialDébloquée &&
             _specialActions.TryGetValue(room.SpecialActionId, out var action))
         {
             choices.Add((room.SpecialActionLabel ?? "Action spéciale", () => action(this, _io)));
@@ -473,11 +491,48 @@ public class GameEngine
         foreach (string item in action.DropsToFloor)
             DropToFloor(State.CurrentRoomId, item);
 
+        if (action.ConsumesItem && action.RequiredItem != null && State.Inventory.Remove(action.RequiredItem))
+            _io.WriteLine($"Vous utilisez : {ItemName(action.RequiredItem)}");
+
+        if (action.SetsCompanion)
+            State.LapinouSuit = true;
+
         if (action.SetsFlag != null)
             State.Flags.Add(action.SetsFlag);
 
         if (!action.Repeatable)
             State.Flags.Add(ActionDoneFlag(room, action));
+    }
+
+    // ------------------------------------------------------------------
+    // Serrure à code (générique, data-driven)
+    // ------------------------------------------------------------------
+
+    private void DoComposeCode(CodeLock cl)
+    {
+        string saisie = _io.AskText(cl.Prompt).Trim();
+        if (saisie == cl.Combination)
+        {
+            State.Flags.Add(cl.SetsFlag);
+            _io.WriteLine(T(cl.SuccessText));
+        }
+        else
+        {
+            _io.WriteLine(T(cl.FailText));
+        }
+    }
+
+    private void DoRecapCode(CodeLock cl)
+    {
+        var trouves = cl.Fragments.Where(f => State.Flags.Contains(f.Flag)).ToList();
+        if (trouves.Count == 0)
+        {
+            _io.WriteLine(T(cl.EmptyRecapText));
+            return;
+        }
+        _io.WriteLine(T(cl.RecapHeader));
+        foreach (var f in trouves)
+            _io.WriteLine("  - " + T(f.Text));
     }
 
     /// <summary>Propose au joueur de prendre un objet ou de le laisser au sol de la salle.</summary>
@@ -557,12 +612,28 @@ public class GameEngine
         State.IsDead = true;
     }
 
-    private void Win()
+    private void Win() => EndJuste();
+
+    /// <summary>Fin JUSTE (l'Hymne) : score plein, marque [ÉVADÉ]. L'épilogue narratif est
+    /// affiché par l'appelant (ex. RituelOrgue) ; ici on finalise l'état et le score.</summary>
+    public void EndJuste()
     {
         State.Score += 20;
         _io.WriteLine();
         _io.WriteLine("=== FIN DE L'AVENTURE — ÉVASION RÉUSSIE ! ===");
         _io.WriteLine($"Ton score : {State.Score} pts");
         State.IsVictory = true;
+        State.VictoryImmoral = false;
+    }
+
+    /// <summary>Fin IMMORALE (le Sacrifice) : sortie obtenue au prix de Lapinou, marque [À QUEL PRIX].</summary>
+    public void EndImmoral()
+    {
+        State.Score += 5;
+        _io.WriteLine();
+        _io.WriteLine("=== FIN DE L'AVENTURE — LA PORTE S'OUVRE. À QUEL PRIX. ===");
+        _io.WriteLine($"Ton score : {State.Score} pts");
+        State.IsVictory = true;
+        State.VictoryImmoral = true;
     }
 }
