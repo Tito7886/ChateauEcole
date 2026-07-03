@@ -26,4 +26,17 @@ public class Exit
 
     /// <summary>Texte narratif affiché quand la sortie est empruntée avec succès.</summary>
     public string? TransitionText { get; set; }
+
+    /// <summary>Flag posé lors du premier passage réussi (ex. surveillant amadoué une fois pour toutes).</summary>
+    public string? SetsFlag { get; set; }
+
+    /// <summary>
+    /// Si ce flag est posé, les conditions (objets/flags requis, consommation) sont ignorées :
+    /// la sortie devient libre. Permet un aller-retour après un franchissement à usage unique
+    /// (ex. le sandwich n'est donné qu'une fois, puis on repasse librement).
+    /// </summary>
+    public string? BypassIfFlag { get; set; }
+
+    /// <summary>Texte affiché lors des passages « libres » (via BypassIfFlag), à la place de TransitionText.</summary>
+    public string? BypassTransitionText { get; set; }
 }

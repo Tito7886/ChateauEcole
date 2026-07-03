@@ -27,6 +27,12 @@ public class Interaction
     /// <summary>Si RequiredItem manque et que ce message est défini : fouille refusée (non mortel).</summary>
     public string? BlockedWithoutItemMessage { get; set; }
 
+    /// <summary>
+    /// Si défini : après un premier refus (BlockedWithoutItemMessage), INSISTER sans l'objet
+    /// requis tue le joueur. Le premier refus sert d'avertissement (contrat Undertale).
+    /// </summary>
+    public string? DeadlyOnRepeatWithoutItemMessage { get; set; }
+
     /// <summary>Si vrai, RequiredItem est consommé lors de la première fouille réussie (ex. balles de tennis).</summary>
     public bool ConsumeRequiredItem { get; set; }
 

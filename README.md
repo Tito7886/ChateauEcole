@@ -53,26 +53,29 @@ dictionnaire `_specialActions` de `GameEngine`, référencée par `specialAction
 
 ## Mini-jeux et contenu optionnel
 
-- **Mme Bernard (Maths)** : chifoumi pour la clef de Sciences. Humeur aléatoire,
-  mais défi GARANTI à la 3e visite (pity timer, compteur GameState.Counters).
-- **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (5 s, sinon choix
-  par défaut perdant) — rattrapé = -5 pts et éjection dans la cour. Alternative :
-  brandir la feuille de verbes irréguliers anglais (salle d'Anglais) = victoire
-  immédiate. Récompense : balles de tennis.
+- **Mme Bernard (Maths)** : chifoumi pour la clef de Sciences. Humeur aléatoire
+  à la 1re visite, mais défi GARANTI dès la 2e visite (pity timer, compteur
+  GameState.Counters). Un post-it du couloir du 1er oriente vers elle dès le départ.
+- **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s avec décompte
+  visible, sinon choix par défaut perdant) — rattrapé = -5 pts et éjection dans la
+  cour. Alternative : brandir la feuille de verbes irréguliers anglais (trouvée tôt,
+  dans un casier du couloir du 1er) = victoire immédiate. Récompense : balles de tennis.
 - **Classe de 6e** : la chose au fond de la salle. Une balle de tennis (consommée)
-  la distrait et libère un chargeur de téléphone.
+  la distrait et libère un chargeur de téléphone. Insister à mains nues (2e tentative
+  sans balles) = mort (le 1er refus sert d'avertissement).
 - **Téléphone + SMS de « R. »** : téléphone cassé trouvé au départ (Français) +
   chargeur (6e) = le téléphone s'allume, puis un mystérieux « R. » envoie des SMS
   qui commentent la progression (règles data-driven dans world.json, section "sms",
   un SMS max par tour). Le signal meurt dans le passage sous-terrain.
-- **Cantine** : trois choses à prendre, une fois chacune — le sandwich (utile),
-  la pomme (+5 pts), et la « Surprise du chef » (-5 pts, ne demandez pas).
+- **Cantine** : le sandwich (utile, amadoue le surveillant) et la « Surprise du chef »
+  — un piège MORTEL (le menu la souligne trois fois, trois mains différentes : tu étais
+  prévenue).
 - **Salles évolutives** : `stateTexts` sur une salle = textes affichés lors des
   visites suivantes selon les flags posés (prof vaincu, chose partie, etc.).
 
 ## Solution du jeu (spoiler)
 
-1. Classe de Français (départ) : examiner → passage secret vers l'Histoire (indice aumônerie).
+1. Classe de Français (départ) : fouiller le bureau (téléphone), inspecter puis pousser la bibliothèque → passage secret vers l'Histoire.
 2. Classe de Maths : battre Mme Bernard au chifoumi → clef de la classe de Sciences.
 3. Classe de Sciences (2e étage) : examiner → masque à gaz.
 4. Toilettes (1er) : examiner AVEC le masque → clef du sous-sol (sans masque : mort !).
@@ -82,10 +85,11 @@ dictionnaire `_specialActions` de `GameEngine`, référencée par `specialAction
 8. Aumônerie (avec la lampe) → passage sous-terrain → église Saint-Léger.
 9. Jouer la partition et déposer le médaillon sur l'orgue → VICTOIRE.
 
-Contenu optionnel : verbes irréguliers (Anglais) → faire fuir le prof de sport (Gymnase)
-→ balles de tennis → distraire la chose (6e) → chargeur → téléphone allumé → SMS de « R. ».
+Contenu optionnel : verbes irréguliers (casier du couloir du 1er) → faire fuir le prof de sport
+(Gymnase) → balles de tennis → distraire la chose (6e) → chargeur → téléphone allumé → SMS de « R. ».
 
-Pièges : examiner les toilettes sans masque, relire le livre de latin, la « surprise du chef ».
+Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef » de la
+cantine, insister à mains nues sur la chose de la 6e.
 
 ## Roadmap 2D (old-school)
 

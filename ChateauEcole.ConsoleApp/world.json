@@ -8,12 +8,10 @@
     "sandwich": "Sandwich de la cantine",
     "medaillon": "Médaillon doré",
     "partition": "Partition « Hymne de Saint-Léger »",
-    "bandages": "Bandages",
     "telephone_casse": "Téléphone portable (écran fissuré, batterie morte)",
     "chargeur": "Chargeur de téléphone",
     "balles_tennis": "Tube de balles de tennis",
-    "cours_anglais": "Feuille de verbes irréguliers anglais",
-    "pomme": "Pomme rouge (trop parfaite)"
+    "cours_anglais": "Feuille de verbes irréguliers anglais"
   },
   "rooms": [
     {
@@ -64,7 +62,7 @@
     {
       "id": "couloir_1er",
       "name": "Couloir du 1er étage",
-      "description": "Un long couloir silencieux. Les casiers cabossés s'alignent le long des murs. L'un d'eux respire doucement. Tu décides de ne pas vérifier lequel.",
+      "description": "Un long couloir silencieux. Les casiers cabossés s'alignent le long des murs. L'un d'eux respire doucement. Tu décides de ne pas vérifier lequel. Sur la porte de la classe de Maths, un post-it à moitié décollé, d'une écriture d'adulte pressée : « Bernard a une clef. Elle ne la lâche qu'en jouant. Commence par elle. »",
       "exits": [
         {
           "target": "couloir_2e",
@@ -92,7 +90,11 @@
         }
       ],
       "examine": {
-        "text": "Sur le mur, sous une fine couche de peinture récente, on devine un ancien graffiti : « SAUVE-TOI {NOM} ». La peinture a l'air d'avoir dix ans. Toi, tu es arrivée cette année."
+        "text": "Un casier est resté entrouvert. Une feuille plastifiée en dépasse : des verbes irréguliers anglais, oubliés là par un élève. Tu la prends — dans ce lycée, on ne sait jamais ce qui fait peur aux gens. Sur le mur, sous une fine couche de peinture récente, on devine aussi un ancien graffiti : « SAUVE-TOI {NOM} ». La peinture a l'air d'avoir dix ans. Toi, tu es arrivée cette année.",
+        "repeatText": "Le casier entrouvert est vide, maintenant. Le graffiti « SAUVE-TOI {NOM} » n'a pas bougé sous la peinture.",
+        "grantsItems": [
+          "cours_anglais"
+        ]
       }
     },
     {
@@ -224,11 +226,8 @@
         }
       ],
       "examine": {
-        "text": "Sur une étagère, des bandages propres. Tu les prends. On ne sait jamais. Ici, surtout, on ne sait jamais.",
-        "repeatText": "L'armoire à pharmacie est fermée à clef. Quelque chose à l'intérieur aimerait bien qu'elle ne le soit pas.",
-        "grantsItems": [
-          "bandages"
-        ]
+        "text": "Les étagères ont été vidées depuis longtemps : plus de pansements, plus de sirop, rien à emporter. Sur le bureau, une pile de billets d'absence, tous au même motif : « ne s'est pas réveillé ». L'encre du dernier est encore fraîche.",
+        "repeatText": "Rien à prendre ici. Juste des lits trop bien faits et un registre qui connaît ton prénom."
       }
     },
     {
@@ -279,7 +278,8 @@
       ],
       "examine": {
         "requiredItem": "balles_tennis",
-        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle. Tu recules très lentement. Il faudrait de quoi détourner son attention. Quelque chose qui roule, qui rebondit...",
+        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle qui n'est pas le tien. Tu recules très lentement. À mains nues, tu n'as aucune chance : il te faudrait de quoi détourner son attention, quelque chose qui roule, qui rebondit. Insister maintenant serait la dernière bêtise de ta vie.",
+        "deadlyOnRepeatWithoutItemMessage": "Tu avais senti le souffle. Tu avais reculé. Et pourtant tu refais un pas vers le fond de la salle, les mains vides. Cette fois, LA CHOSE ne se contente pas de froisser des copies. La dernière image que tu emportes, c'est une classe de 6e entière tournée vers toi. Ils avaient tous reculé, eux. Une fois.",
         "consumeRequiredItem": true,
         "text": "Tu fais rouler une balle de tennis vers le couloir. Le froissement s'arrête... puis LA CHOSE jaillit de sous les cartables et se rue derrière la balle avec un enthousiasme terrifiant. Tu fouilles vite : dans un cartable, un chargeur de téléphone ! Tu détales avant la fin de la partie de balle.",
         "repeatText": "Le fond de la salle est vide. Vraiment vide, cette fois.",
@@ -310,8 +310,11 @@
             "sandwich"
           ],
           "consumeRequiredItems": true,
+          "setsFlag": "surveillant_repu",
+          "bypassIfFlag": "surveillant_repu",
           "lockedMessage": "Le surveillant ouvre les yeux d'un coup, sans transition, et te barre la route : « On ne passe pas. » Son estomac gargouille bruyamment. C'est le premier son vraiment humain que tu entends de sa part.",
-          "transitionText": "Tu tends le sandwich au surveillant. Il le contemple longuement, comme un souvenir, puis te laisse passer en mâchouillant. « Merci, petite. Ça faisait... longtemps. »"
+          "transitionText": "Tu tends le sandwich au surveillant. Il le contemple longuement, comme un souvenir, puis te laisse passer en mâchouillant. « Merci, petite. Ça faisait... longtemps. »",
+          "bypassTransitionText": "Le surveillant, repu, te reconnaît et te fait signe de passer d'un geste mou. « Vas-y, petite. Fais comme chez toi. »"
         }
       ],
       "examine": {
@@ -399,11 +402,8 @@
         }
       ],
       "examine": {
-        "text": "Tu déchiffres la conjugaison inconnue au bas du tableau : un temps du futur qui se traduit au passé. « Tu te seras échappée. » Sur le bureau du prof, une feuille de verbes irréguliers plastifiée. Quelqu'un a écrit dessus : « le prof de sport en fait des cauchemars. LITTÉRALEMENT. »",
-        "repeatText": "Le tableau conjugue toujours « to escape » à des temps qui n'existent pas. Tu as déjà pris la feuille.",
-        "grantsItems": [
-          "cours_anglais"
-        ]
+        "text": "Tu déchiffres la conjugaison inconnue au bas du tableau : un temps du futur qui se traduit au passé. « Tu te seras échappée. » Le bureau du prof est vide, ses tiroirs ouverts : quelqu'un a déjà tout emporté. Il ne reste que la craie et cette phrase, conjuguée rien que pour toi.",
+        "repeatText": "Le tableau conjugue toujours « to escape » à des temps qui n'existent pas. Le reste de la salle est vide."
       }
     },
     {

@@ -51,17 +51,32 @@ public class ConsoleIO : IGameIO
 
     public int AskChoiceTimed(string prompt, IReadOnlyList<string> options, int timeoutSeconds, int defaultIndex)
     {
+        // Entrée redirigée (tests, pipes) : pas de chrono possible -> choix classique.
+        if (Console.IsInputRedirected)
+            return AskChoice(prompt, options);
+
         Console.WriteLine();
-        Console.WriteLine($"{prompt}  ({timeoutSeconds} secondes pour choisir !)");
+        Console.WriteLine($"{prompt}  (tu as {timeoutSeconds} secondes — appuie sur un chiffre !)");
         for (int i = 0; i < options.Count; i++)
             Console.WriteLine($"  {i + 1}. {options[i]}");
-        Console.Write("> ");
 
         try
         {
             DateTime limite = DateTime.UtcNow.AddSeconds(timeoutSeconds);
-            while (DateTime.UtcNow < limite)
+            int dernierAffiche = -1;
+            while (true)
             {
+                double restant = (limite - DateTime.UtcNow).TotalSeconds;
+                if (restant <= 0) break;
+
+                // Décompte visible : on réécrit la même ligne chaque seconde (retour chariot).
+                int secondes = (int)Math.Ceiling(restant);
+                if (secondes != dernierAffiche)
+                {
+                    Console.Write($"\r  Temps restant : {secondes,2} s   > ");
+                    dernierAffiche = secondes;
+                }
+
                 if (Console.KeyAvailable)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(intercept: true);
@@ -80,7 +95,7 @@ public class ConsoleIO : IGameIO
         }
         catch (InvalidOperationException)
         {
-            // Entrée redirigée (tests, pipes) : pas de chrono possible, choix classique
+            // Sécurité : si la lecture de touche échoue malgré tout, on retombe sur le choix classique.
             Console.WriteLine();
             return AskChoice(prompt, options);
         }

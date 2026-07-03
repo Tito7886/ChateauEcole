@@ -15,13 +15,13 @@ public static class ChifoumiBernard
             return;
         }
 
-        // Humeur aléatoire... mais défi GARANTI à la 3e visite (pity timer),
-        // pour qu'un joueur malchanceux ne reste jamais bloqué sur du hasard.
+        // Humeur aléatoire à la 1re visite... mais défi GARANTI dès la 2e visite (pity timer),
+        // pour qu'un joueur malchanceux ne reste jamais bloqué sur du hasard (verrou de départ).
         int visites = engine.State.Counters.TryGetValue("bernard_visites", out int v) ? v + 1 : 1;
         engine.State.Counters["bernard_visites"] = visites;
 
         string[] humeurs = { "defi", "out", "blabla" };
-        string humeur = visites >= 3 ? "defi" : humeurs[Random.Shared.Next(humeurs.Length)];
+        string humeur = visites >= 2 ? "defi" : humeurs[Random.Shared.Next(humeurs.Length)];
 
         if (humeur == "out")
         {

@@ -1,9 +1,9 @@
 namespace ChateauEcole.Core.MiniGames;
 
 /// <summary>
-/// Les cuisines de la cantine : trois choses à prendre, chacune une seule fois.
-/// Le sandwich est l'objet utile (surveillant), la pomme un petit bonus,
-/// la « Surprise du chef » une très mauvaise idée (-5 pts, mais quelle ambiance).
+/// Les cuisines de la cantine : le sandwich est l'objet utile (surveillant).
+/// La « Surprise du chef » est un piège mortel pur Undertale — le menu la signale
+/// (« surprise » soulignée trois fois par trois mains différentes) : tu étais prévenue.
 /// </summary>
 public static class CantineChoix
 {
@@ -14,16 +14,8 @@ public static class CantineChoix
 
         if (!state.Flags.Contains("cantine_sandwich"))
             options.Add(("Le sandwich sous cellophane, posé bien en évidence au milieu du plan de travail", "sandwich"));
-        if (!state.Flags.Contains("cantine_surprise"))
-            options.Add(("La « Surprise du chef » qui frémit doucement sous sa cloche, en chambre froide", "surprise"));
-        if (!state.Flags.Contains("cantine_pomme"))
-            options.Add(("Une pomme rouge. Parfaite. Un peu trop parfaite", "pomme"));
-
-        if (options.Count == 0)
-        {
-            io.WriteLine("Les cuisines sont définitivement vides. Le frigo enchaîné préférerait que tu n'insistes pas.");
-            return;
-        }
+        // La « Surprise du chef » reste toujours proposée : c'est un choix, et une très mauvaise idée.
+        options.Add(("La « Surprise du chef » qui frémit doucement sous sa cloche, en chambre froide", "surprise"));
 
         options.Add(("Ne rien toucher", "rien"));
 
@@ -39,18 +31,9 @@ public static class CantineChoix
                 break;
 
             case "surprise":
-                state.Flags.Add("cantine_surprise");
-                state.Score -= 5;
-                io.WriteLine("Tu soulèves la cloche de la « Surprise du chef ».");
+                io.WriteLine("Le menu la soulignait trois fois. Trois mains différentes. Tu soulèves quand même la cloche.");
                 io.WriteLine("...");
-                io.WriteLine("Tu la reposes immédiatement. Tu ne dormiras plus jamais tout à fait pareil. (-5 pts)");
-                io.WriteLine("Quelque part dans le lycée, un chef est très fier de lui.");
-                break;
-
-            case "pomme":
-                state.Flags.Add("cantine_pomme");
-                engine.AddItem("pomme");
-                io.WriteLine("Une pomme par jour éloigne le médecin. Ici, tu prends tout ce qui éloigne quoi que ce soit.");
+                engine.Die("Sous la cloche, la « Surprise du chef » te regarde. Puis elle sourit. Tu n'avais jamais vu un plat sourire. Tu ne verras plus jamais rien d'autre. Quelque part dans le lycée, un chef est très, très fier de lui.");
                 break;
 
             default:

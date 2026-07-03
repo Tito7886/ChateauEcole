@@ -283,26 +283,36 @@ public class GameEngine
 
     private void TryExit(Exit exit)
     {
-        bool manqueObjet = exit.RequiredItems.Any(i => !State.Inventory.Contains(i));
-        bool manqueFlag = exit.RequiredFlags.Any(f => !State.Flags.Contains(f));
+        // Passage déjà « acquis » (ex. surveillant amadoué) : conditions et consommation ignorées.
+        bool bypass = exit.BypassIfFlag != null && State.Flags.Contains(exit.BypassIfFlag);
 
-        if (manqueObjet || manqueFlag)
+        if (!bypass)
         {
-            _io.WriteLine(T(exit.LockedMessage ?? "C'est fermé..."));
-            return;
-        }
+            bool manqueObjet = exit.RequiredItems.Any(i => !State.Inventory.Contains(i));
+            bool manqueFlag = exit.RequiredFlags.Any(f => !State.Flags.Contains(f));
 
-        if (exit.ConsumeRequiredItems)
-        {
-            foreach (string item in exit.RequiredItems)
+            if (manqueObjet || manqueFlag)
             {
-                State.Inventory.Remove(item);
-                _io.WriteLine($"Vous utilisez : {ItemName(item)}");
+                _io.WriteLine(T(exit.LockedMessage ?? "C'est fermé..."));
+                return;
+            }
+
+            if (exit.ConsumeRequiredItems)
+            {
+                foreach (string item in exit.RequiredItems)
+                {
+                    State.Inventory.Remove(item);
+                    _io.WriteLine($"Vous utilisez : {ItemName(item)}");
+                }
             }
         }
 
-        if (exit.TransitionText != null)
-            _io.WriteLine(T(exit.TransitionText));
+        if (exit.SetsFlag != null)
+            State.Flags.Add(exit.SetsFlag);
+
+        string? transition = bypass ? (exit.BypassTransitionText ?? exit.TransitionText) : exit.TransitionText;
+        if (transition != null)
+            _io.WriteLine(T(transition));
 
         if (exit.Target == "VICTOIRE")
         {
@@ -330,6 +340,14 @@ public class GameEngine
             }
             if (ex.BlockedWithoutItemMessage != null)
             {
+                // 1er refus = avertissement ; insister sans l'objet (2e essai) peut être fatal.
+                string blockedFlag = "blocked_" + room.Id;
+                if (State.Flags.Contains(blockedFlag) && ex.DeadlyOnRepeatWithoutItemMessage != null)
+                {
+                    Die(ex.DeadlyOnRepeatWithoutItemMessage);
+                    return;
+                }
+                State.Flags.Add(blockedFlag);
                 _io.WriteLine(T(ex.BlockedWithoutItemMessage));
                 return;
             }

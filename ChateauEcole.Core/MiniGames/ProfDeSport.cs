@@ -2,15 +2,15 @@ namespace ChateauEcole.Core.MiniGames;
 
 /// <summary>
 /// Mini-jeu du gymnase : échapper au prof de sport.
-/// Trois choix CHRONOMÉTRÉS (5 s chacun) — trop lent ou mauvais choix = rattrapé,
-/// tour de terrain punitif (-5 pts) et éjection dans la cour.
+/// Trois choix CHRONOMÉTRÉS (15 s chacun, avec décompte visible) — trop lent ou
+/// mauvais choix = rattrapé, tour de terrain punitif (-5 pts) et éjection dans la cour.
 /// Alternative instantanée : brandir la feuille de verbes irréguliers anglais,
 /// la seule chose au monde qui le terrifie.
 /// Récompense : un tube de balles de tennis.
 /// </summary>
 public static class ProfDeSport
 {
-    private const int DelaiSecondes = 5;
+    private const int DelaiSecondes = 15;
 
     public static void Jouer(GameEngine engine, IGameIO io)
     {
