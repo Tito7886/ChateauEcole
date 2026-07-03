@@ -19,12 +19,8 @@
     {
       "id": "classe_francais",
       "name": "Classe de Français",
-      "description": "Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — depuis quand ? Sur le tableau, une écriture tremblante à la craie : « COURS, {NOM} ». Tu n'as dit ton prénom à personne.",
+      "description": "Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — depuis quand ? Tu te lèves, tu tournes la poignée de la porte du couloir : rien. Fermée à clef, de l'extérieur. Sur le tableau, une écriture tremblante à la craie : « COURS, {NOM} ». Tu n'as dit ton prénom à personne. Il va falloir trouver une autre issue — et pour ça, fouiller.",
       "exits": [
-        {
-          "target": "couloir_1er",
-          "label": "Couloir du 1er étage"
-        },
         {
           "target": "classe_histoire",
           "label": "Passage secret vers la classe d'Histoire",
@@ -32,14 +28,38 @@
           "transitionText": "Tu te faufiles derrière la bibliothèque. Derrière toi, quelque chose remet doucement le panneau en place."
         }
       ],
-      "examine": {
-        "text": "Sous ton bureau, ton téléphone : écran fissuré, batterie morte. Tu le prends quand même — il faudra lui trouver un chargeur. Puis, en poussant la grande bibliothèque, tu découvres un panneau descellé dans le mur : un passage vers la classe d'Histoire. Quelqu'un a gravé des bâtons dans le bois. Beaucoup de bâtons. Comme on compte les jours.",
-        "repeatText": "Le passage secret est toujours là. Les bâtons gravés aussi. Tu ne les recomptes pas.",
-        "setsFlag": "passage_secret_francais",
-        "grantsItems": [
-          "telephone_casse"
-        ]
-      }
+      "actions": [
+        {
+          "id": "fouiller_bureau",
+          "label": "Fouiller le bureau",
+          "setsFlag": "bureau_fouille",
+          "text": "Sous ton bureau, coincé contre le pied de la table, ton téléphone : écran fissuré en toile d'araignée, batterie complètement morte. Inutilisable en l'état — il faudrait un chargeur, quelque part, un jour. Ton sac ne peut pas tout porter. La vraie question, c'est : est-ce que ça vaut la peine de le trimballer ?"
+        },
+        {
+          "id": "prendre_telephone",
+          "label": "Décider quoi faire du téléphone",
+          "requiredFlags": [
+            "bureau_fouille"
+          ],
+          "offersItem": "telephone_casse",
+          "text": "Tu soupèses le téléphone mort dans ta main. Le prendre, c'est encombrer ton sac pour un objet qui ne sert à rien... pour l'instant."
+        },
+        {
+          "id": "inspecter_bibliotheque",
+          "label": "Inspecter la bibliothèque",
+          "setsFlag": "biblio_inspectee",
+          "text": "Tu t'approches de la grande bibliothèque murale. En te penchant, tu remarques un rail discret creusé dans le parquet, juste sous elle — et un mince courant d'air froid qui filtre par l'interstice, à droite. Il y a quelque chose derrière. Sur le flanc du meuble, quelqu'un a gravé des bâtons dans le bois. Beaucoup de bâtons. Comme on compte les jours."
+        },
+        {
+          "id": "pousser_bibliotheque",
+          "label": "Pousser la bibliothèque",
+          "requiredFlags": [
+            "biblio_inspectee"
+          ],
+          "setsFlag": "passage_secret_francais",
+          "text": "Tu cales l'épaule contre la bibliothèque et tu pousses. Elle glisse sur son rail dans un grondement sourd, révélant un panneau descellé dans le mur : un passage étroit vers la classe d'Histoire. Le courant d'air froid t'accueille comme une porte qu'on t'aurait laissée ouverte exprès."
+        }
+      ]
     },
     {
       "id": "couloir_1er",

@@ -201,6 +201,16 @@ public class GameEngine
             choices.Add((e.Label, () => TryExit(e)));
         }
 
+        foreach (RoomAction roomAction in room.Actions)
+        {
+            if (roomAction.RequiredFlags.Any(f => !State.Flags.Contains(f))) continue;
+            if (roomAction.RequiredFlagsAbsent.Any(f => State.Flags.Contains(f))) continue;
+            if (!roomAction.Repeatable && State.Flags.Contains(ActionDoneFlag(room, roomAction))) continue;
+
+            RoomAction a = roomAction; // capture locale
+            choices.Add((a.Label, () => DoAction(room, a)));
+        }
+
         if (room.Examine != null)
             choices.Add(("Examiner", () => DoExamine(room)));
 
@@ -209,6 +219,9 @@ public class GameEngine
         {
             choices.Add((room.SpecialActionLabel ?? "Action spéciale", () => action(this, _io)));
         }
+
+        if (State.FloorItems.TryGetValue(room.Id, out var atSol) && atSol.Count > 0)
+            choices.Add(("Ramasser (objets au sol)", () => DoPickUp(room)));
 
         choices.Add(("Inventaire", ShowInventory));
 
@@ -344,6 +357,11 @@ public class GameEngine
         State.Flags.Add(examinedFlag);
     }
 
+    /// <summary>
+    /// Ajoute un objet à l'inventaire s'il reste de la place. API simple utilisée par
+    /// les mini-jeux : refuse si le sac est plein (pas d'échange). Pour un ajout qui
+    /// propose un échange en cas de sac plein, voir AcquireOrSwap.
+    /// </summary>
     public void AddItem(string itemId)
     {
         if (State.Inventory.Contains(itemId))
@@ -356,9 +374,137 @@ public class GameEngine
             _io.WriteLine("Votre sac est plein ! Impossible de prendre cet objet.");
             return;
         }
+        PutInInventory(itemId);
+    }
+
+    /// <summary>
+    /// Pose réellement l'objet dans l'inventaire. Le bonus de +5 n'est accordé QU'À la
+    /// toute première acquisition de l'objet dans la partie (flag « got_&lt;id&gt; ») :
+    /// lâcher puis reprendre un objet ne rapporte donc jamais de points en double.
+    /// </summary>
+    private void PutInInventory(string itemId)
+    {
         State.Inventory.Add(itemId);
-        State.Score += 5;
-        _io.WriteLine($"» {ItemName(itemId)} ajouté à votre inventaire (+5 pts)");
+        if (State.Flags.Add("got_" + itemId))
+        {
+            State.Score += 5;
+            _io.WriteLine($"» {ItemName(itemId)} ajouté à votre inventaire (+5 pts)");
+        }
+        else
+        {
+            _io.WriteLine($"» {ItemName(itemId)} récupéré.");
+        }
+    }
+
+    /// <summary>
+    /// Tente d'acquérir un objet. Si le sac est plein, propose de lâcher un objet
+    /// (qui tombe alors au sol de la salle courante, récupérable plus tard) ou de
+    /// renoncer. Retourne true si l'objet a fini dans l'inventaire.
+    /// </summary>
+    private bool AcquireOrSwap(string itemId)
+    {
+        if (State.Inventory.Contains(itemId)) return true;
+        if (State.Inventory.Count < State.MaxInventory)
+        {
+            PutInInventory(itemId);
+            return true;
+        }
+
+        _io.WriteLine($"Ton sac est plein ({State.MaxInventory} objets). Pour prendre {ItemName(itemId)}, il faut laisser quelque chose ici.");
+        var options = State.Inventory.Select(i => $"Laisser au sol : {ItemName(i)}").ToList();
+        options.Add($"Renoncer à {ItemName(itemId)} pour l'instant");
+
+        int c = _io.AskChoice("Que veux-tu laisser ?", options);
+        if (c >= State.Inventory.Count) return false; // a renoncé
+
+        string dropped = State.Inventory[c];
+        State.Inventory.RemoveAt(c);
+        DropToFloor(State.CurrentRoomId, dropped);
+        _io.WriteLine($"Tu poses {ItemName(dropped)} au sol. Il t'attendra ici.");
+        PutInInventory(itemId);
+        return true;
+    }
+
+    /// <summary>Ajoute un objet aux objets au sol d'une salle (sans doublon).</summary>
+    private void DropToFloor(string roomId, string itemId)
+    {
+        if (!State.FloorItems.TryGetValue(roomId, out var list))
+        {
+            list = new List<string>();
+            State.FloorItems[roomId] = list;
+        }
+        if (!list.Contains(itemId))
+            list.Add(itemId);
+    }
+
+    private static string ActionDoneFlag(Room room, RoomAction action) => $"did_{room.Id}_{action.Id}";
+
+    /// <summary>Exécute une action de salle générique (fouiller, pousser, proposer un objet...).</summary>
+    private void DoAction(Room room, RoomAction action)
+    {
+        bool dejaFait = State.Flags.Contains(ActionDoneFlag(room, action));
+        _io.WriteLine(T(dejaFait && action.RepeatText != null ? action.RepeatText : action.Text));
+
+        if (action.OffersItem != null)
+            OfferItem(action.OffersItem);
+
+        foreach (string item in action.GrantsItems)
+            if (!AcquireOrSwap(item))
+                DropToFloor(State.CurrentRoomId, item); // jamais perdu : au sol par défaut
+
+        foreach (string item in action.DropsToFloor)
+            DropToFloor(State.CurrentRoomId, item);
+
+        if (action.SetsFlag != null)
+            State.Flags.Add(action.SetsFlag);
+
+        if (!action.Repeatable)
+            State.Flags.Add(ActionDoneFlag(room, action));
+    }
+
+    /// <summary>Propose au joueur de prendre un objet ou de le laisser au sol de la salle.</summary>
+    private void OfferItem(string itemId)
+    {
+        int c = _io.AskChoice(
+            $"Que fais-tu de {ItemName(itemId)} ?",
+            new List<string> { "Le prendre", "Le laisser au sol" });
+
+        if (c == 1)
+        {
+            DropToFloor(State.CurrentRoomId, itemId);
+            _io.WriteLine($"Tu laisses {ItemName(itemId)} là, par terre. Il t'attendra, si tu changes d'avis.");
+            return;
+        }
+
+        if (!AcquireOrSwap(itemId))
+        {
+            DropToFloor(State.CurrentRoomId, itemId);
+            _io.WriteLine($"Finalement, tu n'emportes pas {ItemName(itemId)}. Il reste au sol, à portée de main.");
+        }
+    }
+
+    /// <summary>Ramasse un objet posé au sol de la salle courante (échange si le sac est plein).</summary>
+    private void DoPickUp(Room room)
+    {
+        if (!State.FloorItems.TryGetValue(room.Id, out var floor) || floor.Count == 0)
+        {
+            _io.WriteLine("Il n'y a rien à ramasser ici.");
+            return;
+        }
+
+        var options = floor.Select(ItemName).ToList();
+        options.Add("Ne rien ramasser");
+
+        int c = _io.AskChoice("Au sol, tu peux ramasser :", options);
+        if (c >= floor.Count) return;
+
+        string itemId = floor[c];
+        if (AcquireOrSwap(itemId))
+        {
+            floor.Remove(itemId);
+            if (floor.Count == 0)
+                State.FloorItems.Remove(room.Id);
+        }
     }
 
     public string ItemName(string id) =>

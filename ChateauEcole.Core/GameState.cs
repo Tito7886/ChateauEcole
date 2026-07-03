@@ -13,6 +13,13 @@ public class GameState
 
     /// <summary>Compteurs génériques (visites, tentatives...) — utilisés par les mini-jeux.</summary>
     public Dictionary<string, int> Counters { get; set; } = new();
+
+    /// <summary>
+    /// Objets posés au sol, par salle (roomId -> ids d'objets). Alimenté quand le
+    /// joueur lâche un objet (sac plein) ou refuse d'en prendre un. Sérialisé avec
+    /// la partie : la réanimation restaure donc les objets au sol.
+    /// </summary>
+    public Dictionary<string, List<string>> FloorItems { get; set; } = new();
     public int Score { get; set; }
     public int MaxInventory { get; set; } = 8;
     public bool IsDead { get; set; }
@@ -27,6 +34,7 @@ public class GameState
         Inventory.Clear();
         Flags.Clear();
         Counters.Clear();
+        FloorItems.Clear();
         Score = 0;
         IsDead = false;
         IsVictory = false;
