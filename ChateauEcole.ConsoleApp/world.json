@@ -1,0 +1,583 @@
+{
+  "startRoom": "classe_francais",
+  "items": {
+    "masque_gaz": "Masque à gaz",
+    "clef_sciences": "Clef de la classe de Sciences",
+    "clef_soussol": "Clef du sous-sol",
+    "lampe_torche": "Lampe torche",
+    "sandwich": "Sandwich de la cantine",
+    "medaillon": "Médaillon doré",
+    "partition": "Partition « Hymne de Saint-Léger »",
+    "bandages": "Bandages",
+    "telephone_casse": "Téléphone portable (écran fissuré, batterie morte)",
+    "chargeur": "Chargeur de téléphone",
+    "balles_tennis": "Tube de balles de tennis",
+    "cours_anglais": "Feuille de verbes irréguliers anglais",
+    "pomme": "Pomme rouge (trop parfaite)"
+  },
+  "rooms": [
+    {
+      "id": "classe_francais",
+      "name": "Classe de Français",
+      "description": "Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — depuis quand ? Sur le tableau, une écriture tremblante à la craie : « COURS, {NOM} ». Tu n'as dit ton prénom à personne.",
+      "exits": [
+        {
+          "target": "couloir_1er",
+          "label": "Couloir du 1er étage"
+        },
+        {
+          "target": "classe_histoire",
+          "label": "Passage secret vers la classe d'Histoire",
+          "hiddenUntilFlag": "passage_secret_francais",
+          "transitionText": "Tu te faufiles derrière la bibliothèque. Derrière toi, quelque chose remet doucement le panneau en place."
+        }
+      ],
+      "examine": {
+        "text": "Sous ton bureau, ton téléphone : écran fissuré, batterie morte. Tu le prends quand même — il faudra lui trouver un chargeur. Puis, en poussant la grande bibliothèque, tu découvres un panneau descellé dans le mur : un passage vers la classe d'Histoire. Quelqu'un a gravé des bâtons dans le bois. Beaucoup de bâtons. Comme on compte les jours.",
+        "repeatText": "Le passage secret est toujours là. Les bâtons gravés aussi. Tu ne les recomptes pas.",
+        "setsFlag": "passage_secret_francais",
+        "grantsItems": [
+          "telephone_casse"
+        ]
+      }
+    },
+    {
+      "id": "couloir_1er",
+      "name": "Couloir du 1er étage",
+      "description": "Un long couloir silencieux. Les casiers cabossés s'alignent le long des murs. L'un d'eux respire doucement. Tu décides de ne pas vérifier lequel.",
+      "exits": [
+        {
+          "target": "couloir_2e",
+          "label": "Escalier vers le 2e étage"
+        },
+        {
+          "target": "couloir_rdc",
+          "label": "Escalier vers le rez-de-chaussée"
+        },
+        {
+          "target": "classe_maths",
+          "label": "Classe de Maths"
+        },
+        {
+          "target": "classe_francais",
+          "label": "Classe de Français"
+        },
+        {
+          "target": "classe_histoire",
+          "label": "Classe d'Histoire"
+        },
+        {
+          "target": "toilettes",
+          "label": "Toilettes"
+        }
+      ],
+      "examine": {
+        "text": "Sur le mur, sous une fine couche de peinture récente, on devine un ancien graffiti : « SAUVE-TOI {NOM} ». La peinture a l'air d'avoir dix ans. Toi, tu es arrivée cette année."
+      }
+    },
+    {
+      "id": "classe_maths",
+      "name": "Classe de Maths",
+      "description": "La classe de Maths est parfaitement rangée. Trop, peut-être. Mme Bernard est là, plongée dans ses copies, comme si de rien n'était. C'est presque rassurant. Presque.",
+      "exits": [
+        {
+          "target": "couloir_1er",
+          "label": "Retour au couloir"
+        }
+      ],
+      "specialActionId": "chifoumi_bernard",
+      "specialActionLabel": "Parler à Mme Bernard",
+      "stateTexts": [
+        {
+          "flag": "bernard_vaincue",
+          "text": "Mme Bernard corrige ses copies en fredonnant. Elle te fait un petit signe : « Alors Bichette, toujours là ? »"
+        }
+      ]
+    },
+    {
+      "id": "classe_histoire",
+      "name": "Classe d'Histoire",
+      "description": "Des frises chronologiques et de vieilles cartes tapissent les murs. Sur l'une d'elles, le lycée est dessiné... mais avec un bâtiment de plus qu'aujourd'hui.",
+      "exits": [
+        {
+          "target": "couloir_1er",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "text": "Dans les archives, un dossier jauni sur l'histoire du lycée : d'anciennes « salles de correction » au sous-sol, murées puis rouvertes. Et une note au crayon : « l'aumônerie cache le passage vers Saint-Léger. C'est par là qu'ils sortaient. Ceux qui sortaient. »",
+        "repeatText": "Les archives n'ont plus de secret pour toi : le passage vers l'église se trouve du côté de l'aumônerie."
+      }
+    },
+    {
+      "id": "toilettes",
+      "name": "Toilettes",
+      "description": "Une odeur épouvantable règne ici, épaisse, presque vivante. Quelque chose brille au fond d'une cuvette. Évidemment. C'est toujours au fond d'une cuvette.",
+      "exits": [
+        {
+          "target": "couloir_1er",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "requiredItem": "masque_gaz",
+        "deathWithoutItemMessage": "Tu te penches au-dessus de la cuvette. L'odeur te saisit à la gorge comme une main. Tes genoux lâchent, le carrelage monte vers toi, très vite. La dernière chose que tu entends, c'est la chasse d'eau. Personne n'a appuyé dessus.",
+        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Une clef rouillée gît au fond de la cuvette : la clef du sous-sol. Tu préfères ne pas savoir qui l'a jetée là. Ni pourquoi il ne voulait plus que le sous-sol s'ouvre.",
+        "repeatText": "Plus rien d'intéressant ici. C'est mieux comme ça.",
+        "grantsItems": [
+          "clef_soussol"
+        ]
+      }
+    },
+    {
+      "id": "couloir_2e",
+      "name": "Couloir du 2e étage",
+      "description": "Le dernier étage du lycée. Une photo de classe est punaisée sur un panneau de liège. Tous les élèves sourient. Tous regardent l'objectif. Sauf un, au dernier rang, qui regarde exactement là où tu te tiens.",
+      "exits": [
+        {
+          "target": "classe_latin",
+          "label": "Classe de Latin"
+        },
+        {
+          "target": "classe_sciences",
+          "label": "Classe de Sciences",
+          "requiredItems": [
+            "clef_sciences"
+          ],
+          "lockedMessage": "La porte de la classe de Sciences est fermée à clef. À travers la vitre dépolie, quelque chose semble attendre patiemment que tu trouves la clef.",
+          "transitionText": "La clef de Mme Bernard tourne dans la serrure... clic. Le bruit résonne beaucoup trop longtemps."
+        },
+        {
+          "target": "infirmerie",
+          "label": "Infirmerie"
+        },
+        {
+          "target": "couloir_1er",
+          "label": "Escalier vers le 1er étage"
+        }
+      ],
+      "examine": {
+        "text": "Tu retournes la photo de classe. Au dos, une écriture appliquée : « la sortie exige lumière, médaille et mélodie ». Et en dessous, plus petit, d'une autre main : « dépêche-toi »."
+      }
+    },
+    {
+      "id": "classe_latin",
+      "name": "Classe de Latin",
+      "description": "Rosa, rosa, rosam... Des livres de latin s'empilent sur les pupitres. Une langue morte, dans un lycée qui ne l'est peut-être pas complètement.",
+      "exits": [
+        {
+          "target": "couloir_2e",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "text": "Tu feuillettes un vieux livre : « In ecclesia Sancti Leodegarii, musica portas aperit » — dans l'église Saint-Léger, la musique ouvre les portes. Une note d'élève dans la marge : « ne JAMAIS relire ce livre. L'ennui, ici, est littéralement mortel. »",
+        "deadlyOnRepeatMessage": "Tu rouvres le même livre de latin. On t'avait prévenue. Tes paupières s'alourdissent, les déclinaisons se mettent à tourner autour de toi comme une berceuse... Rosa. Rosa. Rosam. Tu ne te relèveras pas de ce cours."
+      }
+    },
+    {
+      "id": "classe_sciences",
+      "name": "Classe de Sciences",
+      "description": "Des paillasses, des béchers, une odeur de soufre. Au fond, un aquarium vide. Enfin... l'eau est encore là. C'est juste qu'on ne voit plus ce qu'il y avait dedans.",
+      "exits": [
+        {
+          "target": "couloir_2e",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "text": "Dans un placard entre deux paillasses, un masque à gaz en parfait état. L'étiquette indique : « En cas d'incident de niveau 3, NE PAS chercher à comprendre. Mettre le masque. Marcher vite. »",
+        "repeatText": "Rien d'autre d'utile. L'eau de l'aquarium a bougé, mais tu choisis de ne pas l'avoir vu.",
+        "grantsItems": [
+          "masque_gaz"
+        ]
+      }
+    },
+    {
+      "id": "infirmerie",
+      "name": "Infirmerie",
+      "description": "L'infirmerie est déserte. Les lits sont soigneusement faits. Sur le registre ouvert, la dernière ligne : ton prénom, {NOM}, écrit à la date d'aujourd'hui. Motif de la visite : laissé en blanc.",
+      "exits": [
+        {
+          "target": "couloir_2e",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "text": "Sur une étagère, des bandages propres. Tu les prends. On ne sait jamais. Ici, surtout, on ne sait jamais.",
+        "repeatText": "L'armoire à pharmacie est fermée à clef. Quelque chose à l'intérieur aimerait bien qu'elle ne le soit pas.",
+        "grantsItems": [
+          "bandages"
+        ]
+      }
+    },
+    {
+      "id": "couloir_rdc",
+      "name": "Couloir du rez-de-chaussée",
+      "description": "Le hall principal du lycée. Les portes vitrées donnent sur la cour plongée dans la pénombre. Les panneaux d'affichage sont couverts de mots de la vie normale : sorties scolaires, menus de cantine. Ça semble très loin, la vie normale.",
+      "exits": [
+        {
+          "target": "couloir_1er",
+          "label": "Escalier vers le 1er étage"
+        },
+        {
+          "target": "classe_6e",
+          "label": "Classe de 6e"
+        },
+        {
+          "target": "salle_profs",
+          "label": "Salle des profs"
+        },
+        {
+          "target": "classe_techno",
+          "label": "Classe de Techno"
+        },
+        {
+          "target": "sous_sol",
+          "label": "Sous-sol",
+          "requiredItems": [
+            "clef_soussol"
+          ],
+          "lockedMessage": "La porte du sous-sol est verrouillée par une serrure rouillée. Quelqu'un a écrit dessus, il y a longtemps : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ».",
+          "transitionText": "La clef rouillée tourne péniblement... La porte du sous-sol s'ouvre en grinçant, et l'air froid qui monte sent la pierre humide et les vieux souvenirs."
+        },
+        {
+          "target": "cour",
+          "label": "Cour extérieure"
+        }
+      ]
+    },
+    {
+      "id": "classe_6e",
+      "name": "Classe de 6e",
+      "description": "Des tables minuscules, des copies froissées partout. Toutes les chaises sont tournées vers le fond de la salle, comme si la classe entière s'était retournée pour regarder quelque chose. Le fond de la salle est vide. Maintenant.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "requiredItem": "balles_tennis",
+        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle. Tu recules très lentement. Il faudrait de quoi détourner son attention. Quelque chose qui roule, qui rebondit...",
+        "consumeRequiredItem": true,
+        "text": "Tu fais rouler une balle de tennis vers le couloir. Le froissement s'arrête... puis LA CHOSE jaillit de sous les cartables et se rue derrière la balle avec un enthousiasme terrifiant. Tu fouilles vite : dans un cartable, un chargeur de téléphone ! Tu détales avant la fin de la partie de balle.",
+        "repeatText": "Le fond de la salle est vide. Vraiment vide, cette fois.",
+        "grantsItems": [
+          "chargeur"
+        ]
+      },
+      "stateTexts": [
+        {
+          "flag": "examined_classe_6e",
+          "text": "Quelque part dans le lycée, on entend une balle de tennis rebondir joyeusement. La salle, elle, est enfin tranquille."
+        }
+      ]
+    },
+    {
+      "id": "salle_profs",
+      "name": "Salle des profs",
+      "description": "La mythique salle des profs ! Un surveillant somnole dans un fauteuil, devant la porte du bureau du Proviseur. Sa poitrine se soulève à un rythme parfaitement régulier. Trop régulier. Comme un métronome.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Retour au couloir"
+        },
+        {
+          "target": "bureau_proviseur",
+          "label": "Bureau du Proviseur",
+          "requiredItems": [
+            "sandwich"
+          ],
+          "consumeRequiredItems": true,
+          "lockedMessage": "Le surveillant ouvre les yeux d'un coup, sans transition, et te barre la route : « On ne passe pas. » Son estomac gargouille bruyamment. C'est le premier son vraiment humain que tu entends de sa part.",
+          "transitionText": "Tu tends le sandwich au surveillant. Il le contemple longuement, comme un souvenir, puis te laisse passer en mâchouillant. « Merci, petite. Ça faisait... longtemps. »"
+        }
+      ],
+      "examine": {
+        "text": "La machine à café est vide depuis des années, à en juger par la poussière. Le surveillant, lui, a l'air affamé. Un peu de nourriture pourrait l'amadouer... ou le réveiller pour de bon."
+      }
+    },
+    {
+      "id": "bureau_proviseur",
+      "name": "Bureau du Proviseur",
+      "description": "Un bureau imposant en chêne massif, des diplômes encadrés aux murs. Tous au même nom. Toutes les décennies. Le même nom depuis 1912.",
+      "exits": [
+        {
+          "target": "salle_profs",
+          "label": "Retour à la salle des profs"
+        }
+      ],
+      "examine": {
+        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Au dos : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. »"
+      }
+    },
+    {
+      "id": "classe_techno",
+      "name": "Classe de Techno",
+      "description": "Des établis, des maquettes en balsa et des fers à souder bien rangés. Une maquette du lycée trône sur le bureau du prof. Dans la maquette, une minuscule silhouette se tient dans la classe de techno. Elle te ressemble.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Retour au couloir"
+        }
+      ],
+      "examine": {
+        "text": "Sur un établi, une lampe torche avec des piles neuves. Quelqu'un a gravé sur le manche : « la lumière ne les arrête pas. Mais au moins tu les verras venir. »",
+        "repeatText": "Rien d'autre d'utile parmi les maquettes. Des prises murales partout, en revanche — pratique, si un jour tu as quelque chose à recharger. La petite silhouette dans la maquette a changé de salle. Tu ne regardes pas laquelle.",
+        "grantsItems": [
+          "lampe_torche"
+        ]
+      }
+    },
+    {
+      "id": "sous_sol",
+      "name": "Sous-sol",
+      "description": "Un sous-sol sombre et humide. Les anciennes « salles de correction » des archives... rebaptisées salle de Musique et salle d'Anglais. Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Escalier vers le rez-de-chaussée"
+        },
+        {
+          "target": "salle_musique",
+          "label": "Salle de Musique"
+        },
+        {
+          "target": "salle_anglais",
+          "label": "Salle d'Anglais"
+        }
+      ]
+    },
+    {
+      "id": "salle_musique",
+      "name": "Salle de Musique",
+      "description": "Un vieux piano droit trône au milieu de pupitres renversés. Le couvercle du clavier est ouvert. Tu es pourtant certaine qu'il était fermé quand tu as regardé par la porte.",
+      "exits": [
+        {
+          "target": "sous_sol",
+          "label": "Retour au sous-sol"
+        }
+      ],
+      "examine": {
+        "text": "Derrière le piano, une cachette dans le mur. Tu y trouves un médaillon doré et une partition ancienne : « Hymne de Saint-Léger ». Sur la partition, une annotation : « à jouer une seule fois. Il n'aime pas les rappels. »",
+        "repeatText": "La cachette derrière le piano est vide désormais. Une touche du piano s'enfonce toute seule, très lentement, sans un bruit.",
+        "grantsItems": [
+          "medaillon",
+          "partition"
+        ]
+      }
+    },
+    {
+      "id": "salle_anglais",
+      "name": "Salle d'Anglais",
+      "description": "Le tableau est couvert de verbes irréguliers. To be, was/were, been. Quelqu'un a conjugué « to escape » sur toute la hauteur du tableau. Le dernier temps de la liste n'existe dans aucune grammaire.",
+      "exits": [
+        {
+          "target": "sous_sol",
+          "label": "Retour au sous-sol"
+        }
+      ],
+      "examine": {
+        "text": "Tu déchiffres la conjugaison inconnue au bas du tableau : un temps du futur qui se traduit au passé. « Tu te seras échappée. » Sur le bureau du prof, une feuille de verbes irréguliers plastifiée. Quelqu'un a écrit dessus : « le prof de sport en fait des cauchemars. LITTÉRALEMENT. »",
+        "repeatText": "Le tableau conjugue toujours « to escape » à des temps qui n'existent pas. Tu as déjà pris la feuille.",
+        "grantsItems": [
+          "cours_anglais"
+        ]
+      }
+    },
+    {
+      "id": "cour",
+      "name": "Cour extérieure",
+      "description": "La cour déserte du lycée. La nuit est tombée, sans lune. Le grand marronnier projette une ombre... qui ne correspond pas tout à fait à la forme de l'arbre.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Retour dans le bâtiment"
+        },
+        {
+          "target": "aumonerie",
+          "label": "Aumônerie"
+        },
+        {
+          "target": "portail",
+          "label": "Portail"
+        },
+        {
+          "target": "gymnase",
+          "label": "Gymnase"
+        },
+        {
+          "target": "cantine",
+          "label": "Cantine"
+        }
+      ],
+      "examine": {
+        "text": "Sur le tronc du marronnier, une gravure ancienne : une flèche pointant vers l'aumônerie, surmontée d'une petite croix. En dessous, des initiales et des dates. Les dates s'arrêtent toujours au même jour de l'année. Aujourd'hui, c'est ce jour-là."
+      }
+    },
+    {
+      "id": "portail",
+      "name": "Portail",
+      "description": "Le grand portail d'entrée du lycée. De l'autre côté de la grille, la rue, les lampadaires, le monde normal. Un bus passe sans s'arrêter. Le chauffeur ne tourne pas la tête. Personne ne tourne jamais la tête vers le lycée, la nuit.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Retour dans la cour"
+        }
+      ],
+      "examine": {
+        "text": "Le portail est cadenassé avec une chaîne épaisse, posée récemment : le métal brille encore. Quelqu'un savait que tu essaierais de sortir par là. Il faudra trouver un autre chemin... celui dont parlent les archives."
+      }
+    },
+    {
+      "id": "gymnase",
+      "name": "Gymnase",
+      "description": "L'odeur familière des tapis de sol et des balles de tennis. Le panneau des records du lycée est accroché au mur. Record du sprint : un temps impossible. Détenteur : illisible, le nom a été gratté avec insistance.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Retour dans la cour"
+        }
+      ],
+      "examine": {
+        "text": "Le panneau des records du lycée : record du sprint, un temps impossible ; détenteur, un nom gratté avec insistance. Sur le poster du prof de sport, quelqu'un a écrit au feutre : « il déteste l'anglais plus que tout au monde ». À noter, au cas où."
+      },
+      "specialActionId": "prof_sport",
+      "specialActionLabel": "S'aventurer sur le terrain",
+      "stateTexts": [
+        {
+          "flag": "gym_vaincu",
+          "text": "Le gymnase est calme. Depuis la réserve, on entend un prof de sport réviser ses verbes irréguliers en reniflant."
+        }
+      ]
+    },
+    {
+      "id": "cantine",
+      "name": "Cantine",
+      "description": "La cantine « Aux Délices » ! Les chaises sont empilées sur les tables. Le menu de la semaine est encore affiché. Vendredi : « surprise du chef ». Le mot « surprise » a été souligné trois fois, par trois mains différentes.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Retour dans la cour"
+        }
+      ],
+      "examine": {
+        "text": "Le menu de la semaine est encore affiché. Vendredi : « surprise du chef ». Le mot « surprise » a été souligné trois fois, par trois mains différentes. Les cuisines, elles, méritent une fouille en règle.",
+        "repeatText": "Le menu n'a pas changé. La « surprise du chef » non plus, malheureusement pour tout le monde."
+      },
+      "specialActionId": "choix_cantine",
+      "specialActionLabel": "Fouiller les cuisines"
+    },
+    {
+      "id": "aumonerie",
+      "name": "Aumônerie",
+      "description": "Une petite salle chaleureuse — la seule pièce du lycée qui semble encore... protégée. Des dessins d'élèves et les meilleures blagues de M. Perrier sont punaisés au mur. Ici, le silence est doux, pas menaçant. Tu respires un peu.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Retour dans la cour"
+        },
+        {
+          "target": "passage",
+          "label": "Descendre dans le passage sous-terrain",
+          "requiredItems": [
+            "lampe_torche"
+          ],
+          "lockedMessage": "Une trappe s'ouvre sur un escalier plongé dans un noir absolu. Ce n'est pas une obscurité ordinaire : elle a de l'épaisseur. Impossible d'avancer sans lumière.",
+          "transitionText": "Tu allumes la lampe torche et descends prudemment les marches de pierre. Derrière toi, la trappe se referme toute seule, sans bruit, comme par politesse."
+        }
+      ],
+      "examine": {
+        "text": "Derrière un rideau, une trappe entrouverte laisse deviner un escalier qui s'enfonce dans l'obscurité. Sur le mur, une des blagues de M. Perrier a été punaisée juste au-dessus de la trappe : « Pourquoi les fantômes sont-ils de mauvais menteurs ? Parce qu'on voit à travers eux. » Tu espères très fort que c'est juste une blague."
+      }
+    },
+    {
+      "id": "passage",
+      "name": "Passage sous-terrain",
+      "description": "Un étroit tunnel de pierre. Tes pas résonnent — et entre deux échos, parfois, il y a un pas de trop. Le faisceau de la lampe tremble un peu. Toi aussi.",
+      "exits": [
+        {
+          "target": "eglise",
+          "label": "Continuer vers l'église Saint-Léger"
+        },
+        {
+          "target": "aumonerie",
+          "label": "Remonter vers l'aumônerie"
+        }
+      ],
+      "examine": {
+        "text": "Sur la paroi, des inscriptions laissées par ceux qui sont passés avant toi. Des prénoms, des dates. Le plus ancien remonte à un siècle. Sous le dernier prénom, une place a été laissée libre. Juste la bonne taille pour le tien."
+      }
+    },
+    {
+      "id": "eglise",
+      "name": "Église Saint-Léger",
+      "description": "Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le monde normal est juste derrière cette porte.",
+      "exits": [
+        {
+          "target": "passage",
+          "label": "Retourner dans le passage sous-terrain"
+        },
+        {
+          "target": "VICTOIRE",
+          "label": "Jouer la partition et déposer le médaillon sur l'orgue",
+          "requiredItems": [
+            "medaillon",
+            "partition"
+          ],
+          "lockedMessage": "L'orgue reste muet. Une encoche ronde est creusée dans le pupitre, et sans musique, rien ne se passera... Il te manque quelque chose. L'orgue attend. Il attend depuis très longtemps, il n'est plus à quelques heures près.",
+          "transitionText": "Les premières notes de l'Hymne de Saint-Léger s'élèvent sous la voûte... Le médaillon s'illumine dans son encoche, et la grande porte s'ouvre dans un grondement. Tu sors dans la nuit fraîche, {NOM}. Derrière toi, les fenêtres du lycée s'éteignent une à une, comme s'il n'avait jamais existé. Et quelque part, très loin, quelque chose murmure ton prénom une dernière fois — sans colère. Presque avec fierté."
+        }
+      ],
+      "examine": {
+        "text": "L'orgue semble attendre une mélodie. Une encoche ronde est creusée dans le pupitre... exactement de la taille d'un médaillon. Sur le banc de l'organiste, une inscription usée par les années : « joue juste, {NOM} ». L'inscription a l'air très, très ancienne."
+      }
+    }
+  ],
+  "sms": [
+    {
+      "id": "premier",
+      "requiredFlags": [
+        "telephone_charge"
+      ],
+      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve la sortie. La vraie. — R. »"
+    },
+    {
+      "id": "masque",
+      "requiredItems": [
+        "masque_gaz"
+      ],
+      "text": "N° INCONNU : « Le masque. Garde-le sur toi. Ne demande pas comment je sais ce que tu viens de trouver. — R. »"
+    },
+    {
+      "id": "clef_soussol",
+      "requiredItems": [
+        "clef_soussol"
+      ],
+      "text": "N° INCONNU : « Tu l'as sortie des toilettes ?! ... Respect. Le sous-sol, maintenant. Ne t'attarde pas en bas. — R. »"
+    },
+    {
+      "id": "musique",
+      "requiredItems": [
+        "medaillon",
+        "partition"
+      ],
+      "text": "N° INCONNU : « Lumière, médaille, mélodie. Tu as tout, {NOM}. L'aumônerie. COURS. — R. »"
+    },
+    {
+      "id": "passage",
+      "requiredFlags": [
+        "visited_passage"
+      ],
+      "text": "N° INCONNU : « je per— le sign— quoi qu'il arrive ne te retourne pas. Ne te retourne PAS. — R. »"
+    },
+    {
+      "id": "eglise",
+      "requiredFlags": [
+        "visited_eglise"
+      ],
+      "text": "Ton téléphone n'affiche plus aucun signal. Juste un dernier message, déjà reçu, sans expéditeur : « SORS. »"
+    }
+  ]
+}
