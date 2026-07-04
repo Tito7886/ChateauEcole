@@ -3,7 +3,7 @@ namespace ChateauEcole.Core.MiniGames;
 /// <summary>
 /// Les cuisines de la cantine :
 ///  - le sandwich (surveillant → bureau) ;
-///  - un légume pour Lapinou : la carotte (le bon choix) OU la vieille laitue (piège :
+///  - un légume pour Lapinou : la carotte (le bon choix) OU la laitue (piège :
 ///    l'offrir à Lapinou est mortel). On ne peut porter qu'UN seul des deux à la fois,
 ///    mais on peut reposer l'un pour prendre l'autre (donc jamais de blocage définitif) ;
 ///  - la « Surprise du chef », piège mortel pur Undertale (menu souligné trois fois).
@@ -26,7 +26,7 @@ public static class CantineChoix
         if (!aCarotte && !aLaitue)
         {
             options.Add(("Une carotte oubliée dans un cageot, encore fraîche, presque trop orange", "carotte"));
-            options.Add(("Une vieille laitue flétrie, brunâtre, gluante par endroits — franchement peu ragoûtante", "laitue"));
+            options.Add(("Une superbe laitue, surement appétissante pour ceux qui aiment", "laitue"));
         }
         else if (aCarotte)
         {
@@ -60,7 +60,7 @@ public static class CantineChoix
 
             case "laitue":
                 engine.AddItem("laitue");
-                io.WriteLine("Une laitue oubliée depuis des semaines, molle et brunâtre. Elle sent... la fin des choses.");
+                io.WriteLine("Une laitue simplement superbe MAIS une laitue quand même.");
                 io.WriteLine("Tu la prends, va savoir pourquoi. Qui pourrait bien vouloir manger ÇA ?");
                 break;
 

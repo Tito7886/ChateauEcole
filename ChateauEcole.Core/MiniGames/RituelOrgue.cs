@@ -55,7 +55,7 @@ public static class RituelOrgue
         if (!s.LapinouSuit)
         {
             // Filet de sécurité : normalement médaillon => Lapinou présent.
-            io.WriteLine("Il te faudra retourner à la salle de Sciences, tout là-haut, et y trouver de quoi faire « l'essence ». C'est loin. Mais c'est la seule voie qui te reste.");
+            io.WriteLine("Il te faudra retourner là où tu as vu un animal, tout là-haut, et y trouver de quoi faire « l'essence ». C'est loin. Mais c'est la seule voie qui te reste.");
             return;
         }
 
@@ -74,9 +74,9 @@ public static class RituelOrgue
         }
 
         io.WriteLine("Et là, tu le sens : Lapinou est contre ta jambe. Chaud. Confiant. Une créature. Le pupitre semble... exactement à sa taille.");
-        int choix = io.AskChoice("La salle de Sciences est à l'autre bout du lycée. Six salles. Aller-retour. Ou bien...", new List<string>
+        int choix = io.AskChoice("La salle avec l'autre option est à l'autre bout du lycée. Six salles. Aller-retour. Ou bien...", new List<string>
         {
-            "Faire demi-tour vers la salle de Sciences (la voie honnête)",
+            "Faire demi-tour (la voie honnête)",
             "Regarder Lapinou un peu trop longtemps"
         });
 
@@ -84,7 +84,7 @@ public static class RituelOrgue
         {
             io.WriteLine();
             io.WriteLine("Tu prends Lapinou dans tes bras et tu tournes les talons. « Viens. On va faire ça bien. »");
-            io.WriteLine("La salle de Sciences t'attend, tout en haut. C'est long. C'est juste.");
+            io.WriteLine("Un autre animal t'attend, tout en haut. C'est long.");
             return;
         }
 
@@ -100,7 +100,7 @@ public static class RituelOrgue
         {
             io.WriteLine();
             io.WriteLine("Tu recules d'un pas. Lapinou lève les yeux vers toi. Tu as un peu honte d'y avoir pensé si longtemps.");
-            io.WriteLine("Tu le prends contre toi et tu pars vers les Sciences. La voie juste. Ça, au moins, tu pourras le regarder en face.");
+            io.WriteLine("Tu le prends contre toi et tu pars. La voie juste. Ça, au moins, tu pourras le regarder en face.");
             return;
         }
 

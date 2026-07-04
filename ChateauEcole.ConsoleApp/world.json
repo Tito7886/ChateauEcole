@@ -5,7 +5,7 @@
     "lampe_torche": "Lampe torche",
     "sandwich": "Sandwich de la cantine",
     "carotte": "Carotte (fraîche, presque trop orange)",
-    "laitue": "Vieille laitue (flétrie, brunâtre, peu engageante)",
+    "laitue": "Superbe laitue",
     "medaillon": "Médaillon doré (le pendentif de Lapinou)",
     "partition": "Partition « Hymne de Saint-Léger »",
     "grenouille_morte": "Grenouille de dissection (« essence du savoir animalier »)",
@@ -365,7 +365,7 @@
       "id": "sous_sol",
       "name": "Sous-sol",
       "companionText": "Lapinou hésite en haut des marches, puis descend en te collant, ses petites griffes cliquetant sur la pierre humide.",
-      "description": "Un sous-sol sombre et humide. Les anciennes « salles de correction » des archives... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie : « Bureau de Mme Roy ». Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
+      "description": "Un sous-sol sombre et humide. Les anciennes « salles de torture... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie (du sang?! des larmes séchées?!) : « Bureau de Mme Roy ». Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
       "exits": [
         {
           "target": "couloir_rdc",
@@ -494,7 +494,7 @@
         }
       ],
       "examine": {
-        "text": "Le panneau des records du lycée : record du sprint, un temps impossible ; détenteur, un nom gratté avec insistance. Sur le poster du prof de sport, quelqu'un a écrit au feutre : « il déteste l'anglais plus que tout au monde ». À noter, au cas où."
+        "text": "Le panneau des records du lycée : record du sprint, un temps impossible ; détenteur, un nom gratté avec insistance qui commence par un N. Sur le poster du prof de sport, quelqu'un a écrit au feutre : « il déteste l'anglais plus que tout au monde ». À noter, au cas où."
       },
       "specialActionId": "prof_sport",
       "specialActionLabel": "S'aventurer sur le terrain",
@@ -577,11 +577,11 @@
           "text": "L'aumônerie est douce et calme. Lapinou connaît déjà les lieux ; il gambade entre les dessins d'élèves comme chez lui."
         }
       ],
-      "examine": {
-        "text": "Tu écartes un rideau : une trappe entrouverte laisse deviner un escalier qui s'enfonce dans l'obscurité — le passage sous-terrain dont parlent les archives. Sur le mur, une des blagues de M. Perrier est punaisée juste au-dessus : « Pourquoi les fantômes sont-ils de mauvais menteurs ? Parce qu'on voit à travers eux. » Tu espères très fort que c'est juste une blague.",
-        "repeatText": "La trappe est toujours là, béante sur le noir. Il te faudra de la lumière pour t'y engager.",
-        "setsFlag": "aumonerie_examinee"
-      }
+        "examine": {
+            "text": "Tu écartes un rideau : une trappe entrouverte laisse deviner un escalier qui s'enfonce dans l'obscurité — le passage sous-terrain dont parlent les archives. Sur le mur, une note de M. Perrier est punaisée juste au-dessus : « Le Seigneur pardonne toujours. Moi aussi… mais je garde quand même les noms pour la liste des intentions de prière ! » Tu espères très fort que c'est juste une blague.",
+            "repeatText": "La trappe est toujours là, béante sur le noir. Il te faudra de la lumière pour t'y engager.",
+            "setsFlag": "aumonerie_examinee"
+        }
     },
     {
       "id": "passage",
@@ -627,7 +627,7 @@
       "requiredFlags": [
         "telephone_charge"
       ],
-      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve la sortie. — N. »"
+      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve les radis... euh la sortie. — N. »"
     },
     {
       "id": "masque",
@@ -641,14 +641,14 @@
       "requiredFlags": [
         "fragment_1_trouve"
       ],
-      "text": "N° INCONNU : « Un code en quatre chiffres pour le sous-sol. {NOM} as-tu regardé les WC ? Et la classe de 6e ? — N. »"
+      "text": "N° INCONNU : « Un code en quatre chiffres pour le sous-sol. {NOM} as-tu regardé la classe des 6e ? — N. »"
     },
     {
       "id": "cantine",
       "requiredFlags": [
         "visited_cantine"
       ],
-      "text": "N° INCONNU : « La cantine... Regarde bien ce que tu ramasses là. Qui pourrait avaler une vieille laitue pareille ? Sûrement pas quelque chose d'humain. — N. »"
+      "text": "N° INCONNU : « La cantine... Regarde bien ce que tu ramasses là. Qui pourrait avaler une laitue ? Sûrement pas quelque chose d'humain. — N. »"
     },
     {
       "id": "lapinou",
@@ -663,7 +663,7 @@
         "medaillon",
         "partition"
       ],
-      "text": "N° INCONNU : « Médaille et mélodie, tu les as. Il manquera « l'essence ». Il y a une voie propre au 2e étape. Et une autre, plus courte, juste à côté de toi. — N. »"
+      "text": "N° INCONNU : « Médaille et mélodie, tu les as. Il manquera « l'essence ». Il y a une possibilité au 2e étage. Et une autre, plus courte, juste à côté de toi. — N. »"
     },
     {
       "id": "passage",
