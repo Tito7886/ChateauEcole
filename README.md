@@ -75,24 +75,30 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
 (`EndImmoral`, Lapinou meurt, `[À QUEL PRIX]`). Le choix ne se pose qu'à qui a médaille +
 mélodie sans l'essence : la tentation, c'est la **flemme** de refaire les 6 salles de trajet.
 
-Nouvelles capacités moteur : **serrure à code** générique (`Room.CodeLock`, data-driven),
-**état compagnon** (`GameState.LapinouSuit`), **deux fins** (`EndJuste`/`EndImmoral` + marque
-de score), action générique enrichie (`RequiredItem`/`ConsumesItem`/`SetsCompanion`), gating
-d'action spéciale (`SpecialActionRequiredFlag`).
+Nouvelles capacités moteur : **serrure à code** générique portée par une sortie
+(`Exit.CodeLock`, saisie déclenchée par la tentative de passage), **état compagnon**
+(`GameState.LapinouSuit`, avec réplique de présence variable par salle via `Room.CompanionText`),
+**deux fins** (`EndJuste`/`EndImmoral` + marque de score), action générique enrichie
+(`RequiredItem`/`ConsumesItem`/`SetsCompanion`), gating d'action spéciale
+(`SpecialActionRequiredFlag`).
 
 ## Mini-jeux et contenu optionnel
 
 - **Mme Bernard (Maths)** : chifoumi. Récompense = **3e chiffre du code** (fragment_3).
   Aléatoire à la 1re visite, défi GARANTI dès la 2e (pity timer). Post-it du couloir du 1er.
-- **Serrure du sous-sol** : composer les 3 chiffres (`912`) ; action « Récapituler » pour
-  relire les fragments trouvés. Data-driven (`codeLock` dans world.json).
+  Perdre coûte -2 pts, en silence (aucun message).
+- **Serrure du sous-sol** : le clavier n'apparaît que lorsqu'on **tente** la porte encore
+  verrouillée ; composer les 3 chiffres (`912`). Chaque chiffre n'est montré qu'une fois, à
+  sa découverte (pas de récapitulatif). Mauvais code = -2 pts, en silence. Data-driven
+  (`codeLock` porté par la sortie dans world.json).
 - **Grenouille (Sciences)** : voie honnête de l'essence, débloquée seulement après avoir
   tenté l'orgue (`sortie_tentee`). Best-of-3 aléatoire, retentable. Loin de l'église exprès.
 - **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s, décompte visible).
   Raccourci : verbes irréguliers (casier du couloir du 1er). Récompense : balles de tennis.
 - **Classe de 6e** : une balle de tennis distrait la chose → chargeur. Insister à mains nues
   (2e tentative) = mort (avertissement à la 1re).
-- **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (6e) = SMS d'un
+- **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (classe de Techno,
+  accessible tôt sans verrou ; aussi en 6e via les balles) = SMS d'un
   mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
   doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le passage.
 - **Cantine** : sandwich (surveillant → bureau) et carotte (Lapinou). La « Surprise du chef »

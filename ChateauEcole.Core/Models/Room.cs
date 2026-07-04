@@ -40,8 +40,11 @@ public class Room
     /// <summary>Si défini, l'action spéciale n'apparaît que lorsque ce flag est posé (ex. mini-jeu débloqué).</summary>
     public string? SpecialActionRequiredFlag { get; set; }
 
-    /// <summary>Serrure à combinaison optionnelle (ex. porte du sous-sol). Data-driven, générique.</summary>
-    public CodeLock? CodeLock { get; set; }
+    /// <summary>
+    /// Réplique de présence du compagnon (Lapinou) affichée dans cette salle quand il suit
+    /// le joueur. À défaut, le moteur affiche un texte générique.
+    /// </summary>
+    public string? CompanionText { get; set; }
 }
 
 /// <summary>
@@ -96,9 +99,10 @@ public class RoomAction
 }
 
 /// <summary>
-/// Serrure à combinaison générique, pilotée par les données. Une action « Composer le code »
-/// demande une saisie et pose SetsFlag si elle correspond à Combination ; une action
-/// « Récapituler » relit les chiffres déjà trouvés (fragments dont le flag est posé).
+/// Serrure à combinaison générique, portée par une <see cref="Exit"/>. Quand le joueur tente
+/// une sortie encore verrouillée qui possède une serrure, le moteur affiche le lockedMessage
+/// puis propose la saisie ; une bonne combinaison pose SetsFlag et laisse passer. Les chiffres
+/// ne sont jamais réaffichés : le joueur doit les avoir notés en explorant.
 /// </summary>
 public class CodeLock
 {
@@ -109,22 +113,9 @@ public class CodeLock
     public string SetsFlag { get; set; } = "";
 
     public string Label { get; set; } = "Composer le code";
-    public string RecapLabel { get; set; } = "Récapituler les chiffres trouvés";
     public string Prompt { get; set; } = "Compose le code :";
     public string SuccessText { get; set; } = "Un déclic. La serrure cède.";
-    public string FailText { get; set; } = "La serrure refuse la combinaison.";
-    public string EmptyRecapText { get; set; } = "Tu n'as encore noté aucun chiffre.";
-    public string RecapHeader { get; set; } = "Chiffres notés jusqu'ici :";
-
-    /// <summary>Fragments du code (flag + texte affiché au récapitulatif).</summary>
-    public List<CodeFragment> Fragments { get; set; } = new();
-}
-
-/// <summary>Un fragment de code : affiché au récapitulatif quand son Flag est posé.</summary>
-public class CodeFragment
-{
-    public string Flag { get; set; } = "";
-    public string Text { get; set; } = "";
+    public string FailText { get; set; } = "Rien ne se passe.";
 }
 
 /// <summary>Un texte conditionné par un flag, pour faire évoluer une salle.</summary>

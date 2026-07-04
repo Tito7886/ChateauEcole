@@ -194,7 +194,8 @@
     {
       "id": "classe_sciences",
       "name": "Classe de Sciences",
-      "description": "Des paillasses, des béchers, une odeur de soufre. Au fond, un aquarium vide. Enfin... l'eau est encore là. C'est juste qu'on ne voit plus ce qu'il y avait dedans.",
+      "description": "Des paillasses, des béchers, une odeur de soufre. Sur l'une d'elles, un vieux bocal de formol : une grenouille de dissection y flotte, parfaitement immobile. Enfin... presque. Au fond, un aquarium vide. Enfin... l'eau est encore là. C'est juste qu'on ne voit plus ce qu'il y avait dedans.",
+      "companionText": "Lapinou renifle les bocaux de la paillasse et recule d'un bond devant celui de la grenouille. Il n'aime pas cet endroit. Toi non plus, au fond.",
       "exits": [
         {
           "target": "couloir_2e",
@@ -255,29 +256,21 @@
             "soussol_ouvert"
           ],
           "lockedMessage": "La porte du sous-sol n'a plus de serrure rouillée : on l'a remplacée par un clavier à combinaison, trois chiffres, tout neuf au milieu de la crasse. Quelqu'un a écrit dessous : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ».",
-          "transitionText": "La combinaison acceptée, le pêne coulisse. La porte du sous-sol s'ouvre en grinçant, et l'air froid qui monte sent la pierre humide et les vieux souvenirs."
+          "transitionText": "La combinaison acceptée, le pêne coulisse. La porte du sous-sol s'ouvre en grinçant, et l'air froid qui monte sent la pierre humide et les vieux souvenirs.",
+          "codeLock": {
+            "combination": "912",
+            "setsFlag": "soussol_ouvert",
+            "label": "Composer les trois chiffres sur le clavier",
+            "prompt": "Tu tapes les trois chiffres :",
+            "successText": "Trois bips, puis un déclic sourd. Le clavier vire au vert.",
+            "failText": "Le clavier émet un bip grave. Rien ne se passe. Tu peux réessayer."
+          }
         },
         {
           "target": "cour",
           "label": "Cour extérieure"
         }
-      ],
-      "codeLock": {
-        "combination": "912",
-        "setsFlag": "soussol_ouvert",
-        "label": "Composer le code sur le clavier du sous-sol",
-        "recapLabel": "Récapituler les chiffres trouvés",
-        "prompt": "Tu tapes les trois chiffres :",
-        "successText": "Trois bips, puis un déclic sourd. Le clavier vire au vert. Le sous-sol est ouvert.",
-        "failText": "Le clavier clignote en rouge et émet un buzz désagréable. Ce n'est pas la bonne combinaison. Tu peux réessayer.",
-        "emptyRecapText": "Tu n'as encore relevé aucun chiffre du code. Ils sont disséminés : là où on commande, là où on se lave les mains, là où la vieille Bernard fait joujou.",
-        "recapHeader": "Les chiffres que tu as relevés jusqu'ici :",
-        "fragments": [
-          { "flag": "fragment_1_trouve", "text": "1er chiffre : 9 (au dos de la photo de 1914, bureau du proviseur)" },
-          { "flag": "fragment_2_trouve", "text": "2e chiffre : 1 (gravé dans le carrelage des WC)" },
-          { "flag": "fragment_3_trouve", "text": "3e chiffre : 2 (donné par Mme Bernard)" }
-        ]
-      }
+      ]
     },
     {
       "id": "classe_6e",
@@ -361,16 +354,18 @@
         }
       ],
       "examine": {
-        "text": "Sur un établi, une lampe torche avec des piles neuves. Quelqu'un a gravé sur le manche : « la lumière ne les arrête pas. Mais au moins tu les verras venir. »",
-        "repeatText": "Rien d'autre d'utile parmi les maquettes. Des prises murales partout, en revanche — pratique, si un jour tu as quelque chose à recharger. Dans la maquette du lycée, une minuscule paire d'oreilles vertes dépasse d'une salle, puis file vers une autre en laissant un « héhé » à peine audible. La petite silhouette qui te ressemble, elle, a encore changé de salle. Tu ne regardes pas laquelle.",
+        "text": "Sur un établi, une lampe torche avec des piles neuves. Quelqu'un a gravé sur le manche : « la lumière ne les arrête pas. Mais au moins tu les verras venir. » Juste à côté, dans une caisse de composants, un chargeur de téléphone universel, encore emballé. Tu prends les deux.",
+        "repeatText": "Rien d'autre d'utile parmi les maquettes. Des prises murales partout, en revanche — pratique, maintenant que tu as de quoi recharger. Dans la maquette du lycée, une minuscule paire d'oreilles vertes dépasse d'une salle, puis file vers une autre en laissant un « héhé » à peine audible. La petite silhouette qui te ressemble, elle, a encore changé de salle. Tu ne regardes pas laquelle.",
         "grantsItems": [
-          "lampe_torche"
+          "lampe_torche",
+          "chargeur"
         ]
       }
     },
     {
       "id": "sous_sol",
       "name": "Sous-sol",
+      "companionText": "Lapinou hésite en haut des marches, puis descend en te collant, ses petites griffes cliquetant sur la pierre humide.",
       "description": "Un sous-sol sombre et humide. Les anciennes « salles de correction » des archives... rebaptisées salle de Musique et salle d'Anglais. Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
       "exits": [
         {
@@ -423,6 +418,7 @@
     {
       "id": "cour",
       "name": "Cour extérieure",
+      "companionText": "Lapinou lève le nez vers l'ombre du marronnier, se fige un instant, puis revient se blottir contre ta cheville.",
       "description": "La cour déserte du lycée. La nuit est tombée, sans lune. Le grand marronnier projette une ombre... qui ne correspond pas tout à fait à la forme de l'arbre.",
       "exits": [
         {
@@ -467,6 +463,7 @@
     {
       "id": "gymnase",
       "name": "Gymnase",
+      "companionText": "Lapinou pourchasse joyeusement une vieille balle de tennis à travers le gymnase, puis revient vers toi, tout fier de lui.",
       "description": "L'odeur familière des tapis de sol et des balles de tennis. Le panneau des records du lycée est accroché au mur. Record du sprint : un temps impossible. Détenteur : illisible, le nom a été gratté avec insistance.",
       "exits": [
         {
@@ -489,6 +486,7 @@
     {
       "id": "cantine",
       "name": "Cantine",
+      "companionText": "Lapinou renifle partout à la recherche d'une miette, une oreille dressée, méfiant, vers la chambre froide.",
       "description": "La cantine « Aux Délices » ! Les chaises sont empilées sur les tables. Le menu de la semaine est encore affiché. Vendredi : « surprise du chef ». Le mot « surprise » a été souligné trois fois, par trois mains différentes.",
       "exits": [
         {
@@ -515,6 +513,7 @@
         {
           "target": "passage",
           "label": "Descendre dans le passage sous-terrain",
+          "hiddenUntilFlag": "aumonerie_examinee",
           "requiredItems": [
             "lampe_torche"
           ],
@@ -522,6 +521,7 @@
           "transitionText": "Tu allumes la lampe torche et descends prudemment les marches de pierre. Derrière toi, la trappe se referme toute seule, sans bruit, comme par politesse."
         }
       ],
+      "companionText": "Lapinou connaît l'aumônerie par cœur ; il se détend, oreilles molles, presque heureux. Mais il fixe la trappe et refuse de s'en approcher.",
       "actions": [
         {
           "id": "donner_carotte",
@@ -546,13 +546,15 @@
         }
       ],
       "examine": {
-        "text": "Derrière un rideau, une trappe entrouverte laisse deviner un escalier qui s'enfonce dans l'obscurité. Sur le mur, une des blagues de M. Perrier a été punaisée juste au-dessus de la trappe : « Pourquoi les fantômes sont-ils de mauvais menteurs ? Parce qu'on voit à travers eux. » Le lapin, lui, fixe la trappe et refuse de s'en approcher.",
-        "repeatText": "Le petit lapin blanc t'observe toujours. Il a l'air d'attendre quelque chose de toi. Quelque chose de doux, peut-être. Une carotte traînait à la cantine, non ?"
+        "text": "Tu écartes un rideau : une trappe entrouverte laisse deviner un escalier qui s'enfonce dans l'obscurité — le passage sous-terrain dont parlent les archives. Sur le mur, une des blagues de M. Perrier est punaisée juste au-dessus : « Pourquoi les fantômes sont-ils de mauvais menteurs ? Parce qu'on voit à travers eux. » Tu espères très fort que c'est juste une blague.",
+        "repeatText": "La trappe est toujours là, béante sur le noir. Il te faudra de la lumière pour t'y engager.",
+        "setsFlag": "aumonerie_examinee"
       }
     },
     {
       "id": "passage",
       "name": "Passage sous-terrain",
+      "companionText": "Dans le noir du tunnel, Lapinou se presse contre ta jambe. Sa petite respiration rapide est le seul son chaud, ici.",
       "description": "Un étroit tunnel de pierre. Tes pas résonnent — et entre deux échos, parfois, il y a un pas de trop. Le faisceau de la lampe tremble un peu. Toi aussi.",
       "exits": [
         {
@@ -571,6 +573,7 @@
     {
       "id": "eglise",
       "name": "Église Saint-Léger",
+      "companionText": "Lapinou se serre contre ta jambe et fixe l'orgue sans bouger. Il tremble un peu. Comme s'il savait déjà quelque chose que tu ignores encore.",
       "description": "Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le monde normal est juste derrière cette porte.",
       "exits": [
         {

@@ -77,6 +77,8 @@ public static class ChifoumiBernard
         }
         else
         {
+            // Pénalité silencieuse : le joueur ne voit PAS le -2 pts ici (contrairement aux autres).
+            engine.State.Score -= 2;
             io.WriteLine("Désolé Bichette, mais Mme Bernard est trop forte !");
             io.WriteLine("Elle te raccompagne gentiment à la porte... Retente ta chance plus tard.");
         }

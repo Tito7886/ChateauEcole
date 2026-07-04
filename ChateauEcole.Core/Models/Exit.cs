@@ -39,4 +39,11 @@ public class Exit
 
     /// <summary>Texte affiché lors des passages « libres » (via BypassIfFlag), à la place de TransitionText.</summary>
     public string? BypassTransitionText { get; set; }
+
+    /// <summary>
+    /// Serrure à combinaison optionnelle. Si la sortie est verrouillée (flag SetsFlag absent),
+    /// la tenter propose la saisie du code ; une bonne combinaison pose le flag et laisse passer.
+    /// L'option de saisie n'existe donc pas tant que le joueur n'a pas tenté d'emprunter la sortie.
+    /// </summary>
+    public CodeLock? CodeLock { get; set; }
 }

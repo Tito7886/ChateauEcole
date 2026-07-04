@@ -190,9 +190,9 @@ public class GameEngine
                 _io.WriteLine(T(etat.Text));
         }
 
-        // Compagnon : présence discrète affichée par le moteur (pas en dur dans une salle).
+        // Compagnon : présence affichée par le moteur, avec une réplique propre à la salle si définie.
         if (State.LapinouSuit)
-            _io.WriteLine("* Lapinou trottine à tes côtés, truffe frémissante.");
+            _io.WriteLine("* " + T(room.CompanionText ?? "Lapinou trottine à tes côtés, truffe frémissante."));
     }
 
     private void DoTurn(Room room)
@@ -217,14 +217,6 @@ public class GameEngine
 
             RoomAction a = roomAction; // capture locale
             choices.Add((a.Label, () => DoAction(room, a)));
-        }
-
-        // Serrure à combinaison (tant qu'elle n'est pas ouverte) : composer / récapituler.
-        if (room.CodeLock != null && !State.Flags.Contains(room.CodeLock.SetsFlag))
-        {
-            CodeLock cl = room.CodeLock;
-            choices.Add((cl.Label, () => DoComposeCode(cl)));
-            choices.Add((cl.RecapLabel, () => DoRecapCode(cl)));
         }
 
         if (room.Examine != null)
@@ -306,6 +298,13 @@ public class GameEngine
 
         if (!bypass)
         {
+            // Serrure à code : la saisie n'est proposée qu'ici, quand on tente vraiment la sortie.
+            if (exit.CodeLock != null && !State.Flags.Contains(exit.CodeLock.SetsFlag))
+            {
+                if (!TryEnterCode(exit)) return; // renoncé ou mauvais code : on reste
+                // bon code : le flag SetsFlag est posé, on poursuit vers l'ouverture normale
+            }
+
             bool manqueObjet = exit.RequiredItems.Any(i => !State.Inventory.Contains(i));
             bool manqueFlag = exit.RequiredFlags.Any(f => !State.Flags.Contains(f));
 
@@ -505,34 +504,34 @@ public class GameEngine
     }
 
     // ------------------------------------------------------------------
-    // Serrure à code (générique, data-driven)
+    // Serrure à code (générique, déclenchée par la tentative de sortie)
     // ------------------------------------------------------------------
 
-    private void DoComposeCode(CodeLock cl)
+    /// <summary>
+    /// Verrou à combinaison d'une sortie : affiche le lockedMessage puis propose la saisie.
+    /// Retourne true si le bon code vient d'être composé (la sortie peut alors s'ouvrir),
+    /// false si le joueur renonce ou se trompe (code erroné : -2 pts, en silence).
+    /// </summary>
+    private bool TryEnterCode(Exit exit)
     {
+        CodeLock cl = exit.CodeLock!;
+        _io.WriteLine(T(exit.LockedMessage ?? "C'est verrouillé."));
+
+        int c = _io.AskChoice("Un clavier à combinaison est encastré dans la porte.",
+                              new List<string> { cl.Label, "Faire demi-tour" });
+        if (c != 0) return false;
+
         string saisie = _io.AskText(cl.Prompt).Trim();
         if (saisie == cl.Combination)
         {
             State.Flags.Add(cl.SetsFlag);
             _io.WriteLine(T(cl.SuccessText));
+            return true;
         }
-        else
-        {
-            _io.WriteLine(T(cl.FailText));
-        }
-    }
 
-    private void DoRecapCode(CodeLock cl)
-    {
-        var trouves = cl.Fragments.Where(f => State.Flags.Contains(f.Flag)).ToList();
-        if (trouves.Count == 0)
-        {
-            _io.WriteLine(T(cl.EmptyRecapText));
-            return;
-        }
-        _io.WriteLine(T(cl.RecapHeader));
-        foreach (var f in trouves)
-            _io.WriteLine("  - " + T(f.Text));
+        _io.WriteLine(T(cl.FailText));
+        State.Score -= 2; // pénalité discrète : jamais annoncée à l'écran
+        return false;
     }
 
     /// <summary>Propose au joueur de prendre un objet ou de le laisser au sol de la salle.</summary>
