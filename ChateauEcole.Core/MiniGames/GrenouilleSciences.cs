@@ -14,12 +14,12 @@ public static class GrenouilleSciences
         var s = engine.State;
         if (s.Inventory.Contains("grenouille_morte"))
         {
-            io.WriteLine("Le bocal de formol est vide : tu as déjà ta grenouille. Le prof de Sciences fixe le mur, immobile depuis 1912.");
+            io.WriteLine("Le bocal de formol est vide : tu as déjà ta grenouille. Le prof de Sciences fixe le mur.");
             return;
         }
         if (s.Flags.Contains("grenouille_perdue"))
         {
-            io.WriteLine("Le bocal est fracassé, vide. La grenouille s'est échappée pour de bon. La voie honnête est morte — il ne te reste plus qu'une seule offrande possible.");
+            io.WriteLine("Le bocal est fracassé, vide. La grenouille s'est échappée pour de bon. Il ne te reste plus qu'une seule solution ...");
             return;
         }
 
@@ -31,7 +31,7 @@ public static class GrenouilleSciences
         {
             io.WriteLine();
             io.WriteLine("Du coin de l'œil, deux grandes oreilles vertes dépassent d'une armoire à réactifs.");
-            io.WriteLine("Quand tu tournes la tête, elles se sauvent dans un ricanement aigu. « ...ce bg de ouf. »");
+            io.WriteLine("Quand tu tournes la tête, elles se sauvent dans un ricanement aigu. « ...j'suis trop bg. »");
         }
 
         io.WriteLine();
@@ -56,7 +56,7 @@ public static class GrenouilleSciences
         if (prises >= 2)
         {
             io.WriteLine("Tu la coinces enfin au fond du filet. Elle cesse de bouger — vraiment, cette fois.");
-            io.WriteLine("Le prof de Sciences hoche lentement la tête : « Le savoir a toujours un prix, petite. »");
+            io.WriteLine("Le prof de Sciences hoche lentement la tête : « J'étais persuadé que tu raterais... »");
             engine.AddItem("grenouille_morte");
             return;
         }

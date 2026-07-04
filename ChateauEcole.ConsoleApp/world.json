@@ -339,7 +339,7 @@
         }
       ],
       "examine": {
-        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : {CODE1}. Les deux autres sont là où on se lave les mains, et là où la vieille Bernard fait joujou. »",
+        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : {CODE1}. Les deux autres sont là où on se lave les mains, et là où les probabilités se font agaçantes »",
         "repeatText": "La photo de 1914 est toujours là, le « {CODE1} » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
         "setsFlag": "fragment_1_trouve"
       }
@@ -608,7 +608,7 @@
       "requiredFlags": [
         "telephone_charge"
       ],
-      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve la sortie. La vraie. — N. »"
+      "text": "N° INCONNU : « Tu as réussi à le rallumer. Bien. On n'a pas beaucoup de temps, {NOM}. Trouve la sortie. — N. »"
     },
     {
       "id": "masque",
@@ -618,18 +618,18 @@
       "text": "N° INCONNU : « Le masque. Garde-le sur toi. Ne demande pas comment je sais ce que tu viens de trouver. — N. »"
     },
     {
-      "id": "code",
-      "requiredFlags": [
-        "fragment_1_trouve"
-      ],
-      "text": "N° INCONNU : « Un code en trois chiffres pour le sous-sol. Le vieux les a semés partout : le bureau, les WC, la Bernard. Rassemble-les, {NOM}. — N. »"
+        "id": "code",
+        "requiredFlags": [
+            "fragment_1_trouve"
+        ],
+        "text": "N° INCONNU : « Un code en trois chiffres pour le sous-sol. {NOM} as-tu regardé les WC ? — N. »"
     },
     {
       "id": "cantine",
       "requiredFlags": [
         "visited_cantine"
       ],
-      "text": "N° INCONNU : « La cantine... Regarde bien ce que tu ramasses là. Qui pourrait avaler une vieille laitue pareille ? Sûrement pas quelque chose d'humain. Choisis la bonne offrande, {NOM}. — N. »"
+      "text": "N° INCONNU : « La cantine... Regarde bien ce que tu ramasses là. Qui pourrait avaler une vieille laitue pareille ? Sûrement pas quelque chose d'humain. — N. »"
     },
     {
       "id": "lapinou",
@@ -644,7 +644,7 @@
         "medaillon",
         "partition"
       ],
-      "text": "N° INCONNU : « Médaille et mélodie, tu les as. Il manquera « l'essence ». Il y a une voie propre, tout en haut, en Sciences. Et une autre, plus courte, juste à côté de toi. Prends la propre. Je t'en supplie. — N. »"
+      "text": "N° INCONNU : « Médaille et mélodie, tu les as. Il manquera « l'essence ». Il y a une voie propre au 2e étape. Et une autre, plus courte, juste à côté de toi. — N. »"
     },
     {
       "id": "passage",
