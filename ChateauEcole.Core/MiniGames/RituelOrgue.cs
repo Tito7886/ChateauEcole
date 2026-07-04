@@ -35,10 +35,10 @@ public static class RituelOrgue
         // Médaille + Mélodie réunies. Reste l'essence.
         if (essence)
         {
-            io.WriteLine(engine.T("Tu déposes le médaillon dans l'encoche et tu poses la grenouille — « l'essence du savoir animalier » — sur le pupitre. Puis tu joues."));
+            io.WriteLine("Tu déposes le médaillon dans l'encoche et tu poses la grenouille — « l'essence du savoir animalier » — sur le pupitre. Puis tu joues.");
             io.WriteLine("Les premières notes de l'Hymne de Saint-Léger s'élèvent sous la voûte. Le médaillon s'illumine.");
             io.WriteLine(engine.T("La grande porte s'ouvre dans un grondement. Tu sors dans la nuit fraîche, {NOM}. Lapinou bondit devant toi, libre, vivant, et file vers les lampadaires comme s'il connaissait déjà le chemin."));
-            io.WriteLine("Derrière toi, les fenêtres du lycée s'éteignent une à une. Quelque part, très loin, quelque chose murmure ton prénom une dernière fois — sans colère. Presque avec fierté.");
+            io.WriteLine(engine.T("Derrière toi, les fenêtres du lycée s'éteignent une à une. Quelque part, très loin, quelque chose murmure ton prénom une dernière fois, suivi d'un petit ricanement diabolique 'je reviendrais te hanter {NOM}, Nyhé! hé! hé!"));
             engine.EndJuste();
             return;
         }
@@ -74,7 +74,7 @@ public static class RituelOrgue
         }
 
         io.WriteLine("Et là, tu le sens : Lapinou est contre ta jambe. Chaud. Confiant. Une créature. Le pupitre semble... exactement à sa taille.");
-        int choix = io.AskChoice("La salle avec l'autre option est à l'autre bout du lycée. Six salles. Aller-retour. Ou bien...", new List<string>
+        int choix = io.AskChoice("Mais tu repenses a cette grenouille à l'agonie, loin, bien loin, sûrement trop loin...", new List<string>
         {
             "Faire demi-tour (la voie honnête)",
             "Regarder Lapinou un peu trop longtemps"

@@ -662,6 +662,12 @@ public class GameEngine
         State.Score += 20;
         _io.WriteLine();
         _io.WriteLine("=== FIN DE L'AVENTURE — ÉVASION RÉUSSIE ! ===");
+        _io.WriteLine();
+        _io.WriteLine("... soudainement quelquechose te chatouille le nez... mais tu ouvres les yeux (pourquoi étaient-ils fermés?!)");
+        _io.WriteLine("... ah tes idées reviennent... tu es dans ton lit avec ton lapin en peluche serré contre toi");
+        _io.WriteLine("... et ton petit lutin diabolique en peluche Nestor qui te regarde intensément à l'autre bout du lit");
+        _io.WriteLine("... serait-ce un radis frais à côté de lui ?!");
+        _io.WriteLine();
         _io.WriteLine($"Ton score : {State.Score} pts");
         State.IsVictory = true;
         State.VictoryImmoral = false;
@@ -673,6 +679,12 @@ public class GameEngine
         State.Score += 15;
         _io.WriteLine();
         _io.WriteLine("=== FIN DE L'AVENTURE — LA PORTE S'OUVRE. À QUEL PRIX. ===");
+        _io.WriteLine();
+        _io.WriteLine("... soudainement tes idées te reviennent ...tu ouvres les yeux (pourquoi étaient-ils fermés?!)");
+        _io.WriteLine("Tu es dans ton lit..., tu tiens entre tes deux mains crispé le cou de ton pauvre petit lapin en peluche... quel horrible spectacle... tu te sens rempli de regret...ou pas...");
+        _io.WriteLine("... et ton petit lutin diabolique en peluche Nestor qui te regarde affichant un sourire narquois à l'autre bout du lit");
+        _io.WriteLine("... serait-ce un radis frais à côté de lui ?!");
+        _io.WriteLine();
         _io.WriteLine($"Ton score : {State.Score} pts");
         State.IsVictory = true;
         State.VictoryImmoral = true;

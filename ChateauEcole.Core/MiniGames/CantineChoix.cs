@@ -25,7 +25,7 @@ public static class CantineChoix
         // l'on n'a aucun des deux ; sinon on peut reposer celui que l'on porte pour changer.
         if (!aCarotte && !aLaitue)
         {
-            options.Add(("Une carotte oubliée dans un cageot, encore fraîche, presque trop orange", "carotte"));
+            options.Add(("Une carotte oubliée rabougrie dans un cageot, presque plus orange, est-elle encore fraîche...?", "carotte"));
             options.Add(("Une superbe laitue, surement appétissante pour ceux qui aiment", "laitue"));
         }
         else if (aCarotte)
