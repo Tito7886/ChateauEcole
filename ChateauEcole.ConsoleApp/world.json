@@ -569,6 +569,13 @@
           ],
           "text": "Tu t'accroupis, tout fière, et tends la vieille laitue flétrie à Lapinou comme une offrande.",
           "deadlyMessage": "Lapinou renifle la laitue. Une fois. Deux fois. Puis ses yeux s'injectent de sang — la colère, la rage pure devant cette innommable offrande. Un éclair blanc et rouge te surprend de plein fouet, et le monde se déchire. ... Quelle idée, aussi, de faire manger ÇA à quelqu'un. C'était bien mérité, {NOM}."
+        },
+        {
+          "id": "donner_radis",
+          "label": "Proposer les radis à Lapinou",
+          "requiredItem": "radis",
+          "repeatable": true,
+          "text": "Tu tends la botte de radis au lapin. Il s'approche, prudent, et les renifle longuement — une fois, deux fois, la truffe qui frémit... puis il détourne la tête avec une petite moue offusquée et recule. Non. Décidément non. Ce n'est pas avec des radis qu'on amadoue CE lapin-là. Tu remballes tes radis, un peu vexée."
         }
       ],
       "stateTexts": [
