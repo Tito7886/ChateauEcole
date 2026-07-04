@@ -12,6 +12,13 @@ public class WorldData
 
     /// <summary>SMS du mystérieux « R. », envoyés quand le téléphone est chargé et les conditions remplies.</summary>
     public List<SmsRule> Sms { get; set; } = new();
+
+    /// <summary>
+    /// Objets mortels au ramassage : id d'objet -> message de mort. Ramasser un tel objet
+    /// au sol tue le joueur (ex. une digitale déguisée en jolie fleur). Ils ne rejoignent
+    /// jamais l'inventaire.
+    /// </summary>
+    public Dictionary<string, string> DeadlyItems { get; set; } = new();
 }
 
 /// <summary>Un SMS de progression : envoyé une seule fois, dès que les conditions sont réunies.</summary>

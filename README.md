@@ -61,8 +61,9 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
    **carotte** (cuisines de la cantine). Il te confie son médaillon et **te suit** ensuite
    (compagnon, `GameState.LapinouSuit`, invulnérable). **Seule source** du médaillon.
 2. **Mélodie** — `partition` : salle de Musique, au sous-sol, derrière une **serrure à
-   code 3 chiffres** (tiré au sort à chaque partie). Les 3 chiffres sont des **fragments** à récolter (indices
-   croisés) : bureau du proviseur (9), toilettes avec masque (1), chifoumi de Bernard (2).
+   code 4 chiffres** (tiré au sort à chaque partie). Les 4 chiffres sont des **fragments** à récolter
+   (indices croisés) : bureau du proviseur, toilettes avec masque, chifoumi de Bernard, et classe
+   de 6e (le 4ᵉ chiffre, après avoir neutralisé « la chose » avec les balles de tennis).
 3. **Essence du savoir animalier** — le **choix moral**, seulement révélé quand on a déjà
    médaille + mélodie et qu'on tente l'orgue :
    - **voie juste** : retourner LOIN, en salle de Sciences, gagner le mini-jeu de la
@@ -92,7 +93,7 @@ semés au lancement, ramassables via « Ramasser »).
   Aléatoire à la 1re visite, défi GARANTI dès la 2e (pity timer). Post-it du couloir du 1er.
   Perdre coûte -2 pts, en silence (aucun message).
 - **Serrure du sous-sol** : le clavier n'apparaît que lorsqu'on **tente** la porte encore
-  verrouillée ; composer les 3 chiffres. **La combinaison est tirée au sort à chaque partie**
+  verrouillée ; composer les 4 chiffres. **La combinaison est tirée au sort à chaque partie**
   (stockée dans `GameState.CodeCombination`, sérialisée ; exposée aux textes via les
   placeholders `{CODE1}`/`{CODE2}`/`{CODE3}`, et `{CODE}` pour la serrure). Chaque chiffre
   n'est montré qu'une fois, à sa découverte (pas de récapitulatif). Mauvais code = -2 pts, en
@@ -107,7 +108,7 @@ semés au lancement, ramassables via « Ramasser »).
 - **Classe de 6e** : une balle de tennis distrait la chose → chargeur. Insister à mains nues
   (2e tentative) = mort (avertissement à la 1re).
 - **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (classe de Techno,
-  accessible tôt sans verrou ; aussi en 6e via les balles) = SMS d'un
+  accessible tôt sans verrou) = SMS d'un
   mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
   doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le passage.
 - **Cantine** : sandwich (surveillant → bureau) et, pour Lapinou, **soit la carotte, soit une
@@ -123,7 +124,7 @@ Traversée : **lampe** (au sol au pied du portail, action « Ramasser »). Les t
 
 1. **Médaille** : carotte (cuisines de la cantine) → aumônerie, « Donner la carotte à Lapinou »
    → médaillon + Lapinou te suit.
-2. **Mélodie** : récolter les 3 chiffres du code — bureau du proviseur (via sandwich →
+2. **Mélodie** : récolter les 4 chiffres du code — bureau du proviseur (via sandwich →
    surveillant) = 9 ; toilettes AVEC le masque (Sciences, libre) = 1 ; chifoumi Bernard = 2.
    Composer le code (aléatoire, révélé par les 3 fragments) sur la serrure du sous-sol → Salle de Musique → partition.
 3. **Église** (aumônerie → passage, avec la lampe) → « S'approcher de l'orgue ».
@@ -136,8 +137,11 @@ Branche optionnelle : verbes irréguliers → prof de sport → balles → chose
 → téléphone → SMS de « N. ».
 
 Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef »,
-offrir la vieille laitue à Lapinou,
-insister à mains nues sur la chose de la 6e.
+offrir la vieille laitue à Lapinou, insister à mains nues sur la chose de la 6e, cueillir et
+goûter la « jolie fleur violette » du portail (une digitale mortelle).
+
+Décor : le **bureau de Mme Roy** (sous-sol) reste verrouillé — l'ouvrir laisse seulement filtrer
+des plaintes d'anciens élèves, façon bruits de fantômes. On n'insiste pas.
 
 ## Roadmap 2D (old-school)
 

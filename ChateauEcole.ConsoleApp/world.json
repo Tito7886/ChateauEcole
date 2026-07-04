@@ -9,6 +9,7 @@
     "medaillon": "Médaillon doré (le pendentif de Lapinou)",
     "partition": "Partition « Hymne de Saint-Léger »",
     "grenouille_morte": "Grenouille de dissection (« essence du savoir animalier »)",
+    "digitale": "Jolie fleur violette à clochettes",
     "telephone_casse": "Téléphone portable (écran fissuré, batterie morte)",
     "chargeur": "Chargeur de téléphone",
     "balles_tennis": "Tube de balles de tennis",
@@ -256,14 +257,14 @@
           "requiredFlags": [
             "soussol_ouvert"
           ],
-          "lockedMessage": "La porte du sous-sol n'a plus de serrure rouillée : on l'a remplacée par un clavier à combinaison, trois chiffres, tout neuf au milieu de la crasse. Quelqu'un a écrit dessous : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ».",
+          "lockedMessage": "La porte du sous-sol n'a plus de serrure rouillée : on l'a remplacée par un clavier à combinaison, quatre chiffres, tout neuf au milieu de la crasse. Quelqu'un a écrit dessous : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ».",
           "transitionText": "La combinaison acceptée, le pêne coulisse. La porte du sous-sol s'ouvre en grinçant, et l'air froid qui monte sent la pierre humide et les vieux souvenirs.",
           "codeLock": {
             "combination": "{CODE}",
             "setsFlag": "soussol_ouvert",
-            "label": "Composer les trois chiffres sur le clavier",
-            "prompt": "Tu tapes les trois chiffres :",
-            "successText": "Trois bips, puis un déclic sourd. Le clavier vire au vert.",
+            "label": "Composer les quatre chiffres sur le clavier",
+            "prompt": "Tu tapes les quatre chiffres :",
+            "successText": "Quatre bips, puis un déclic sourd. Le clavier vire au vert.",
             "failText": "Le clavier émet un bip grave. Rien ne se passe. Tu peux réessayer."
           }
         },
@@ -288,11 +289,9 @@
         "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle qui n'est pas le tien. Tu recules très lentement. À mains nues, tu n'as aucune chance : il te faudrait de quoi détourner son attention, quelque chose qui roule, qui rebondit. Insister maintenant serait la dernière bêtise de ta vie.",
         "deadlyOnRepeatWithoutItemMessage": "Tu avais senti le souffle. Tu avais reculé. Et pourtant tu refais un pas vers le fond de la salle, les mains vides. Cette fois, LA CHOSE ne se contente pas de froisser des copies. La dernière image que tu emportes, c'est une classe de 6e entière tournée vers toi. Ils avaient tous reculé, eux. Une fois.",
         "consumeRequiredItem": true,
-        "text": "Tu fais rouler une balle de tennis vers le couloir. Le froissement s'arrête... puis LA CHOSE jaillit de sous les cartables et se rue derrière la balle avec un enthousiasme terrifiant. Tu fouilles vite : dans un cartable, un chargeur de téléphone ! Tu détales avant la fin de la partie de balle.",
-        "repeatText": "Le fond de la salle est vide. Vraiment vide, cette fois.",
-        "grantsItems": [
-          "chargeur"
-        ]
+        "text": "Tu fais rouler une balle de tennis vers le couloir. Le froissement s'arrête... puis LA CHOSE jaillit de sous les cartables et se rue derrière la balle avec un enthousiasme terrifiant. Tu fouilles vite : sur le tableau du fond, à la craie, un chiffre entouré de dizaines de fois — « {CODE4} ». Le QUATRIÈME chiffre de la serrure du sous-sol. Tu le notes et tu détales avant la fin de la partie de balle.",
+        "repeatText": "Le fond de la salle est vide. Vraiment vide, cette fois. Le « {CODE4} » est toujours là, entouré à la craie.",
+        "setsFlag": "fragment_4_trouve"
       },
       "stateTexts": [
         {
@@ -339,7 +338,7 @@
         }
       ],
       "examine": {
-        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : {CODE1}. Les deux autres sont là où on se lave les mains, et là où les probabilités se font agaçantes »",
+        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : {CODE1}. Les trois autres sont là où on se lave les mains, là où les probabilités se font agaçantes, et là où les petits de 6e regardent le fond de la classe. »",
         "repeatText": "La photo de 1914 est toujours là, le « {CODE1} » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
         "setsFlag": "fragment_1_trouve"
       }
@@ -366,7 +365,7 @@
       "id": "sous_sol",
       "name": "Sous-sol",
       "companionText": "Lapinou hésite en haut des marches, puis descend en te collant, ses petites griffes cliquetant sur la pierre humide.",
-      "description": "Un sous-sol sombre et humide. Les anciennes « salles de correction » des archives... rebaptisées salle de Musique et salle d'Anglais. Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
+      "description": "Un sous-sol sombre et humide. Les anciennes « salles de correction » des archives... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie : « Bureau de Mme Roy ». Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
       "exits": [
         {
           "target": "couloir_rdc",
@@ -379,6 +378,25 @@
         {
           "target": "salle_anglais",
           "label": "Salle d'Anglais"
+        },
+        {
+          "target": "bureau_roy",
+          "label": "Bureau de Mme Roy (porte fermée)",
+          "requiredFlags": [
+            "bureau_roy_ouvert"
+          ],
+          "lockedMessage": "Tu poses la main sur la poignée du bureau de Mme Roy. Verrouillée. Mais derrière la porte, il y a des voix : des plaintes d'anciens élèves, faibles, qui gémissent, grattent le bois, murmurent qu'on les laisse enfin sortir. Des bruits de fantômes. Tu retires ta main très lentement et tu recules, frissonnante. Tu décides de ne pas insister. Vraiment pas."
+        }
+      ]
+    },
+    {
+      "id": "bureau_roy",
+      "name": "Bureau de Mme Roy",
+      "description": "Tu n'aurais jamais dû pouvoir entrer ici. Personne ne le devrait.",
+      "exits": [
+        {
+          "target": "sous_sol",
+          "label": "Ressortir immédiatement"
         }
       ]
     },
@@ -449,7 +467,7 @@
     {
       "id": "portail",
       "name": "Portail",
-      "description": "Le grand portail d'entrée du lycée. De l'autre côté de la grille, la rue, les lampadaires, le monde normal. Un bus passe sans s'arrêter. Le chauffeur ne tourne pas la tête. Personne ne tourne jamais la tête vers le lycée, la nuit. Au pied du portail, quelqu'un a laissé tomber une lampe torche par terre — les piles ont l'air encore bonnes.",
+      "description": "Le grand portail d'entrée du lycée. De l'autre côté de la grille, la rue, les lampadaires, le monde normal. Un bus passe sans s'arrêter. Le chauffeur ne tourne pas la tête. Personne ne tourne jamais la tête vers le lycée, la nuit. Au pied du portail, quelqu'un a laissé tomber une lampe torche par terre — les piles ont l'air encore bonnes. Juste à côté pousse une jolie fleur violette à clochettes, étonnamment vivace dans toute cette grisaille.",
       "exits": [
         {
           "target": "cour",
@@ -457,7 +475,8 @@
         }
       ],
       "floorItems": [
-        "lampe_torche"
+        "lampe_torche",
+        "digitale"
       ],
       "examine": {
         "text": "Le portail est cadenassé avec une chaîne épaisse, posée récemment : le métal brille encore. Quelqu'un savait que tu essaierais de sortir par là. Il faudra trouver un autre chemin... celui dont parlent les archives. Sur un barreau, gravé au couteau d'une main enthousiaste : « N... ce bg de ouf ! ». Tu ne sais pas qui est N., mais quelqu'un, ici, l'admire beaucoup."
@@ -618,11 +637,11 @@
       "text": "N° INCONNU : « Le masque. Garde-le sur toi. Ne demande pas comment je sais ce que tu viens de trouver. — N. »"
     },
     {
-        "id": "code",
-        "requiredFlags": [
-            "fragment_1_trouve"
-        ],
-        "text": "N° INCONNU : « Un code en trois chiffres pour le sous-sol. {NOM} as-tu regardé les WC ? — N. »"
+      "id": "code",
+      "requiredFlags": [
+        "fragment_1_trouve"
+      ],
+      "text": "N° INCONNU : « Un code en quatre chiffres pour le sous-sol. {NOM} as-tu regardé les WC ? Et la classe de 6e ? — N. »"
     },
     {
       "id": "cantine",
@@ -660,5 +679,8 @@
       ],
       "text": "Ton téléphone n'affiche plus aucun signal. Juste un dernier message, déjà reçu, sans expéditeur : « SORS. »"
     }
-  ]
+  ],
+  "deadlyItems": {
+    "digitale": "Tu cueilles la jolie fleur violette et, sans réfléchir, tu portes une clochette à tes lèvres pour la goûter. Sucré. Puis amer. Puis... c'était une digitale — la digitale pourprée. Ton cœur s'emballe, cogne, s'affole, puis ralentit. Ralentit. Étonnamment vite, tout devient calme. Si joli, pourtant, pour une dernière chose à voir."
+  }
 }

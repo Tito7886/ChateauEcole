@@ -44,12 +44,13 @@ public class GameEngine
     public string T(string text)
     {
         text = text.Replace("{NOM}", State.PlayerName);
-        if (State.CodeCombination.Length == 3)
+        if (State.CodeCombination.Length == 4)
         {
             text = text
                 .Replace("{CODE1}", State.CodeCombination[0].ToString())
                 .Replace("{CODE2}", State.CodeCombination[1].ToString())
                 .Replace("{CODE3}", State.CodeCombination[2].ToString())
+                .Replace("{CODE4}", State.CodeCombination[3].ToString())
                 .Replace("{CODE}", State.CodeCombination);
         }
         return text;
@@ -86,8 +87,8 @@ public class GameEngine
         State = new GameState();
         State.Reset(_world.StartRoom);
 
-        // Code de la serrure du sous-sol : tiré au sort à chaque partie (3 chiffres).
-        State.CodeCombination = $"{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}";
+        // Code de la serrure du sous-sol : tiré au sort à chaque partie (4 chiffres).
+        State.CodeCombination = $"{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}";
 
         // Objets au sol initiaux (déclarés en JSON) : semés une seule fois, puis sérialisés.
         foreach (Room room in _world.Rooms)
@@ -604,6 +605,14 @@ public class GameEngine
         if (c >= floor.Count) return;
 
         string itemId = floor[c];
+
+        // Objet mortel (ex. une digitale déguisée en jolie fleur) : le ramasser tue.
+        if (_world.DeadlyItems.TryGetValue(itemId, out var deathMsg))
+        {
+            Die(deathMsg);
+            return;
+        }
+
         if (AcquireOrSwap(itemId))
         {
             floor.Remove(itemId);
