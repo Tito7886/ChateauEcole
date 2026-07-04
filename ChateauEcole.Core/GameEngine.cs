@@ -670,7 +670,7 @@ public class GameEngine
     /// <summary>Fin IMMORALE (le Sacrifice) : sortie obtenue au prix de Lapinou, marque [À QUEL PRIX].</summary>
     public void EndImmoral()
     {
-        State.Score += 5;
+        State.Score += 15;
         _io.WriteLine();
         _io.WriteLine("=== FIN DE L'AVENTURE — LA PORTE S'OUVRE. À QUEL PRIX. ===");
         _io.WriteLine($"Ton score : {State.Score} pts");
