@@ -354,10 +354,9 @@
         }
       ],
       "examine": {
-        "text": "Sur un établi, une lampe torche avec des piles neuves. Quelqu'un a gravé sur le manche : « la lumière ne les arrête pas. Mais au moins tu les verras venir. » Juste à côté, dans une caisse de composants, un chargeur de téléphone universel, encore emballé. Tu prends les deux.",
+        "text": "Dans une caisse de composants, un chargeur de téléphone universel, encore emballé. Tu le prends — ça pourra servir, si un jour tu remets un téléphone en marche.",
         "repeatText": "Rien d'autre d'utile parmi les maquettes. Des prises murales partout, en revanche — pratique, maintenant que tu as de quoi recharger. Dans la maquette du lycée, une minuscule paire d'oreilles vertes dépasse d'une salle, puis file vers une autre en laissant un « héhé » à peine audible. La petite silhouette qui te ressemble, elle, a encore changé de salle. Tu ne regardes pas laquelle.",
         "grantsItems": [
-          "lampe_torche",
           "chargeur"
         ]
       }
@@ -449,12 +448,15 @@
     {
       "id": "portail",
       "name": "Portail",
-      "description": "Le grand portail d'entrée du lycée. De l'autre côté de la grille, la rue, les lampadaires, le monde normal. Un bus passe sans s'arrêter. Le chauffeur ne tourne pas la tête. Personne ne tourne jamais la tête vers le lycée, la nuit.",
+      "description": "Le grand portail d'entrée du lycée. De l'autre côté de la grille, la rue, les lampadaires, le monde normal. Un bus passe sans s'arrêter. Le chauffeur ne tourne pas la tête. Personne ne tourne jamais la tête vers le lycée, la nuit. Au pied du portail, quelqu'un a laissé tomber une lampe torche par terre — les piles ont l'air encore bonnes.",
       "exits": [
         {
           "target": "cour",
           "label": "Retour dans la cour"
         }
+      ],
+      "floorItems": [
+        "lampe_torche"
       ],
       "examine": {
         "text": "Le portail est cadenassé avec une chaîne épaisse, posée récemment : le métal brille encore. Quelqu'un savait que tu essaierais de sortir par là. Il faudra trouver un autre chemin... celui dont parlent les archives. Sur un barreau, gravé au couteau d'une main enthousiaste : « N... ce bg de ouf ! ». Tu ne sais pas qui est N., mais quelqu'un, ici, l'admire beaucoup."

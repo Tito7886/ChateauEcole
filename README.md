@@ -69,7 +69,8 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
      **grenouille** → `grenouille_morte`. Effort honnête.
    - **voie immorale** : **sacrifier Lapinou**, présent à l'orgue — immédiat, gratuit, cruel.
 
-**Traversée** : `lampe_torche` (Techno, libre) pour franchir le passage vers l'église.
+**Traversée** : `lampe_torche` (posée **par terre au pied du portail**, à ramasser) pour
+franchir le passage vers l'église.
 
 **Deux fins** : JUSTE (`EndJuste`, Lapinou sort avec toi, `[ÉVADÉ]`) vs IMMORALE
 (`EndImmoral`, Lapinou meurt, `[À QUEL PRIX]`). Le choix ne se pose qu'à qui a médaille +
@@ -80,7 +81,8 @@ Nouvelles capacités moteur : **serrure à code** générique portée par une so
 (`GameState.LapinouSuit`, avec réplique de présence variable par salle via `Room.CompanionText`),
 **deux fins** (`EndJuste`/`EndImmoral` + marque de score), action générique enrichie
 (`RequiredItem`/`ConsumesItem`/`SetsCompanion`), gating d'action spéciale
-(`SpecialActionRequiredFlag`).
+(`SpecialActionRequiredFlag`), **objets au sol initiaux** déclarés en JSON (`Room.FloorItems`,
+semés au lancement, ramassables via « Ramasser »).
 
 ## Mini-jeux et contenu optionnel
 
@@ -110,7 +112,7 @@ Nouvelles capacités moteur : **serrure à code** générique portée par une so
 
 ## Solution du jeu (spoiler)
 
-Traversée : **lampe** (Techno, libre). Les trois éléments de l'orgue, dans n'importe quel ordre :
+Traversée : **lampe** (au sol au pied du portail, action « Ramasser »). Les trois éléments de l'orgue, dans n'importe quel ordre :
 
 1. **Médaille** : carotte (cuisines de la cantine) → aumônerie, « Donner la carotte à Lapinou »
    → médaillon + Lapinou te suit.

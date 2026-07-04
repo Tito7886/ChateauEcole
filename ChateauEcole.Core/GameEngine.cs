@@ -89,6 +89,11 @@ public class GameEngine
         // Code de la serrure du sous-sol : tiré au sort à chaque partie (3 chiffres).
         State.CodeCombination = $"{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}";
 
+        // Objets au sol initiaux (déclarés en JSON) : semés une seule fois, puis sérialisés.
+        foreach (Room room in _world.Rooms)
+            foreach (string item in room.FloorItems)
+                DropToFloor(room.Id, item);
+
         string nom = _io.AskText("Quel est ton prénom ?").Trim();
         State.PlayerName = string.IsNullOrWhiteSpace(nom) ? "Bichette" : nom;
 

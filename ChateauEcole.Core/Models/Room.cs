@@ -45,6 +45,13 @@ public class Room
     /// le joueur. À défaut, le moteur affiche un texte générique.
     /// </summary>
     public string? CompanionText { get; set; }
+
+    /// <summary>
+    /// Objets posés au sol dès le début de la partie (ex. une lampe torche au pied du
+    /// portail). Semés une seule fois dans GameState.FloorItems au lancement, puis
+    /// ramassables via l'action « Ramasser (objets au sol) ».
+    /// </summary>
+    public List<string> FloorItems { get; set; } = new();
 }
 
 /// <summary>
