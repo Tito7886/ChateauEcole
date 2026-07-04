@@ -1,24 +1,44 @@
 namespace ChateauEcole.Core.MiniGames;
 
 /// <summary>
-/// Les cuisines de la cantine : le sandwich (surveillant → bureau) et la carotte
-/// (apprivoiser Lapinou à l'aumônerie). La « Surprise du chef » est un piège mortel pur
-/// Undertale — le menu la signale (soulignée trois fois par trois mains différentes).
+/// Les cuisines de la cantine :
+///  - le sandwich (surveillant → bureau) ;
+///  - un légume pour Lapinou : la carotte (le bon choix) OU la vieille laitue (piège :
+///    l'offrir à Lapinou est mortel). On ne peut porter qu'UN seul des deux à la fois,
+///    mais on peut reposer l'un pour prendre l'autre (donc jamais de blocage définitif) ;
+///  - la « Surprise du chef », piège mortel pur Undertale (menu souligné trois fois).
 /// </summary>
 public static class CantineChoix
 {
     public static void Jouer(GameEngine engine, IGameIO io)
     {
         var state = engine.State;
+        bool aCarotte = state.Inventory.Contains("carotte");
+        bool aLaitue = state.Inventory.Contains("laitue");
+
         var options = new List<(string Label, string Id)>();
 
         if (!state.Flags.Contains("cantine_sandwich"))
             options.Add(("Le sandwich sous cellophane, posé bien en évidence au milieu du plan de travail", "sandwich"));
-        if (!state.Flags.Contains("cantine_carotte"))
+
+        // Carotte OU laitue, jamais les deux en même temps : les prises n'apparaissent que si
+        // l'on n'a aucun des deux ; sinon on peut reposer celui que l'on porte pour changer.
+        if (!aCarotte && !aLaitue)
+        {
             options.Add(("Une carotte oubliée dans un cageot, encore fraîche, presque trop orange", "carotte"));
+            options.Add(("Une vieille laitue flétrie, brunâtre, gluante par endroits — franchement peu ragoûtante", "laitue"));
+        }
+        else if (aCarotte)
+        {
+            options.Add(("Reposer la carotte dans le cageot", "repose_carotte"));
+        }
+        else
+        {
+            options.Add(("Reposer la laitue dans le cageot", "repose_laitue"));
+        }
+
         // La « Surprise du chef » reste toujours proposée : c'est un choix, et une très mauvaise idée.
         options.Add(("La « Surprise du chef » qui frémit doucement sous sa cloche, en chambre froide", "surprise"));
-
         options.Add(("Ne rien toucher", "rien"));
 
         int c = io.AskChoice("Dans les cuisines, plusieurs choses attirent ton attention :",
@@ -33,10 +53,25 @@ public static class CantineChoix
                 break;
 
             case "carotte":
-                state.Flags.Add("cantine_carotte");
                 engine.AddItem("carotte");
                 io.WriteLine("Une carotte, dans un lycée où tout pourrit ou se fige. Trop fraîche pour être honnête.");
                 io.WriteLine("Tu la gardes quand même. On ne sait jamais qui, ici, aurait le cœur d'aimer une carotte.");
+                break;
+
+            case "laitue":
+                engine.AddItem("laitue");
+                io.WriteLine("Une laitue oubliée depuis des semaines, molle et brunâtre. Elle sent... la fin des choses.");
+                io.WriteLine("Tu la prends, va savoir pourquoi. Qui pourrait bien vouloir manger ÇA ?");
+                break;
+
+            case "repose_carotte":
+                state.Inventory.Remove("carotte");
+                io.WriteLine("Tu reposes la carotte dans le cageot. Tu peux toujours changer d'avis.");
+                break;
+
+            case "repose_laitue":
+                state.Inventory.Remove("laitue");
+                io.WriteLine("Tu reposes la laitue, presque soulagée de t'en débarrasser. Le cageot, lui, n'en veut pas non plus.");
                 break;
 
             case "surprise":

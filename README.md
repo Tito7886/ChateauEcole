@@ -80,7 +80,7 @@ Nouvelles capacités moteur : **serrure à code** générique portée par une so
 (`Exit.CodeLock`, saisie déclenchée par la tentative de passage), **état compagnon**
 (`GameState.LapinouSuit`, avec réplique de présence variable par salle via `Room.CompanionText`),
 **deux fins** (`EndJuste`/`EndImmoral` + marque de score), action générique enrichie
-(`RequiredItem`/`ConsumesItem`/`SetsCompanion`), gating d'action spéciale
+(`RequiredItem`/`ConsumesItem`/`SetsCompanion`/`DeadlyMessage`), gating d'action spéciale
 (`SpecialActionRequiredFlag`), **objets au sol initiaux** déclarés en JSON (`Room.FloorItems`,
 semés au lancement, ramassables via « Ramasser »).
 
@@ -105,8 +105,10 @@ semés au lancement, ramassables via « Ramasser »).
   accessible tôt sans verrou ; aussi en 6e via les balles) = SMS d'un
   mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
   doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le passage.
-- **Cantine** : sandwich (surveillant → bureau) et carotte (Lapinou). La « Surprise du chef »
-  est un piège MORTEL (menu souligné trois fois).
+- **Cantine** : sandwich (surveillant → bureau) et, pour Lapinou, **soit la carotte, soit une
+  vieille laitue — jamais les deux à la fois** (on peut reposer l'une pour prendre l'autre, donc
+  pas de blocage). La carotte l'apprivoise ; **offrir la laitue à Lapinou est MORTEL** (rage
+  du lapin). La « Surprise du chef » est un autre piège mortel (menu souligné trois fois).
 - **Easter eggs Nestor** : oreilles vertes fugaces, ombre verte, « N... ce bg de ouf ! »
   disséminés dans les salles d'ambiance. Jamais expliqués.
 
@@ -129,6 +131,7 @@ Branche optionnelle : verbes irréguliers → prof de sport → balles → chose
 → téléphone → SMS de « N. ».
 
 Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef »,
+offrir la vieille laitue à Lapinou,
 insister à mains nues sur la chose de la 6e.
 
 ## Roadmap 2D (old-school)

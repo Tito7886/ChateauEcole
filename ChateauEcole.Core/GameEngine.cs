@@ -504,6 +504,13 @@ public class GameEngine
         bool dejaFait = State.Flags.Contains(ActionDoneFlag(room, action));
         _io.WriteLine(T(dejaFait && action.RepeatText != null ? action.RepeatText : action.Text));
 
+        // Action mortelle (ex. offrir la laitue à Lapinou) : rien n'est accordé, le joueur meurt.
+        if (action.DeadlyMessage != null)
+        {
+            Die(action.DeadlyMessage);
+            return;
+        }
+
         if (action.OffersItem != null)
             OfferItem(action.OffersItem);
 

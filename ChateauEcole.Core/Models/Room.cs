@@ -103,6 +103,12 @@ public class RoomAction
 
     /// <summary>Si vrai, attache Lapinou comme compagnon (GameState.LapinouSuit = true).</summary>
     public bool SetsCompanion { get; set; }
+
+    /// <summary>
+    /// Si défini, jouer l'action TUE le joueur avec ce message (après le Text d'intro).
+    /// Ex. offrir une vieille laitue à Lapinou. Aucun objet/flag n'est accordé dans ce cas.
+    /// </summary>
+    public string? DeadlyMessage { get; set; }
 }
 
 /// <summary>

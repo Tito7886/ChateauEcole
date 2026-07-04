@@ -5,6 +5,7 @@
     "lampe_torche": "Lampe torche",
     "sandwich": "Sandwich de la cantine",
     "carotte": "Carotte (fraîche, presque trop orange)",
+    "laitue": "Vieille laitue (flétrie, brunâtre, peu engageante)",
     "medaillon": "Médaillon doré (le pendentif de Lapinou)",
     "partition": "Partition « Hymne de Saint-Léger »",
     "grenouille_morte": "Grenouille de dissection (« essence du savoir animalier »)",
@@ -539,6 +540,16 @@
             "medaillon"
           ],
           "text": "Tu t'accroupis, la carotte tendue à bout de bras. Le petit lapin blanc hésite, la truffe frémissante... puis il s'approche à petits bonds et croque la carotte contre ta main, en confiance. Il se frotte à ta jambe. Doucement, il passe le museau sous le fermoir de son médaillon et te le pousse dans la paume, comme un cadeau. « Lapinou », dis-tu — tu ne sais pas pourquoi, c'est juste son nom. Il te suit, maintenant. Il ne te quittera plus."
+        },
+        {
+          "id": "donner_laitue",
+          "label": "Donner la laitue à Lapinou",
+          "requiredItem": "laitue",
+          "requiredFlagsAbsent": [
+            "lapinou_ami"
+          ],
+          "text": "Tu t'accroupis, tout fière, et tends la vieille laitue flétrie à Lapinou comme une offrande.",
+          "deadlyMessage": "Lapinou renifle la laitue. Une fois. Deux fois. Puis ses yeux s'injectent de sang — la colère, la rage pure devant cette innommable offrande. Un éclair blanc et rouge te surprend de plein fouet, et le monde se déchire. ... Quelle idée, aussi, de faire manger ÇA à quelqu'un. C'était bien mérité, {NOM}."
         }
       ],
       "stateTexts": [
@@ -613,11 +624,11 @@
       "text": "N° INCONNU : « Un code en trois chiffres pour le sous-sol. Le vieux les a semés partout : le bureau, les WC, la Bernard. Rassemble-les, {NOM}. — N. »"
     },
     {
-      "id": "carotte",
-      "requiredItems": [
-        "carotte"
+      "id": "cantine",
+      "requiredFlags": [
+        "visited_cantine"
       ],
-      "text": "N° INCONNU : « Tu as pris la carotte. Bien. Quelqu'un t'attend à l'aumônerie depuis très, très longtemps. Sois douce avec lui. Et l'autre idée, celle qui viendra plus tard... n'écoute pas. — N. »"
+      "text": "N° INCONNU : « La cantine... Regarde bien ce que tu ramasses là. Qui pourrait avaler une vieille laitue pareille ? Sûrement pas quelque chose d'humain. Choisis la bonne offrande, {NOM}. — N. »"
     },
     {
       "id": "lapinou",
