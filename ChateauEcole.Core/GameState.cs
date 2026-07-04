@@ -8,6 +8,10 @@ public class GameState
 {
     public string PlayerName { get; set; } = "";
     public string CurrentRoomId { get; set; } = "";
+
+    /// <summary>Combinaison à 3 chiffres de la serrure du sous-sol, tirée au sort à chaque
+    /// partie (sérialisée : identique après réanimation). Exposée aux textes via {CODE1..3}.</summary>
+    public string CodeCombination { get; set; } = "";
     public List<string> Inventory { get; set; } = new();
     public HashSet<string> Flags { get; set; } = new();
 
@@ -37,6 +41,7 @@ public class GameState
     public void Reset(string startRoom)
     {
         CurrentRoomId = startRoom;
+        CodeCombination = "";
         Inventory.Clear();
         Flags.Clear();
         Counters.Clear();

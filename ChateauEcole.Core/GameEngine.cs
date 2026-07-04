@@ -36,8 +36,24 @@ public class GameEngine
         };
     }
 
-    /// <summary>Remplace {NOM} par le prénom du joueur dans les textes du monde.</summary>
-    public string T(string text) => text.Replace("{NOM}", State.PlayerName);
+    /// <summary>
+    /// Résout les placeholders des textes du monde : {NOM} = prénom du joueur ;
+    /// {CODE1}/{CODE2}/{CODE3} = chiffres de la serrure du sous-sol tirés au sort à chaque
+    /// partie ; {CODE} = la combinaison complète (utilisée par la serrure elle-même).
+    /// </summary>
+    public string T(string text)
+    {
+        text = text.Replace("{NOM}", State.PlayerName);
+        if (State.CodeCombination.Length == 3)
+        {
+            text = text
+                .Replace("{CODE1}", State.CodeCombination[0].ToString())
+                .Replace("{CODE2}", State.CodeCombination[1].ToString())
+                .Replace("{CODE3}", State.CodeCombination[2].ToString())
+                .Replace("{CODE}", State.CodeCombination);
+        }
+        return text;
+    }
 
     // ------------------------------------------------------------------
     // Boucle principale
@@ -69,6 +85,9 @@ public class GameEngine
     {
         State = new GameState();
         State.Reset(_world.StartRoom);
+
+        // Code de la serrure du sous-sol : tiré au sort à chaque partie (3 chiffres).
+        State.CodeCombination = $"{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}";
 
         string nom = _io.AskText("Quel est ton prénom ?").Trim();
         State.PlayerName = string.IsNullOrWhiteSpace(nom) ? "Bichette" : nom;
@@ -522,7 +541,7 @@ public class GameEngine
         if (c != 0) return false;
 
         string saisie = _io.AskText(cl.Prompt).Trim();
-        if (saisie == cl.Combination)
+        if (saisie == T(cl.Combination)) // {CODE} -> combinaison tirée au sort cette partie
         {
             State.Flags.Add(cl.SetsFlag);
             _io.WriteLine(T(cl.SuccessText));

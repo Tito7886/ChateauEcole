@@ -144,8 +144,8 @@
       "examine": {
         "requiredItem": "masque_gaz",
         "deathWithoutItemMessage": "Tu te penches au-dessus de la cuvette. L'odeur te saisit à la gorge comme une main. Tes genoux lâchent, le carrelage monte vers toi, très vite. La dernière chose que tu entends, c'est la chasse d'eau. Personne n'a appuyé dessus.",
-        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Au fond de la dernière cabine, gravé profond dans le carrelage : « 2e chiffre est : 1 ». Et en dessous, d'une autre main : « les autres sont ailleurs ! nyeh ! ». Tu notes le chiffre. Tu préfères ne pas savoir qui l'a gravé là, le masque sur le visage.",
-        "repeatText": "Le carrelage porte toujours son « 1 » gravé. Tu as déjà le chiffre. C'est mieux de ne pas t'attarder.",
+        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Au fond de la dernière cabine, gravé profond dans le carrelage : « 2e chiffre est : {CODE2} ». Et en dessous, d'une autre main : « les autres sont ailleurs ! nyeh ! ». Tu notes le chiffre. Tu préfères ne pas savoir qui l'a gravé là, le masque sur le visage.",
+        "repeatText": "Le carrelage porte toujours son « {CODE2} » gravé. Tu as déjà le chiffre. C'est mieux de ne pas t'attarder.",
         "setsFlag": "fragment_2_trouve"
       }
     },
@@ -258,7 +258,7 @@
           "lockedMessage": "La porte du sous-sol n'a plus de serrure rouillée : on l'a remplacée par un clavier à combinaison, trois chiffres, tout neuf au milieu de la crasse. Quelqu'un a écrit dessous : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ».",
           "transitionText": "La combinaison acceptée, le pêne coulisse. La porte du sous-sol s'ouvre en grinçant, et l'air froid qui monte sent la pierre humide et les vieux souvenirs.",
           "codeLock": {
-            "combination": "912",
+            "combination": "{CODE}",
             "setsFlag": "soussol_ouvert",
             "label": "Composer les trois chiffres sur le clavier",
             "prompt": "Tu tapes les trois chiffres :",
@@ -338,8 +338,8 @@
         }
       ],
       "examine": {
-        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : 9. Les deux autres sont là où on se lave les mains, et là où la vieille Bernard fait joujou. »",
-        "repeatText": "La photo de 1914 est toujours là, le « 9 » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
+        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : {CODE1}. Les deux autres sont là où on se lave les mains, et là où la vieille Bernard fait joujou. »",
+        "repeatText": "La photo de 1914 est toujours là, le « {CODE1} » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
         "setsFlag": "fragment_1_trouve"
       }
     },

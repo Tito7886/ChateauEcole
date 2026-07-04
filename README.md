@@ -61,7 +61,7 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
    **carotte** (cuisines de la cantine). Il te confie son médaillon et **te suit** ensuite
    (compagnon, `GameState.LapinouSuit`, invulnérable). **Seule source** du médaillon.
 2. **Mélodie** — `partition` : salle de Musique, au sous-sol, derrière une **serrure à
-   code 3 chiffres** (`912`). Les 3 chiffres sont des **fragments** à récolter (indices
+   code 3 chiffres** (tiré au sort à chaque partie). Les 3 chiffres sont des **fragments** à récolter (indices
    croisés) : bureau du proviseur (9), toilettes avec masque (1), chifoumi de Bernard (2).
 3. **Essence du savoir animalier** — le **choix moral**, seulement révélé quand on a déjà
    médaille + mélodie et qu'on tente l'orgue :
@@ -88,9 +88,11 @@ Nouvelles capacités moteur : **serrure à code** générique portée par une so
   Aléatoire à la 1re visite, défi GARANTI dès la 2e (pity timer). Post-it du couloir du 1er.
   Perdre coûte -2 pts, en silence (aucun message).
 - **Serrure du sous-sol** : le clavier n'apparaît que lorsqu'on **tente** la porte encore
-  verrouillée ; composer les 3 chiffres (`912`). Chaque chiffre n'est montré qu'une fois, à
-  sa découverte (pas de récapitulatif). Mauvais code = -2 pts, en silence. Data-driven
-  (`codeLock` porté par la sortie dans world.json).
+  verrouillée ; composer les 3 chiffres. **La combinaison est tirée au sort à chaque partie**
+  (stockée dans `GameState.CodeCombination`, sérialisée ; exposée aux textes via les
+  placeholders `{CODE1}`/`{CODE2}`/`{CODE3}`, et `{CODE}` pour la serrure). Chaque chiffre
+  n'est montré qu'une fois, à sa découverte (pas de récapitulatif). Mauvais code = -2 pts, en
+  silence. Data-driven (`codeLock` porté par la sortie dans world.json).
 - **Grenouille (Sciences)** : voie honnête de l'essence, débloquée seulement après avoir
   tenté l'orgue (`sortie_tentee`). Best-of-3 aléatoire, retentable. Loin de l'église exprès.
 - **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s, décompte visible).
@@ -114,7 +116,7 @@ Traversée : **lampe** (Techno, libre). Les trois éléments de l'orgue, dans n'
    → médaillon + Lapinou te suit.
 2. **Mélodie** : récolter les 3 chiffres du code — bureau du proviseur (via sandwich →
    surveillant) = 9 ; toilettes AVEC le masque (Sciences, libre) = 1 ; chifoumi Bernard = 2.
-   Composer `912` sur la serrure du sous-sol → Salle de Musique → partition.
+   Composer le code (aléatoire, révélé par les 3 fragments) sur la serrure du sous-sol → Salle de Musique → partition.
 3. **Église** (aumônerie → passage, avec la lampe) → « S'approcher de l'orgue ».
    - Avec médaille + mélodie + **grenouille** → **FIN JUSTE** (Lapinou sort avec toi).
    - Avec médaille + mélodie sans grenouille : le jeu ouvre le mini-jeu grenouille (Sciences,
