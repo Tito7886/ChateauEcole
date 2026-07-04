@@ -11,7 +11,6 @@ public static class Program
     {
         Console.OutputEncoding = Encoding.UTF8; // accents corrects sous Windows
 
-        string path = Path.Combine(AppContext.BaseDirectory, "world.json");
         var options = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
@@ -19,8 +18,8 @@ public static class Program
             AllowTrailingCommas = true
         };
 
-        WorldData world = JsonSerializer.Deserialize<WorldData>(File.ReadAllText(path), options)
-            ?? throw new InvalidOperationException("world.json introuvable ou invalide.");
+        WorldData world = JsonSerializer.Deserialize<WorldData>(ReadWorldJson(), options)
+            ?? throw new InvalidOperationException("world.json invalide.");
 
         // Sauvegardes et scores dans %AppData%\ChateauEcole : ils survivent aux recompilations
         string saveDir = Path.Combine(
@@ -29,6 +28,29 @@ public static class Program
 
         var engine = new GameEngine(world, new ConsoleIO(), new SaveService(saveDir));
         engine.Run();
+    }
+
+    /// <summary>
+    /// Lit le contenu de world.json. Priorité à un fichier posé À CÔTÉ de l'exe
+    /// (permet d'éditer/modder le jeu sans recompiler) ; sinon, la ressource embarquée
+    /// dans l'exe (ce qui rend l'exe autonome : un seul fichier suffit).
+    /// </summary>
+    private static string ReadWorldJson()
+    {
+        string external = Path.Combine(AppContext.BaseDirectory, "world.json");
+        if (File.Exists(external))
+            return File.ReadAllText(external);
+
+        var asm = typeof(Program).Assembly;
+        string? resName = asm.GetManifestResourceNames()
+            .FirstOrDefault(n => n.EndsWith("world.json", StringComparison.OrdinalIgnoreCase));
+        if (resName == null)
+            throw new InvalidOperationException(
+                "world.json introuvable : ni à côté de l'exe, ni embarqué dans l'assembly.");
+
+        using Stream stream = asm.GetManifestResourceStream(resName)!;
+        using var reader = new StreamReader(stream, Encoding.UTF8);
+        return reader.ReadToEnd();
     }
 }
 

@@ -9,6 +9,32 @@ Ou en ligne de commande : `dotnet run --project ChateauEcole.ConsoleApp`
 
 Prérequis : .NET 8 SDK. Aucun package NuGet.
 
+## Exécutable autonome (un seul fichier)
+
+`world.json` est **embarqué dans l'exe** (ressource) ; `Program.cs` le lit depuis la ressource,
+sauf si un `world.json` est posé **à côté de l'exe** (override pour modder sans recompiler).
+Un publish self-contained + single-file donne donc **un seul .exe portable** (aucune install
+de .NET requise sur la machine cible) :
+
+```
+dotnet publish ChateauEcole.ConsoleApp -c Release -r win-x64 --self-contained true \
+  -p:PublishSingleFile=true -p:EnableCompressionInSingleFile=true
+```
+
+Via Visual Studio : clic droit sur **ChateauEcole.ConsoleApp** → **Publier** → Dossier →
+Mode **Autonome**, Runtime **win-x64**, **Produire un fichier unique** ✅.
+⚠️ Ne PAS activer le trimming (la (dé)sérialisation JSON par réflexion casserait).
+Résultat dans `bin/Release/net8.0/win-x64/publish/` (l'exe ; le `.pdb` est optionnel).
+
+## Où sont les sauvegardes ?
+
+Dans `%AppData%\ChateauEcole` (Windows : `C:\Users\<toi>\AppData\Roaming\ChateauEcole\`,
+Mac/Linux : `~/.config/ChateauEcole/`) :
+- `highscores.json` — le top 10 des meilleurs scores ;
+- `sauvegarde.json` — le checkpoint de la réanimation unique.
+
+Ces fichiers survivent aux mises à jour de l'exe.
+
 ## Architecture
 
 ```

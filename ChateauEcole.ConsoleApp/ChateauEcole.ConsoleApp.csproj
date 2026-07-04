@@ -11,10 +11,13 @@
     <ProjectReference Include="..\ChateauEcole.Core\ChateauEcole.Core.csproj" />
   </ItemGroup>
 
+  <!-- world.json est EMBARQUÉ dans l'exe (fichier unique portable). Program.cs le lit depuis
+       la ressource embarquée, sauf si un world.json est posé À CÔTÉ de l'exe (override sans
+       recompiler). LogicalName fixe pour une recherche déterministe. -->
   <ItemGroup>
-    <Content Include="world.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <EmbeddedResource Include="world.json">
+      <LogicalName>world.json</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>
