@@ -24,7 +24,7 @@
           "target": "classe_histoire",
           "label": "Passage secret vers la classe d'Histoire",
           "hiddenUntilFlag": "passage_secret_francais",
-          "transitionText": "Tu te faufiles derrière la bibliothèque. Derrière toi, quelque chose remet doucement le panneau en place."
+          "transitionText": "Tu te faufiles derrière la bibliothèque. Derrière toi, quelque chose de vert (?!) remet doucement le panneau en place."
         }
       ],
       "actions": [
