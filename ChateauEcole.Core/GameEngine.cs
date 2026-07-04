@@ -374,7 +374,7 @@ public class GameEngine
         string examinedFlag = "examined_" + room.Id;
         bool dejaFouille = State.Flags.Contains(examinedFlag);
 
-        // Objet requis manquant : mortel (toilettes sans masque) ou simple refus (6e sans balles)
+        // Objet requis manquant : mortel (toilettes sans masque) ou simple refus (6e sans radis)
         if (ex.RequiredItem != null && !State.Inventory.Contains(ex.RequiredItem))
         {
             if (ex.DeathWithoutItemMessage != null)

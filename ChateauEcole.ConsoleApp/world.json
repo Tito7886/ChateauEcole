@@ -12,7 +12,7 @@
     "digitale": "Jolie fleur violette à clochettes",
     "telephone_casse": "Téléphone portable (écran fissuré, batterie morte)",
     "chargeur": "Chargeur de téléphone",
-    "balles_tennis": "Tube de balles de tennis",
+    "radis": "Botte de radis (frais, croquants)",
     "cours_anglais": "Feuille de verbes irréguliers anglais"
   },
   "rooms": [
@@ -285,18 +285,18 @@
         }
       ],
       "examine": {
-        "requiredItem": "balles_tennis",
-        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle qui n'est pas le tien. Tu recules très lentement. À mains nues, tu n'as aucune chance : il te faudrait de quoi détourner son attention, quelque chose qui roule, qui rebondit. Insister maintenant serait la dernière bêtise de ta vie.",
+        "requiredItem": "radis",
+        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle qui n'est pas le tien. Tu recules très lentement. À mains nues, tu n'as aucune chance : il te faudrait de quoi détourner son attention. Quelque chose de frais, de vivant, de croquant — dans cet endroit où tout n'est que craie et poussière. Insister maintenant serait la dernière bêtise de ta vie.",
         "deadlyOnRepeatWithoutItemMessage": "Tu avais senti le souffle. Tu avais reculé. Et pourtant tu refais un pas vers le fond de la salle, les mains vides. Cette fois, LA CHOSE ne se contente pas de froisser des copies. La dernière image que tu emportes, c'est une classe de 6e entière tournée vers toi. Ils avaient tous reculé, eux. Une fois.",
         "consumeRequiredItem": true,
-        "text": "Tu fais rouler une balle de tennis vers le couloir. Le froissement s'arrête... puis LA CHOSE jaillit de sous les cartables et se rue derrière la balle avec un enthousiasme terrifiant. Tu fouilles vite : sur le tableau du fond, à la craie, un chiffre entouré de dizaines de fois — « {CODE4} ». Le QUATRIÈME chiffre de la serrure du sous-sol. Tu le notes et tu détales avant la fin de la partie de balle.",
+        "text": "Tu fais rouler la botte de radis vers le fond de la salle. Le froissement s'arrête net... puis LA CHOSE jaillit de sous les cartables et se jette sur les radis avec une faim inhumaine — depuis combien de décennies n'a-t-elle rien croqué de frais ? Pendant qu'elle dévore, tu fouilles vite : sur le tableau du fond, à la craie, un chiffre entouré des dizaines de fois — « {CODE4} ». Le QUATRIÈME chiffre de la serrure du sous-sol. Tu le notes et tu détales avant qu'elle n'ait fini son festin.",
         "repeatText": "Le fond de la salle est vide. Vraiment vide, cette fois. Le « {CODE4} » est toujours là, entouré à la craie.",
         "setsFlag": "fragment_4_trouve"
       },
       "stateTexts": [
         {
           "flag": "examined_classe_6e",
-          "text": "Quelque part dans le lycée, on entend une balle de tennis rebondir joyeusement. La salle, elle, est enfin tranquille."
+          "text": "Quelque part dans le lycée, on entend quelque chose croquer goulûment un dernier radis. La salle, elle, est enfin tranquille."
         }
       ]
     },

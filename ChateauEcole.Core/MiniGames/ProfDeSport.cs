@@ -6,7 +6,7 @@ namespace ChateauEcole.Core.MiniGames;
 /// mauvais choix = rattrapé, tour de terrain punitif (-5 pts) et éjection dans la cour.
 /// Alternative instantanée : brandir la feuille de verbes irréguliers anglais,
 /// la seule chose au monde qui le terrifie.
-/// Récompense : un tube de balles de tennis.
+/// Récompense : une botte de radis (la collation santé du prof de sport).
 /// </summary>
 public static class ProfDeSport
 {
@@ -100,8 +100,8 @@ public static class ProfDeSport
 
     private static void Victoire(GameEngine engine, IGameIO io)
     {
-        io.WriteLine("Sur le banc de touche, son sac est resté ouvert : un tube de balles de tennis en dépasse.");
-        engine.AddItem("balles_tennis");
+        io.WriteLine("Sur le banc de touche, son sac de sport est resté ouvert. Pas de sifflet de rechange, pas de médaille : juste une botte de radis, fraîche et croquante. Le prof de sport ne jure que par les collations saines. Tu l'embarques — va savoir à quoi ça peut servir.");
+        engine.AddItem("radis");
         engine.State.Flags.Add("gym_vaincu");
     }
 }

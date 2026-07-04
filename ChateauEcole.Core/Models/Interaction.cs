@@ -33,7 +33,7 @@ public class Interaction
     /// </summary>
     public string? DeadlyOnRepeatWithoutItemMessage { get; set; }
 
-    /// <summary>Si vrai, RequiredItem est consommé lors de la première fouille réussie (ex. balles de tennis).</summary>
+    /// <summary>Si vrai, RequiredItem est consommé lors de la première fouille réussie (ex. la botte de radis).</summary>
     public bool ConsumeRequiredItem { get; set; }
 
     /// <summary>Si défini : fouiller une seconde fois tue le joueur (mort d'ennui en Latin...).</summary>

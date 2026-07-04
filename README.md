@@ -63,7 +63,7 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
 2. **Mélodie** — `partition` : salle de Musique, au sous-sol, derrière une **serrure à
    code 4 chiffres** (tiré au sort à chaque partie). Les 4 chiffres sont des **fragments** à récolter
    (indices croisés) : bureau du proviseur, toilettes avec masque, chifoumi de Bernard, et classe
-   de 6e (le 4ᵉ chiffre, après avoir neutralisé « la chose » avec les balles de tennis).
+   de 6e (le 4ᵉ chiffre, après avoir neutralisé « la chose » avec la botte de radis).
 3. **Essence du savoir animalier** — le **choix moral**, seulement révélé quand on a déjà
    médaille + mélodie et qu'on tente l'orgue :
    - **voie juste** : retourner LOIN, en salle de Sciences, gagner le mini-jeu de la
@@ -104,9 +104,10 @@ semés au lancement, ramassables via « Ramasser »).
   à l'**église** dont l'issue est alors **condamnée** (`Exit.HiddenIfFlag`), et l'orgue n'offre
   plus que le **sacrifice** — inévitable. Loin de l'église exprès.
 - **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s, décompte visible).
-  Raccourci : verbes irréguliers (casier du couloir du 1er). Récompense : balles de tennis.
-- **Classe de 6e** : une balle de tennis distrait la chose → chargeur. Insister à mains nues
-  (2e tentative) = mort (avertissement à la 1re).
+  Raccourci : verbes irréguliers (casier du couloir du 1er). Récompense : une botte de radis
+  (la collation santé du prof).
+- **Classe de 6e** : la botte de radis distrait « la chose » (affamée de frais) → 4ᵉ chiffre du
+  code. Insister à mains nues (2e tentative) = mort (avertissement à la 1re).
 - **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (classe de Techno,
   accessible tôt sans verrou) = SMS d'un
   mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
@@ -133,8 +134,8 @@ Traversée : **lampe** (au sol au pied du portail, action « Ramasser »). Les t
      tout en haut) et propose le choix. Voie juste = y aller. Voie immorale = **sacrifier
      Lapinou** → **FIN IMMORALE**.
 
-Branche optionnelle : verbes irréguliers → prof de sport → balles → chose de la 6e → chargeur
-→ téléphone → SMS de « N. ».
+Branche 4e chiffre : verbes irréguliers (couloir 1er) → prof de sport → botte de radis → chose de la 6e → 4ᵉ chiffre du code.
+Branche téléphone : téléphone cassé (Français) + chargeur (Techno) → SMS de « N. ».
 
 Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef »,
 offrir la vieille laitue à Lapinou, insister à mains nues sur la chose de la 6e, cueillir et
