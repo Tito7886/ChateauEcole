@@ -68,6 +68,8 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
    - **voie juste** : retourner LOIN, en salle de Sciences, gagner le mini-jeu de la
      **grenouille** → `grenouille_morte`. Effort honnête.
    - **voie immorale** : **sacrifier Lapinou**, présent à l'orgue — immédiat, gratuit, cruel.
+   - **point de non-retour** : rater 2× le mini-jeu grenouille ferme la voie juste et **force**
+     le sacrifice (fin immorale « subie », renvoi à l'église, issue condamnée).
 
 **Traversée** : `lampe_torche` (posée **par terre au pied du portail**, à ramasser) pour
 franchir le passage vers l'église.
@@ -96,7 +98,10 @@ semés au lancement, ramassables via « Ramasser »).
   n'est montré qu'une fois, à sa découverte (pas de récapitulatif). Mauvais code = -2 pts, en
   silence. Data-driven (`codeLock` porté par la sortie dans world.json).
 - **Grenouille (Sciences)** : voie honnête de l'essence, débloquée seulement après avoir
-  tenté l'orgue (`sortie_tentee`). Best-of-3 aléatoire, retentable. Loin de l'église exprès.
+  tenté l'orgue (`sortie_tentee`). Best-of-3 aléatoire — mais elle peut **s'échapper** : au
+  **2e échec** elle disparaît pour de bon (`grenouille_perdue`), le joueur est renvoyé de force
+  à l'**église** dont l'issue est alors **condamnée** (`Exit.HiddenIfFlag`), et l'orgue n'offre
+  plus que le **sacrifice** — inévitable. Loin de l'église exprès.
 - **Prof de sport (Gymnase)** : fuite en 3 choix CHRONOMÉTRÉS (15 s, décompte visible).
   Raccourci : verbes irréguliers (casier du couloir du 1er). Récompense : balles de tennis.
 - **Classe de 6e** : une balle de tennis distrait la chose → chargeur. Insister à mains nues

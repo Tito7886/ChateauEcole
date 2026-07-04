@@ -591,7 +591,8 @@
       "exits": [
         {
           "target": "passage",
-          "label": "Retourner dans le passage sous-terrain"
+          "label": "Retourner dans le passage sous-terrain",
+          "hiddenIfFlag": "grenouille_perdue"
         }
       ],
       "specialActionId": "rituel_orgue",

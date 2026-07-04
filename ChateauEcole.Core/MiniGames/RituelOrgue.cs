@@ -59,6 +59,20 @@ public static class RituelOrgue
             return;
         }
 
+        // La grenouille a été perdue (2 échecs) : la voie honnête est morte, plus d'échappatoire.
+        if (s.Flags.Contains("grenouille_perdue"))
+        {
+            io.WriteLine("Mais la grenouille s'est enfuie, tu t'en souviens. Il n'y a plus de voie honnête. Plus de demi-tour.");
+            io.WriteLine("L'orgue réclame une créature, et il n'en reste qu'une, ici, contre ta jambe, qui te fait confiance.");
+            io.AskChoice("Il n'y a plus d'autre issue, et tu le sais.", new List<string>
+            {
+                "Sacrifier Lapinou.",
+                "Fermer les yeux... et le sacrifier quand même."
+            });
+            Sacrifier(engine, io);
+            return;
+        }
+
         io.WriteLine("Et là, tu le sens : Lapinou est contre ta jambe. Chaud. Confiant. Une créature. Le pupitre semble... exactement à sa taille.");
         int choix = io.AskChoice("La salle de Sciences est à l'autre bout du lycée. Six salles. Aller-retour. Ou bien...", new List<string>
         {
@@ -90,8 +104,13 @@ public static class RituelOrgue
             return;
         }
 
-        // FIN IMMORALE — l'épilogue frontal exigé par l'auteur.
-        s.LapinouSuit = false;
+        Sacrifier(engine, io);
+    }
+
+    /// <summary>FIN IMMORALE — l'épilogue frontal exigé par l'auteur.</summary>
+    private static void Sacrifier(GameEngine engine, IGameIO io)
+    {
+        engine.State.LapinouSuit = false;
         io.WriteLine();
         io.WriteLine(engine.T("Sacrifier un si gentil lapin. Si doux. Si jeune. Déjà si proche de toi — quelqu'un qui t'avait fait confiance, qui t'avait donné jusqu'au médaillon de son cou, qui te suivait partout sans se douter de rien."));
         io.WriteLine(engine.T("Tu es une personne immonde, {NOM}. Vraiment."));

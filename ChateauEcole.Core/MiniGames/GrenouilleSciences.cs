@@ -17,6 +17,11 @@ public static class GrenouilleSciences
             io.WriteLine("Le bocal de formol est vide : tu as déjà ta grenouille. Le prof de Sciences fixe le mur, immobile depuis 1912.");
             return;
         }
+        if (s.Flags.Contains("grenouille_perdue"))
+        {
+            io.WriteLine("Le bocal est fracassé, vide. La grenouille s'est échappée pour de bon. La voie honnête est morte — il ne te reste plus qu'une seule offrande possible.");
+            return;
+        }
 
         io.WriteLine("Sur la paillasse, un vieux bocal. À l'intérieur, LA grenouille de dissection — parfaitement");
         io.WriteLine("conservée, parfaitement morte, et pourtant elle BOUGE. « L'essence du savoir animalier »,");
@@ -53,11 +58,28 @@ public static class GrenouilleSciences
             io.WriteLine("Tu la coinces enfin au fond du filet. Elle cesse de bouger — vraiment, cette fois.");
             io.WriteLine("Le prof de Sciences hoche lentement la tête : « Le savoir a toujours un prix, petite. »");
             engine.AddItem("grenouille_morte");
+            return;
         }
-        else
+
+        // Échec : la grenouille s'échappe. Au 2e échec, elle disparaît DÉFINITIVEMENT.
+        int echecs = (engine.State.Counters.TryGetValue("grenouille_echecs", out int e) ? e : 0) + 1;
+        engine.State.Counters["grenouille_echecs"] = echecs;
+
+        if (echecs < 2)
         {
-            io.WriteLine("La grenouille se rétablit sous le bocal, narquoise. Ratée pour cette fois.");
-            io.WriteLine("Tu peux retenter ta chance — elle n'ira nulle part. Elle est là depuis un siècle.");
+            io.WriteLine("La grenouille file entre les mailles et se rétablit d'un bond, narquoise. Elle t'a échappé.");
+            io.WriteLine("Tu peux retenter — mais dépêche-toi. Une bête pareille ne restera pas coincée éternellement.");
+            return;
         }
+
+        // 2e échec : point de non-retour.
+        engine.State.Flags.Add("grenouille_perdue");
+        io.WriteLine();
+        io.WriteLine("Cette fois, la grenouille bondit trop loin — elle se faufile par une fissure du mur et DISPARAÎT.");
+        io.WriteLine("Le bocal roule à terre et se brise. C'était ta dernière chance de faire les choses proprement.");
+        io.WriteLine(engine.T("La voie honnête est morte, {NOM}. Il ne te reste qu'une seule chose à offrir à l'orgue... et elle trottine à tes côtés."));
+        io.WriteLine();
+        io.WriteLine("Tes jambes te portent malgré toi vers l'église. Tu ne décides plus rien, maintenant.");
+        engine.TeleportTo("eglise");
     }
 }

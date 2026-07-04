@@ -24,6 +24,9 @@ public class Exit
     /// <summary>La sortie n'apparaît pas dans la liste tant que ce flag n'est pas posé (passage secret).</summary>
     public string? HiddenUntilFlag { get; set; }
 
+    /// <summary>La sortie DISPARAÎT une fois ce flag posé (ex. issue condamnée : point de non-retour).</summary>
+    public string? HiddenIfFlag { get; set; }
+
     /// <summary>Texte narratif affiché quand la sortie est empruntée avec succès.</summary>
     public string? TransitionText { get; set; }
 

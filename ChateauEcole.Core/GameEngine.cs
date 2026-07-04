@@ -227,6 +227,8 @@ public class GameEngine
         {
             if (exit.HiddenUntilFlag != null && !State.Flags.Contains(exit.HiddenUntilFlag))
                 continue; // passage secret pas encore découvert
+            if (exit.HiddenIfFlag != null && State.Flags.Contains(exit.HiddenIfFlag))
+                continue; // issue condamnée (point de non-retour)
 
             Exit e = exit; // capture locale pour la lambda
             choices.Add((e.Label, () => TryExit(e)));
