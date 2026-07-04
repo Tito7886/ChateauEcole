@@ -40,7 +40,7 @@
             "bureau_fouille"
           ],
           "offersItem": "telephone_casse",
-          "text": "Tu soupèses le téléphone mort dans ta main. Le prendre, c'est encombrer ton sac pour un objet qui ne sert à rien... pour l'instant."
+          "text": "Tu soupèses le téléphone mort dans ta main. Le prendre, c'est encombrer ton sac pour un objet qui ne sert à rien..."
         },
         {
           "id": "inspecter_bibliotheque",
@@ -62,7 +62,7 @@
     {
       "id": "couloir_1er",
       "name": "Couloir du 1er étage",
-      "description": "Un long couloir silencieux. Les casiers cabossés s'alignent le long des murs. L'un d'eux respire doucement. Tu décides de ne pas vérifier lequel. Sur la porte de la classe de Maths, un post-it à moitié décollé, d'une écriture d'adulte pressée : « Bernard a une clef. Elle ne la lâche qu'en jouant. Commence par elle. »",
+      "description": "Un long couloir silencieux. Les casiers cabossés s'alignent le long des murs. L'un d'eux semble avoir montré une oreille verte.... Tu décides de ne pas vérifier lequel. Sur la porte de la classe de Maths, un post-it à moitié décollé, d'une écriture pressée : « Bernard ne la lâche qu'en jouant. »",
       "exits": [
         {
           "target": "couloir_2e",
@@ -127,8 +127,8 @@
         }
       ],
       "examine": {
-        "text": "Dans les archives, un dossier jauni sur l'histoire du lycée : d'anciennes « salles de correction » au sous-sol, murées puis rouvertes. Et une note au crayon : « l'aumônerie cache le passage vers Saint-Léger. C'est par là qu'ils sortaient. Ceux qui sortaient. »",
-        "repeatText": "Les archives n'ont plus de secret pour toi : le passage vers l'église se trouve du côté de l'aumônerie."
+        "text": "Dans les archives, un dossier jauni sur l'histoire du lycée : d'anciennes « salles de correction » au sous-sol, murées puis rouvertes. Et une note au crayon : « l'aumônerie cache quelquechose. Tous les indices convergent ici... »",
+        "repeatText": "Les archives n'ont plus de secret pour toi : l'aumônerie était déjà suspecte dans ton esprit... "
       }
     },
     {
@@ -144,7 +144,7 @@
       "examine": {
         "requiredItem": "masque_gaz",
         "deathWithoutItemMessage": "Tu te penches au-dessus de la cuvette. L'odeur te saisit à la gorge comme une main. Tes genoux lâchent, le carrelage monte vers toi, très vite. La dernière chose que tu entends, c'est la chasse d'eau. Personne n'a appuyé dessus.",
-        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Au fond de la dernière cabine, gravé profond dans le carrelage : « 2e chiffre du sous-sol : 1 ». Et en dessous, d'une autre main : « les autres sont chez le chef, et chez la vieille Bernard ». Tu notes le chiffre. Tu préfères ne pas savoir qui l'a gravé là, le masque sur le visage.",
+        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Au fond de la dernière cabine, gravé profond dans le carrelage : « 2e chiffre est : 1 ». Et en dessous, d'une autre main : « les autres sont ailleurs ! nyeh ! ». Tu notes le chiffre. Tu préfères ne pas savoir qui l'a gravé là, le masque sur le visage.",
         "repeatText": "Le carrelage porte toujours son « 1 » gravé. Tu as déjà le chiffre. C'est mieux de ne pas t'attarder.",
         "setsFlag": "fragment_2_trouve"
       }
@@ -173,7 +173,7 @@
         }
       ],
       "examine": {
-        "text": "Tu retournes la photo de classe. Au dos, une écriture appliquée : « la sortie exige lumière, médaille et mélodie ». Et en dessous, plus petit, d'une autre main : « dépêche-toi »."
+        "text": "Tu retournes la photo de classe. Au dos, une écriture appliquée : « la sortie exige gloire et mélodie ». Et en dessous, plus petit, d'une autre main : « nyeh! »."
       }
     },
     {
@@ -215,7 +215,7 @@
     {
       "id": "infirmerie",
       "name": "Infirmerie",
-      "description": "L'infirmerie est déserte. Les lits sont soigneusement faits. Sur le registre ouvert, la dernière ligne : ton prénom, {NOM}, écrit à la date d'aujourd'hui. Motif de la visite : laissé en blanc.",
+      "description": "L'infirmerie est déserte. Les lits sont soigneusement faits. Sur le registre ouvert, la dernière ligne : ton prénom, {NOM}, écrit à la date d'aujourd'hui. Motif de la visite : à définir prochainement.",
       "exits": [
         {
           "target": "couloir_2e",
@@ -230,7 +230,7 @@
     {
       "id": "couloir_rdc",
       "name": "Couloir du rez-de-chaussée",
-      "description": "Le hall principal du lycée. Les portes vitrées donnent sur la cour plongée dans la pénombre. Les panneaux d'affichage sont couverts de mots de la vie normale : sorties scolaires, menus de cantine. Ça semble très loin, la vie normale.",
+      "description": "Le hall principal du lycée. Les portes vitrées donnent sur la cour plongée dans la pénombre. Les panneaux d'affichage sont couverts de mots de la vie normale : sorties scolaires, menus de cantine, séances de torture avec Mme Leroy. Ça semble très loin, la vie normale.",
       "exits": [
         {
           "target": "couloir_1er",
@@ -273,7 +273,7 @@
         "emptyRecapText": "Tu n'as encore relevé aucun chiffre du code. Ils sont disséminés : là où on commande, là où on se lave les mains, là où la vieille Bernard fait joujou.",
         "recapHeader": "Les chiffres que tu as relevés jusqu'ici :",
         "fragments": [
-          { "flag": "fragment_1_trouve", "text": "1er chiffre : 9 (au dos de la photo de 1912, bureau du proviseur)" },
+          { "flag": "fragment_1_trouve", "text": "1er chiffre : 9 (au dos de la photo de 1914, bureau du proviseur)" },
           { "flag": "fragment_2_trouve", "text": "2e chiffre : 1 (gravé dans le carrelage des WC)" },
           { "flag": "fragment_3_trouve", "text": "3e chiffre : 2 (donné par Mme Bernard)" }
         ]
@@ -337,7 +337,7 @@
     {
       "id": "bureau_proviseur",
       "name": "Bureau du Proviseur",
-      "description": "Un bureau imposant en chêne massif, des diplômes encadrés aux murs. Tous au même nom. Toutes les décennies. Le même nom depuis 1912.",
+      "description": "Un bureau imposant en chêne massif, des diplômes encadrés aux murs. Tous au même nom. Toutes les décennies. Le même nom depuis 1914.",
       "exits": [
         {
           "target": "salle_profs",
@@ -346,14 +346,14 @@
       ],
       "examine": {
         "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : 9. Les deux autres sont là où on se lave les mains, et là où la vieille Bernard fait joujou. »",
-        "repeatText": "La photo de 1912 est toujours là, le « 9 » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
+        "repeatText": "La photo de 1914 est toujours là, le « 9 » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
         "setsFlag": "fragment_1_trouve"
       }
     },
     {
       "id": "classe_techno",
       "name": "Classe de Techno",
-      "description": "Des établis, des maquettes en balsa et des fers à souder bien rangés. Une maquette du lycée trône sur le bureau du prof. Dans la maquette, une minuscule silhouette se tient dans la classe de techno. Elle te ressemble.",
+      "description": "Des établis, des éthylomètres en arduino (... hein!) et des fers à souder bien rangés. Une maquette du lycée trône sur le bureau du prof. Dans la maquette, une minuscule silhouette se tient dans la classe de techno. Elle te ressemble.",
       "exits": [
         {
           "target": "couloir_rdc",
