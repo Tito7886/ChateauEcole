@@ -112,10 +112,11 @@ public static class RituelOrgue
     {
         engine.State.LapinouSuit = false;
         io.WriteLine();
-        io.WriteLine(engine.T("Sacrifier un si gentil lapin. Si doux. Si jeune. Déjà si proche de toi — quelqu'un qui t'avait fait confiance, qui t'avait donné jusqu'au médaillon de son cou, qui te suivait partout sans se douter de rien."));
-        io.WriteLine(engine.T("Tu es une personne immonde, {NOM}. Vraiment."));
+        io.Pause("[gris]— (tu retiens ton souffle) —[/gris]");
+        io.WriteSlow(engine.T("Sacrifier un si gentil lapin. Si doux. Si jeune. Déjà si proche de toi — quelqu'un qui t'avait fait confiance, qui t'avait donné jusqu'au médaillon de son cou, qui te suivait partout sans se douter de rien."));
+        io.WriteSlow(engine.T("Tu es une personne [rouge]immonde[/rouge], {NOM}. Vraiment."));
         io.WriteLine("...");
-        io.WriteLine(engine.T("Mais bon. La fin justifie les moyens. La porte s'ouvre en grinçant sur la nuit. Tu es sauvé(e). Bravo, {NOM}. Bravo."));
+        io.WriteSlow(engine.T("Mais bon. La fin justifie les moyens. La porte s'ouvre en grinçant sur la nuit. Tu es sauvé(e). Bravo, {NOM}. Bravo."));
         engine.EndImmoral();
     }
 }

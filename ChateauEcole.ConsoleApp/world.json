@@ -20,7 +20,7 @@
     {
       "id": "classe_francais",
       "name": "Classe de Français",
-      "description": "Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — depuis quand ? Tu te lèves, tu tournes la poignée de la porte du couloir : rien. Fermée à clef, de l'extérieur. Sur le tableau, une écriture tremblante à la craie : « COURS, {NOM} ». Tu n'as dit ton prénom à personne. Il va falloir trouver une autre issue — et pour ça, fouiller.",
+      "description": "[slow]Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — depuis quand ? Tu te lèves, tu tournes la poignée de la porte du couloir : rien. Fermée à clef, de l'extérieur. Sur le tableau, une écriture tremblante à la craie : « [rouge]COURS, {NOM}[/rouge] ». Tu n'as dit ton prénom à personne. Il va falloir trouver une autre issue — et pour ça, fouiller.",
       "exits": [
         {
           "target": "classe_histoire",
@@ -643,7 +643,7 @@
       "id": "eglise",
       "name": "Église Saint-Léger",
       "companionText": "Lapinou se serre contre ta jambe et fixe l'orgue sans bouger. Il tremble un peu. Comme s'il savait déjà quelque chose que tu ignores encore.",
-      "description": "Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le monde normal est juste derrière cette porte.",
+      "description": "[clear][slow]Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le [vert]monde normal[/vert] est juste derrière cette porte.[pause]",
       "exits": [
         {
           "target": "passage",

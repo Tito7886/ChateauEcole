@@ -56,6 +56,28 @@ public class GameEngine
         return text;
     }
 
+    /// <summary>
+    /// Affiche un texte de CONTENU (world.json) en interprétant les marqueurs d'effet
+    /// data-driven : [clear] efface l'écran avant, [slow] = machine à écrire, [pause] = pause
+    /// après. Les balises couleur ([rouge]...[/rouge]) restent dans le texte et sont rendues
+    /// par l'IO. Le Core reste agnostique : il n'appelle que des méthodes de IGameIO.
+    /// </summary>
+    private void Emit(string raw)
+    {
+        string text = T(raw);
+        bool clear = text.Contains("[clear]");
+        bool slow = text.Contains("[slow]");
+        bool pause = text.Contains("[pause]");
+        if (clear) text = text.Replace("[clear]", "");
+        if (slow) text = text.Replace("[slow]", "");
+        if (pause) text = text.Replace("[pause]", "");
+        text = text.Trim();
+
+        if (clear) _io.Clear();
+        if (slow) _io.WriteSlow(text); else _io.WriteLine(text);
+        if (pause) _io.Pause();
+    }
+
     // ------------------------------------------------------------------
     // Boucle principale
     // ------------------------------------------------------------------
@@ -204,7 +226,7 @@ public class GameEngine
         string visitedFlag = "visited_" + room.Id;
         if (!State.Flags.Contains(visitedFlag))
         {
-            _io.WriteLine(T(room.Description));
+            Emit(room.Description);
             State.Flags.Add(visitedFlag);
         }
         else
@@ -212,7 +234,7 @@ public class GameEngine
             // La salle a-t-elle changé depuis ? (prof vaincu, chose partie...)
             var etat = room.StateTexts.FirstOrDefault(st => State.Flags.Contains(st.Flag));
             if (etat != null)
-                _io.WriteLine(T(etat.Text));
+                Emit(etat.Text);
         }
 
         // Compagnon : présence affichée par le moteur, avec une réplique propre à la salle si définie.
@@ -349,7 +371,7 @@ public class GameEngine
 
         string? transition = bypass ? (exit.BypassTransitionText ?? exit.TransitionText) : exit.TransitionText;
         if (transition != null)
-            _io.WriteLine(T(transition));
+            Emit(transition);
 
         if (exit.Target == "VICTOIRE")
         {
@@ -397,7 +419,7 @@ public class GameEngine
             return;
         }
 
-        _io.WriteLine(T(dejaFouille && ex.RepeatText != null ? ex.RepeatText : ex.Text));
+        Emit(dejaFouille && ex.RepeatText != null ? ex.RepeatText : ex.Text);
 
         if (!dejaFouille)
         {
@@ -498,7 +520,7 @@ public class GameEngine
     private void DoAction(Room room, RoomAction action)
     {
         bool dejaFait = State.Flags.Contains(ActionDoneFlag(room, action));
-        _io.WriteLine(T(dejaFait && action.RepeatText != null ? action.RepeatText : action.Text));
+        Emit(dejaFait && action.RepeatText != null ? action.RepeatText : action.Text);
 
         // Action mortelle (ex. offrir la laitue à Lapinou) : rien n'est accordé, le joueur meurt.
         if (action.DeadlyMessage != null)
@@ -736,7 +758,7 @@ public class GameEngine
 
     public void Die(string message)
     {
-        _io.WriteLine(T(message));
+        _io.WriteSlow(T(message)); // machine à écrire : poids dramatique de la mort
         _io.WriteLine();
         _io.WriteLine("* Le lycée devient très silencieux.");
         _io.WriteLine(T("* Quelle négligence, {NOM}..."));

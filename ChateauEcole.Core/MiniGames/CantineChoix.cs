@@ -76,8 +76,9 @@ public static class CantineChoix
 
             case "surprise":
                 io.WriteLine("Le menu la soulignait trois fois. Trois mains différentes. Tu soulèves quand même la cloche.");
-                io.WriteLine("...");
-                engine.Die("Sous la cloche, la « Surprise du chef » te regarde. Puis elle sourit. Tu n'avais jamais vu un plat sourire. Tu ne verras plus jamais rien d'autre. Quelque part dans le lycée, un chef est très, très fier de lui.");
+                io.WriteSlow("...");
+                io.Pause();
+                engine.Die("Sous la cloche, la « Surprise du chef » te regarde. Puis elle [rouge]sourit[/rouge]. Tu n'avais jamais vu un plat sourire. Tu ne verras plus jamais rien d'autre. Quelque part dans le lycée, un chef est très, très fier de lui.");
                 break;
 
             default:

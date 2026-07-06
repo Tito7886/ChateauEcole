@@ -158,6 +158,35 @@ semés au lancement, ramassables via « Ramasser »).
 - **Easter eggs Nestor** : oreilles vertes fugaces, ombre verte, « N... ce bg de ouf ! »
   disséminés dans les salles d'ambiance. Jamais expliqués.
 
+## Effets d'affichage (couleur, machine à écrire, pauses)
+
+Tous les effets sont portés par `IGameIO` et implémentés **uniquement** dans `ConsoleIO`
+(le Core ne connaît toujours ni `System.Console` ni la notion de couleur). Ils **se
+dégradent proprement** quand la sortie/entrée est redirigée (tests, pipes) : pas de
+couleur, pas d'attente, pas de blocage, texte brut sans balise.
+
+- **Couleur par balises inline** : `[rouge]…[/rouge]` (et `vert`, `bleu`, `jaune`, `cyan`,
+  `magenta`, `gris`, `blanc` ; fermeture générique `[/]`). Interprétées **au niveau de
+  `WriteLine`**, donc **toutes** les lignes (world.json comme mini-jeux C#) sont colorées
+  de la même façon. Balise inconnue ou mal fermée = rendue littéralement, **jamais de
+  plantage**. Fonction unique `ConsoleIO.StripTags(text)` pour obtenir le texte brut
+  (mode redirigé, saisies) — les balises ne s'affichent jamais telles quelles en console.
+- **Machine à écrire** : `WriteSlow(text, msParCaractère = 30)` — égrène les caractères
+  visibles (les balises sont parsées d'abord, la couleur est respectée). Toujours joué
+  jusqu'au bout (non interruptible) ; **instantané** si la sortie est redirigée.
+- **Pauses / effacement** : `Pause(message?)` (« — Appuie sur une touche pour continuer — »
+  par défaut, ne bloque pas si l'entrée est redirigée), `PauseThenClear(message?)`,
+  `WaitThenClear(secondes)` (aucune attente si redirigé) et `Clear()`.
+- **Déclenché des deux côtés** :
+  - **En C#**, les mini-jeux appellent directement les méthodes et posent des balises
+    couleur (ex. sacrifice de l'orgue : `WriteSlow` + `Pause` + « [rouge]immonde[/rouge] » ;
+    fuite de la grenouille : `PauseThenClear` avant le renvoi à l'église ; morts de la
+    cantine avec `WriteSlow` + `Pause`).
+  - **En data (world.json)**, la couleur est libre (via `WriteLine`), et trois **marqueurs
+    inline** pilotent les effets sur les textes de salles/actions/examens : `[clear]`
+    (efface l'écran avant), `[slow]` (machine à écrire), `[pause]` (attend une touche après).
+    Le moteur les interprète dans `GameEngine.Emit()` puis les retire du texte.
+
 ## Solution du jeu (spoiler)
 
 Traversée : **lampe** (au sol au pied du portail, action « Ramasser »). Les trois éléments de l'orgue, dans n'importe quel ordre :
@@ -191,4 +220,8 @@ Le moteur ne connaissant que `IGameIO`, la version graphique consiste à :
    Alternative : MonoGame (plus standard, plus de plomberie).
 3. Implémenter `IGameIO` : les textes s'affichent dans un panneau, les choix deviennent
    des boutons ou une liste navigable au clavier ; ajouter un sprite de salle par `roomId`.
+   Les effets d'affichage sont déjà abstraits : la couleur des balises `[rouge]…[/rouge]`
+   devient une couleur de police, `WriteSlow` une animation de texte, `Pause`/`Clear` une
+   transition d'écran — la même API sert au rendu graphique (réutiliser la logique de
+   `StripTags`/segments pour parser les balises).
 Aucune modification du Core ni de world.json n'est nécessaire.

@@ -75,11 +75,11 @@ public static class GrenouilleSciences
         // 2e échec : point de non-retour.
         engine.State.Flags.Add("grenouille_perdue");
         io.WriteLine();
-        io.WriteLine("Cette fois, la grenouille bondit trop loin — elle se faufile par une fissure du mur et DISPARAÎT.");
+        io.WriteSlow("Cette fois, la grenouille bondit trop loin — elle se faufile par une fissure du mur et [rouge]DISPARAÎT[/rouge].");
         io.WriteLine("Le bocal roule à terre et se brise. C'était ta dernière chance de faire les choses proprement.");
-        io.WriteLine(engine.T("La voie honnête est morte, {NOM}. Il ne te reste qu'une seule chose à offrir à l'orgue... et elle trottine à tes côtés."));
-        io.WriteLine();
-        io.WriteLine("Tes jambes te portent malgré toi vers l'église. Tu ne décides plus rien, maintenant.");
+        io.WriteSlow(engine.T("La voie honnête est morte, {NOM}. Il ne te reste qu'une seule chose à offrir à l'orgue... et elle trottine à tes côtés."));
+        io.PauseThenClear();
+        io.WriteSlow("Tes jambes te portent malgré toi vers l'église. Tu ne décides plus rien, maintenant.");
         engine.TeleportTo("eglise");
     }
 }
