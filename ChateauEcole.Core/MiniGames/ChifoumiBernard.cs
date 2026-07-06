@@ -69,9 +69,12 @@ public static class ChifoumiBernard
 
         if (joueurWins > bernardWins)
         {
-            io.WriteLine("Mme Bernard : « Bravo Bichette, félicitations ! Tu sais quoi ? Le proviseur adorait les codes. »");
-            io.WriteLine("Elle griffonne un chiffre sur un coin de copie et te le tend :");
-            io.WriteLine(engine.T("* « Le TROISIÈME chiffre c'est un {CODE3}. Ne le perds pas, Bichette. »"));
+            // Le 3e chiffre n'est PLUS donné en clair : Bernard le déguise en petit calcul.
+            int code3 = engine.State.CodeCombination.Length == 4 ? engine.State.CodeCombination[2] - '0' : 0;
+            var (phrase, _) = GenererCalcul(code3);
+            io.WriteLine("Mme Bernard : « Bravo Bichette, félicitations ! Tu sais quoi ? Le proviseur ADORAIT les codes. »");
+            io.WriteLine("Mme Bernard : « Le 3e chiffre de la serrure du sous-sol ? Pour une matheuse comme toi, c'est cadeau : »");
+            io.WriteLine($"* « C'est {phrase}. Débrouille-toi, Bichette. Et note-le, je ne le répéterai pas. »");
             engine.State.Flags.Add("fragment_3_trouve");
             engine.State.Flags.Add("bernard_vaincue");
         }
@@ -82,5 +85,41 @@ public static class ChifoumiBernard
             io.WriteLine("Désolé Bichette, mais Mme Bernard est trop forte !");
             io.WriteLine("Elle te raccompagne gentiment à la porte... Retente ta chance plus tard.");
         }
+    }
+
+    /// <summary>
+    /// Génère un petit calcul (« a moins b », « a plus b » ou « a fois b ») dont le résultat
+    /// vaut EXACTEMENT <paramref name="chiffre"/> (0-9), faisable de tête, non ambigu.
+    /// La soustraction est toujours disponible (fallback garanti). Public pour le test.
+    /// </summary>
+    public static (string Phrase, int Resultat) GenererCalcul(int chiffre)
+    {
+        string[] mots = { "zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
+                          "huit", "neuf", "dix", "onze", "douze" };
+        var candidats = new List<string>();
+
+        // Soustraction : a - b = chiffre (a <= 12, b >= 1) — toujours au moins une possibilité.
+        for (int b = 1; b <= 9; b++)
+        {
+            int a = chiffre + b;
+            if (a <= 12) candidats.Add($"{mots[a]} moins {mots[b]}");
+        }
+        // Addition : a + b = chiffre (a, b >= 1) — pour chiffre >= 2.
+        for (int a = 1; a < chiffre; a++)
+        {
+            int b = chiffre - a;
+            if (b >= 1 && b <= 9) candidats.Add($"{mots[a]} plus {mots[b]}");
+        }
+        // Multiplication : x * y = chiffre (x, y >= 2) — pour 4, 6, 8, 9.
+        for (int x = 2; x <= 9; x++)
+        {
+            if (chiffre % x == 0)
+            {
+                int y = chiffre / x;
+                if (y >= 2 && y <= 9) candidats.Add($"{mots[x]} fois {mots[y]}");
+            }
+        }
+
+        return (candidats[Random.Shared.Next(candidats.Count)], chiffre);
     }
 }

@@ -87,9 +87,12 @@ Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut 
    **carotte** (cuisines de la cantine). Il te confie son médaillon et **te suit** ensuite
    (compagnon, `GameState.LapinouSuit`, invulnérable). **Seule source** du médaillon.
 2. **Mélodie** — `partition` : salle de Musique, au sous-sol, derrière une **serrure à
-   code 4 chiffres** (tiré au sort à chaque partie). Les 4 chiffres sont des **fragments** à récolter
-   (indices croisés) : bureau du proviseur, toilettes avec masque, chifoumi de Bernard, et classe
-   de 6e (le 4ᵉ chiffre, après avoir neutralisé « la chose » avec la botte de radis).
+   code 4 chiffres** (tiré au sort à chaque partie). Les 4 chiffres ne sont plus donnés en clair :
+   ils sont **DÉDUCTIBLES** à partir d'infos affichées (le joueur note sur papier) —
+   **1** = dernière décimale de l'année de fondation (« depuis 191X », diplômes du bureau) ;
+   **2** = nombre de griffures autour de la porte du sous-sol (visible depuis le couloir avant
+   d'ouvrir) ; **3** = un petit calcul donné par Mme Bernard (« neuf moins deux ») ; **4** =
+   semi-direct au fond de la 6e (après avoir neutralisé « la chose » avec la botte de radis).
 3. **Essence du savoir animalier** — le **choix moral**, seulement révélé quand on a déjà
    médaille + mélodie et qu'on tente l'orgue :
    - **voie juste** : retourner LOIN, en salle de Sciences, gagner le mini-jeu de la
@@ -110,20 +113,30 @@ Nouvelles capacités moteur : **serrure à code** générique portée par une so
 (`GameState.LapinouSuit`, avec réplique de présence variable par salle via `Room.CompanionText`),
 **deux fins** (`EndJuste`/`EndImmoral` + marque de score), action générique enrichie
 (`RequiredItem`/`ConsumesItem`/`SetsCompanion`/`DeadlyMessage`), gating d'action spéciale
-(`SpecialActionRequiredFlag`), **objets au sol initiaux** déclarés en JSON (`Room.FloorItems`,
+(`SpecialActionRequiredFlag`), **combinaisons d'objets** data-driven (`WorldData.Combinations`
++ `Room.DecorTargets` : action « Combiner / utiliser un objet » qui apparie deux objets, ou un
+objet et un élément de décor ; rien ne dit quoi combiner, c'est à déduire), **objets au sol
+initiaux** déclarés en JSON (`Room.FloorItems`,
 semés au lancement, ramassables via « Ramasser »).
 
 ## Mini-jeux et contenu optionnel
 
-- **Mme Bernard (Maths)** : chifoumi. Récompense = **3e chiffre du code** (fragment_3).
-  Aléatoire à la 1re visite, défi GARANTI dès la 2e (pity timer). Post-it du couloir du 1er.
-  Perdre coûte -2 pts, en silence (aucun message).
+- **Combinaisons (réflexion)** : action « Combiner / utiliser un objet » — choisir un objet,
+  puis une cible (autre objet OU élément de décor de la salle). Le moteur cherche une recette ;
+  sinon « Ça ne donne rien ». Rien n'indique quoi combiner : ça se déduit des descriptions.
+  Recettes : **téléphone + chargeur** = allumage (NÉCESSAIRE — le téléphone ne s'allume plus tout
+  seul) ; et des recettes loufoques/bonus (radis + masque = +5 ; laitue + sandwich = -2 ; grenouille
+  + partition = +2 ; **craie** + tableau = inscription cachée +2 par tableau ; lampe + ombre du
+  marronnier = frisson). Aucune recette loufoque ne consomme un objet nécessaire (anti-softlock).
+  La **craie** se trouve en Histoire (rebord du tableau), sans usage de progression.
+- **Mme Bernard (Maths)** : chifoumi. Récompense = **3e chiffre du code**, donné sous forme d'un
+  **petit calcul** (« neuf moins deux ») à résoudre de tête (générateur `GenererCalcul`, résultat
+  garanti = le chiffre). Aléatoire à la 1re visite, défi GARANTI dès la 2e. Perdre = -2 pts silencieux.
 - **Serrure du sous-sol** : le clavier n'apparaît que lorsqu'on **tente** la porte encore
   verrouillée ; composer les 4 chiffres. **La combinaison est tirée au sort à chaque partie**
-  (stockée dans `GameState.CodeCombination`, sérialisée ; exposée aux textes via les
-  placeholders `{CODE1}`/`{CODE2}`/`{CODE3}`, et `{CODE}` pour la serrure). Chaque chiffre
-  n'est montré qu'une fois, à sa découverte (pas de récapitulatif). Mauvais code = -2 pts, en
-  silence. Data-driven (`codeLock` porté par la sortie dans world.json).
+  (`GameState.CodeCombination`, sérialisée ; placeholders `{CODE1..4}` et `{CODE}`). Les chiffres
+  ne sont plus affichés en clair : ils se **déduisent** (année, griffures, calcul de Bernard, 6e).
+  Mauvais code = -2 pts, en silence. Data-driven (`codeLock` porté par la sortie).
 - **Grenouille (Sciences)** : voie honnête de l'essence, débloquée seulement après avoir
   tenté l'orgue (`sortie_tentee`). Best-of-3 aléatoire — mais elle peut **s'échapper** : au
   **2e échec** elle disparaît pour de bon (`grenouille_perdue`), le joueur est renvoyé de force
@@ -134,8 +147,8 @@ semés au lancement, ramassables via « Ramasser »).
   (la collation santé du prof).
 - **Classe de 6e** : la botte de radis distrait « la chose » (affamée de frais) → 4ᵉ chiffre du
   code. Insister à mains nues (2e tentative) = mort (avertissement à la 1re).
-- **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (classe de Techno,
-  accessible tôt sans verrou) = SMS d'un
+- **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (Techno) à **combiner**
+  volontairement (recette « tutoriel ») = téléphone allumé, puis SMS d'un
   mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
   doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le passage.
 - **Cantine** : sandwich (surveillant → bureau) et, pour Lapinou, **soit la carotte, soit une

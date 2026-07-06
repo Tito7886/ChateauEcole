@@ -260,6 +260,9 @@ public class GameEngine
         if (State.FloorItems.TryGetValue(room.Id, out var atSol) && atSol.Count > 0)
             choices.Add(("Ramasser (objets au sol)", () => DoPickUp(room)));
 
+        if (State.Inventory.Count > 0)
+            choices.Add(("Combiner / utiliser un objet", () => DoCombine(room)));
+
         choices.Add(("Inventaire", ShowInventory));
 
         int idx = _io.AskChoice(
@@ -273,24 +276,14 @@ public class GameEngine
     }
 
     /// <summary>
-    /// Après chaque action : allumage du téléphone (téléphone cassé + chargeur),
-    /// puis envoi d'au plus UN SMS de « R. » dont les conditions sont réunies.
+    /// Après chaque action : envoi d'au plus UN SMS de « N. » dont les conditions sont réunies.
+    /// Le téléphone ne s'allume PLUS automatiquement : il faut combiner téléphone + chargeur
+    /// (recette « tutoriel »), ce qui pose le flag « telephone_charge ».
     /// </summary>
     private void CheckPhoneAndSms()
     {
         if (State.IsDead || State.IsVictory) return;
-
-        if (!State.Flags.Contains("telephone_charge"))
-        {
-            if (State.Inventory.Contains("telephone_casse") && State.Inventory.Contains("chargeur"))
-            {
-                State.Flags.Add("telephone_charge");
-                _io.WriteLine();
-                _io.WriteLine("* Tu branches le chargeur sur une prise murale. L'écran fissuré s'allume en grésillant.");
-                _io.WriteLine("* Ton téléphone est de nouveau en vie. Enfin... « en vie ».");
-            }
-            return;
-        }
+        if (!State.Flags.Contains("telephone_charge")) return; // téléphone pas encore allumé
 
         foreach (var sms in _world.Sms)
         {
@@ -535,6 +528,104 @@ public class GameEngine
 
         if (!action.Repeatable)
             State.Flags.Add(ActionDoneFlag(room, action));
+    }
+
+    // ------------------------------------------------------------------
+    // Combinaisons d'objets (objet+objet, objet+décor) — data-driven
+    // ------------------------------------------------------------------
+
+    /// <summary>Action « Combiner » : choisir un objet, puis une cible (objet ou décor).</summary>
+    private void DoCombine(Room room)
+    {
+        if (State.Inventory.Count == 0)
+        {
+            _io.WriteLine("Tu n'as rien à combiner.");
+            return;
+        }
+
+        // 1) Choisir le premier ingrédient (un objet de l'inventaire).
+        var invOptions = State.Inventory.Select(ItemName).ToList();
+        invOptions.Add("Annuler");
+        int a = _io.AskChoice("Utiliser quel objet ?", invOptions);
+        if (a >= State.Inventory.Count) return;
+        string itemA = State.Inventory[a];
+
+        // 2) Choisir la cible : autre objet de l'inventaire OU élément de décor de la salle.
+        var targets = new List<(string Label, string Id, bool Decor)>();
+        foreach (string it in State.Inventory)
+            if (it != itemA) targets.Add(($"Objet : {ItemName(it)}", it, false));
+        foreach (DecorTarget d in room.DecorTargets)
+            targets.Add((d.Label, d.Id, true));
+
+        if (targets.Count == 0)
+        {
+            _io.WriteLine("Il n'y a rien ici sur quoi l'utiliser.");
+            return;
+        }
+
+        var targetOptions = targets.Select(t => t.Label).ToList();
+        targetOptions.Add("Annuler");
+        int b = _io.AskChoice($"Utiliser {ItemName(itemA)} sur quoi ?", targetOptions);
+        if (b >= targets.Count) return;
+        var target = targets[b];
+
+        // 3) Chercher une recette (ordre indifférent) et l'appliquer.
+        Combination? recipe = _world.Combinations.FirstOrDefault(c =>
+            (c.ItemA == itemA && c.ItemB == target.Id) ||
+            (c.ItemA == target.Id && c.ItemB == itemA));
+
+        if (recipe == null)
+        {
+            _io.WriteLine("Ça ne donne rien. (Ou alors ce n'est pas le bon geste.)");
+            return;
+        }
+
+        ApplyCombination(recipe, room, target.Decor);
+    }
+
+    private void ApplyCombination(Combination recipe, Room room, bool targetIsDecor)
+    {
+        // Clé « déjà fait » : par salle pour les combos décor (ex. craie sur CHAQUE tableau),
+        // globale pour les combos objet+objet.
+        string pair = string.CompareOrdinal(recipe.ItemA, recipe.ItemB) <= 0
+            ? $"{recipe.ItemA}+{recipe.ItemB}" : $"{recipe.ItemB}+{recipe.ItemA}";
+        string doneFlag = targetIsDecor ? $"combo:{room.Id}:{pair}" : $"combo:{pair}";
+        bool firstTime = !State.Flags.Contains(doneFlag);
+
+        if (!firstTime)
+        {
+            if (!recipe.Repeatable)
+            {
+                _io.WriteLine("Tu as déjà tenté ça. Une fois suffisait largement.");
+                return;
+            }
+            _io.WriteLine(T(recipe.ResultText)); // répétable : on réaffiche, sans re-récompense
+            return;
+        }
+
+        _io.WriteLine(T(recipe.ResultText));
+
+        if (recipe.Deadly)
+        {
+            Die(recipe.DeathMessage ?? "La combinaison t'a été fatale.");
+            return;
+        }
+
+        if (recipe.ScoreDelta != 0)
+        {
+            State.Score += recipe.ScoreDelta;
+            _io.WriteLine(recipe.ScoreDelta > 0 ? $"(+{recipe.ScoreDelta} pts)" : $"({recipe.ScoreDelta} pts)");
+        }
+        foreach (string it in recipe.RemovesItems)
+            if (State.Inventory.Remove(it))
+                _io.WriteLine($"Vous utilisez : {ItemName(it)}");
+        foreach (string it in recipe.GrantsItems)
+            if (!AcquireOrSwap(it))
+                DropToFloor(State.CurrentRoomId, it);
+        if (recipe.SetsFlag != null)
+            State.Flags.Add(recipe.SetsFlag);
+
+        State.Flags.Add(doneFlag);
     }
 
     // ------------------------------------------------------------------

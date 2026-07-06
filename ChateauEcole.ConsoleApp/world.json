@@ -13,7 +13,8 @@
     "telephone_casse": "Téléphone portable (écran fissuré, batterie morte)",
     "chargeur": "Chargeur de téléphone",
     "radis": "Botte de radis (frais, croquants)",
-    "cours_anglais": "Feuille de verbes irréguliers anglais"
+    "cours_anglais": "Feuille de verbes irréguliers anglais",
+    "craie": "Bâton de craie"
   },
   "rooms": [
     {
@@ -59,6 +60,9 @@
           "setsFlag": "passage_secret_francais",
           "text": "Tu cales l'épaule contre la bibliothèque et tu pousses. Elle glisse sur son rail dans un grondement sourd, révélant un panneau descellé dans le mur : un passage étroit vers la classe d'Histoire. Le courant d'air froid t'accueille comme une porte qu'on t'aurait laissée ouverte exprès."
         }
+      ],
+      "decorTargets": [
+        { "id": "tableau", "label": "Le tableau noir (« COURS ... » à la craie)" }
       ]
     },
     {
@@ -129,9 +133,15 @@
         }
       ],
       "examine": {
-        "text": "Dans les archives, un dossier jauni sur l'histoire du lycée : d'anciennes « salles de correction » au sous-sol, murées puis rouvertes. Et une note au crayon : « l'aumônerie cache quelquechose. Tous les indices convergent ici... »",
-        "repeatText": "Les archives n'ont plus de secret pour toi : l'aumônerie était déjà suspecte dans ton esprit... "
-      }
+        "text": "Dans les archives, un dossier jauni sur l'histoire du lycée : d'anciennes « salles de correction » au sous-sol, murées puis rouvertes. Et une note au crayon : « l'aumônerie cache quelquechose. Tous les indices convergent ici... » Sur le rebord du tableau traîne un bâton de craie encore utilisable. Tu le prends — on ne sait jamais.",
+        "repeatText": "Les archives n'ont plus de secret pour toi : l'aumônerie était déjà suspecte dans ton esprit... Le rebord du tableau est vide, tu as déjà pris la craie.",
+        "grantsItems": [
+          "craie"
+        ]
+      },
+      "decorTargets": [
+        { "id": "tableau", "label": "Le tableau noir de la classe d'Histoire" }
+      ]
     },
     {
       "id": "toilettes",
@@ -146,8 +156,8 @@
       "examine": {
         "requiredItem": "masque_gaz",
         "deathWithoutItemMessage": "Tu te penches au-dessus de la cuvette. L'odeur te saisit à la gorge comme une main. Tes genoux lâchent, le carrelage monte vers toi, très vite. La dernière chose que tu entends, c'est la chasse d'eau. Personne n'a appuyé dessus.",
-        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Au fond de la dernière cabine, gravé profond dans le carrelage : « 2e chiffre est : {CODE2} ». Et en dessous, d'une autre main : « les autres sont ailleurs ! nyeh ! ». Tu notes le chiffre. Tu préfères ne pas savoir qui l'a gravé là, le masque sur le visage.",
-        "repeatText": "Le carrelage porte toujours son « {CODE2} » gravé. Tu as déjà le chiffre. C'est mieux de ne pas t'attarder.",
+        "text": "Protégée par le masque à gaz, tu fouilles sans crainte... Au fond de la dernière cabine, gravée profond dans le carrelage, une énigme : « le 2e chiffre du code, c'est le nombre de griffures autour de la porte du sous-sol. Compte-les avant d'ouvrir, si tu l'oses. » En dessous, d'une autre main : « les autres sont ailleurs ! nyeh ! ». Tu préfères ne pas savoir qui a gravé ça, le masque sur le visage.",
+        "repeatText": "L'énigme est toujours gravée dans le carrelage : « le nombre de griffures autour de la porte du sous-sol ». Elles sont visibles depuis le couloir, avant même d'ouvrir. C'est mieux de ne pas t'attarder ici.",
         "setsFlag": "fragment_2_trouve"
       }
     },
@@ -204,12 +214,29 @@
           "label": "Retour au couloir"
         }
       ],
+      "actions": [
+        {
+          "id": "inspecter_paillasses",
+          "label": "Inspecter les paillasses et les placards",
+          "setsFlag": "sciences_inspecte",
+          "text": "Tu longes les paillasses en observant vraiment, cette fois. Rien à emporter à l'œil nu... mais entre deux plans de travail, un placard métallique bas, à demi caché, porte une étiquette rouge : « SÉCURITÉ — NIVEAU 3 ». Il est juste poussé, pas verrouillé.",
+          "repeatText": "Le placard « SÉCURITÉ NIVEAU 3 » est toujours là, entre deux paillasses. Il n'attend que d'être fouillé."
+        },
+        {
+          "id": "fouiller_placard_securite",
+          "label": "Fouiller le placard « SÉCURITÉ NIVEAU 3 »",
+          "requiredFlags": [
+            "sciences_inspecte"
+          ],
+          "grantsItems": [
+            "masque_gaz"
+          ],
+          "text": "Tu ouvres le placard bas. À l'intérieur, un masque à gaz en parfait état. L'étiquette indique : « En cas d'incident de niveau 3, NE PAS chercher à comprendre. Mettre le masque. Marcher vite. » Tu l'emportes."
+        }
+      ],
       "examine": {
-        "text": "Dans un placard entre deux paillasses, un masque à gaz en parfait état. L'étiquette indique : « En cas d'incident de niveau 3, NE PAS chercher à comprendre. Mettre le masque. Marcher vite. »",
-        "repeatText": "Rien d'autre d'utile. L'eau de l'aquarium a bougé, mais tu choisis de ne pas l'avoir vu.",
-        "grantsItems": [
-          "masque_gaz"
-        ]
+        "text": "Béchers, éprouvettes, une odeur de soufre. Au premier regard, rien à prendre — il faudrait vraiment inspecter les recoins pour trouver quelque chose d'utile.",
+        "repeatText": "L'eau de l'aquarium a bougé, mais tu choisis de ne pas l'avoir vu."
       },
       "specialActionId": "grenouille_sciences",
       "specialActionLabel": "Attraper la grenouille du bocal",
@@ -257,7 +284,7 @@
           "requiredFlags": [
             "soussol_ouvert"
           ],
-          "lockedMessage": "La porte du sous-sol n'a plus de serrure rouillée : on l'a remplacée par un clavier à combinaison, quatre chiffres, tout neuf au milieu de la crasse. Quelqu'un a écrit dessous : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ».",
+          "lockedMessage": "La porte du sous-sol n'a plus de serrure rouillée : on l'a remplacée par un clavier à combinaison, quatre chiffres, tout neuf au milieu de la crasse. Quelqu'un a écrit dessous : « laissez-le fermé ». Quelqu'un d'autre a rayé le mot « fermé ». Autour du chambranle, des griffures profondes zèbrent la pierre — tu en comptes exactement {CODE2}. Tu regrettes aussitôt de les avoir comptées.",
           "transitionText": "La combinaison acceptée, le pêne coulisse. La porte du sous-sol s'ouvre en grinçant, et l'air froid qui monte sent la pierre humide et les vieux souvenirs.",
           "codeLock": {
             "combination": "{CODE}",
@@ -330,7 +357,7 @@
     {
       "id": "bureau_proviseur",
       "name": "Bureau du Proviseur",
-      "description": "Un bureau imposant en chêne massif, des diplômes encadrés aux murs. Tous au même nom. Toutes les décennies. Le même nom depuis 1914.",
+      "description": "Un bureau imposant en chêne massif, des diplômes encadrés aux murs. Tous au même nom. Toutes les décennies. Le même nom depuis 191{CODE1}.",
       "exits": [
         {
           "target": "salle_profs",
@@ -338,8 +365,8 @@
         }
       ],
       "examine": {
-        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravé à la pointe, plus récent : « 1er chiffre du code : {CODE1}. Les trois autres sont là où on se lave les mains, là où les probabilités se font agaçantes, et là où les petits de 6e regardent le fond de la classe. »",
-        "repeatText": "La photo de 1914 est toujours là, le « {CODE1} » gravé au dos. Le Proviseur, lui, semble te fixer un peu plus à chaque visite.",
+        "text": "Sur le bureau, une photo ancienne : le Proviseur devant l'orgue de l'église Saint-Léger, tenant un médaillon doré et une partition. Tu la retournes. Au dos, deux écritures. L'ancienne : « le passage sous l'aumônerie mène à la sortie. Je referme tout derrière moi. Pardon à ceux qui restent. » Et gravée à la pointe, plus récente, une énigme : « le 1er chiffre du code, c'est la dernière décimale de l'année où tout a commencé. Les trois autres sont là où on se lave les mains, là où les probabilités se font agaçantes, et là où les petits de 6e regardent le fond de la classe. »",
+        "repeatText": "La photo est toujours là, l'énigme au dos aussi : « la dernière décimale de l'année où tout a commencé ». Le Proviseur, lui, semble te fixer un peu plus à chaque visite. (L'année est affichée sur ses diplômes, au mur.)",
         "setsFlag": "fragment_1_trouve"
       }
     },
@@ -365,7 +392,7 @@
       "id": "sous_sol",
       "name": "Sous-sol",
       "companionText": "Lapinou hésite en haut des marches, puis descend en te collant, ses petites griffes cliquetant sur la pierre humide.",
-      "description": "Un sous-sol sombre et humide. Les anciennes « salles de torture... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie (du sang?! des larmes séchées?!) : « Bureau de Mme Roy ». Sur le mur, des rayures parallèles, à hauteur de main. Beaucoup de rayures.",
+      "description": "Un sous-sol sombre et humide. Les anciennes « salles de torture... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie (du sang?! des larmes séchées?!) : « Bureau de Mme Roy ». Sur les murs, les mêmes griffures parallèles que celles du chambranle, là-haut. Tu ne les recomptes pas : une fois suffisait.",
       "exits": [
         {
           "target": "couloir_rdc",
@@ -462,7 +489,10 @@
       ],
       "examine": {
         "text": "Sur le tronc du marronnier, une gravure ancienne : une flèche pointant vers l'aumônerie, surmontée d'une petite croix. En dessous, des initiales et des dates. Les dates s'arrêtent toujours au même jour de l'année. Aujourd'hui, c'est ce jour-là."
-      }
+      },
+      "decorTargets": [
+        { "id": "ombre_marronnier", "label": "L'ombre déformée du marronnier" }
+      ]
     },
     {
       "id": "portail",
@@ -689,5 +719,43 @@
   ],
   "deadlyItems": {
     "digitale": "Tu cueilles la jolie fleur violette et, sans réfléchir, tu portes une clochette à tes lèvres pour la goûter. Sucré. Puis amer. Puis... c'était une digitale — la digitale pourprée. Ton cœur s'emballe, cogne, s'affole, puis ralentit. Ralentit. Étonnamment vite, tout devient calme. Si joli, pourtant, pour une dernière chose à voir."
-  }
+  },
+  "combinations": [
+    {
+      "itemA": "telephone_casse",
+      "itemB": "chargeur",
+      "resultText": "Tu branches le chargeur sur une prise murale et tu y relies le téléphone fissuré. Il grésille, l'écran s'allume en tremblotant... Ton téléphone est de nouveau en vie. Enfin... « en vie ».",
+      "setsFlag": "telephone_charge"
+    },
+    {
+      "itemA": "radis",
+      "itemB": "masque_gaz",
+      "resultText": "Tu fourres une botte de radis dans le filtre du masque à gaz. Résultat : un « radis-moutarde tactique » qui pique les yeux à trois mètres. Totalement inutile. Absolument glorieux. Nestor, où qu'il soit, en pleurerait de fierté.",
+      "scoreDelta": 5
+    },
+    {
+      "itemA": "laitue",
+      "itemB": "sandwich",
+      "resultText": "Tu ouvres le sandwich et tu y glisses la vieille laitue flétrie. Tu croques. Une fois. Le goût de la défaite et de la chlorophylle avariée. Tu reposes le tout, un peu de dignité en moins.",
+      "scoreDelta": -2
+    },
+    {
+      "itemA": "grenouille_morte",
+      "itemB": "partition",
+      "resultText": "Tu poses la grenouille sur la partition et tu appuies sur son ventre en rythme : COÂ, coâ, COÂ-coâ-COÂ. Un petit concert macabre. Quelque part, très loin, deux oreilles vertes applaudissent en ricanant.",
+      "scoreDelta": 2
+    },
+    {
+      "itemA": "craie",
+      "itemB": "tableau",
+      "resultText": "Tu frottes la craie sur le tableau : sous la poussière blanche apparaît une inscription cachée — « N. était là. Et N. reviendra. (N., c'est moi. héhé.) ». Une blague, sûrement.",
+      "scoreDelta": 2,
+      "repeatable": true
+    },
+    {
+      "itemA": "lampe_torche",
+      "itemB": "ombre_marronnier",
+      "resultText": "Tu braques la lampe torche sur l'ombre du marronnier. La lumière la traverse... et révèle, l'espace d'un instant, une silhouette d'enfant assise dans les branches, qui te fait signe de la main. Tu éteins la lampe très, très vite."
+    }
+  ]
 }

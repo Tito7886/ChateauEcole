@@ -52,6 +52,19 @@ public class Room
     /// ramassables via l'action « Ramasser (objets au sol) ».
     /// </summary>
     public List<string> FloorItems { get; set; } = new();
+
+    /// <summary>
+    /// Éléments de décor interactifs (tableau, ombre...) proposés comme cibles de l'action
+    /// « Combiner / utiliser un objet ». Une recette objet+décor référence leur Id.
+    /// </summary>
+    public List<DecorTarget> DecorTargets { get; set; } = new();
+}
+
+/// <summary>Un élément de décor ciblable par une combinaison objet+décor.</summary>
+public class DecorTarget
+{
+    public string Id { get; set; } = "";
+    public string Label { get; set; } = "";
 }
 
 /// <summary>
