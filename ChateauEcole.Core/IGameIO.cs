@@ -34,7 +34,7 @@ public interface IGameIO
     /// L'animation va toujours à son terme (non sautable). Ajoute un saut de ligne final.
     /// En 2D : affichage progressif dans le panneau de texte (même signature).
     /// </summary>
-    void WriteSlow(string text, int msParCaractere = 30);
+    void WriteSlow(string text, int msParCaractere = 50);
 
     /// <summary>Affiche un message et attend une frappe. Retour immédiat si entrée redirigée.</summary>
     void Pause(string? message = null);
