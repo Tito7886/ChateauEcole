@@ -56,18 +56,37 @@ retirées (`ConsoleIO.StripTags`).
 ### B. Marqueurs d'EFFET — sur les textes de contenu (data-driven)
 
 Placés dans les champs texte de `world.json` (description, `examine.text`, `actions[].text`,
-`transitionText`…). Ils sont interprétés par `GameEngine.Emit()` **puis retirés** du texte —
-ils ne s'affichent jamais. (Dans les mini-jeux C#, on n'utilise pas ces marqueurs : on appelle
-directement `io.WriteSlow(...)`, `io.Pause()`, `io.Clear()`.)
+`transitionText`…). Ils sont de **deux sous-types** :
 
-| Marqueur | Effet | Exemple (dans world.json) |
-|---|---|---|
-| `[clear]` | efface l'écran **avant** d'afficher | `"[clear]Tu émerges dans la nef..."` |
-| `[slow]` | machine à écrire (vitesse par défaut) | `"[slow]« COURS, {NOM} »"` |
-| `[slow=NN]` | machine à écrire à **NN ms/caractère** | `"[slow=60]lentement, très lentement..."` |
-| `[pause]` | attend une touche **après** l'affichage | `"...juste derrière cette porte.[pause]"` |
+- **STRUCTURELS** (`[clear]`, `[pause]`) : actions du moteur, consommées par `GameEngine.Emit()`
+  et retirées du texte.
+- **DE RENDU** (`[slow]`, `[slow=NN]`, `[/slow]`) : interprétées par l'affichage (`ConsoleIO`),
+  **exactement comme la couleur** — elles peuvent donc changer **plusieurs fois au milieu d'une
+  même ligne**, se mélanger à la couleur et cohabiter avec du texte normal (instantané).
 
-On peut les combiner : `"[clear][slow]Bonjour {NOM}[pause]"` = efface, écrit lentement, attend.
+| Marqueur | Type | Effet | Exemple (world.json) |
+|---|---|---|---|
+| `[clear]` | structurel | efface l'écran **avant** d'afficher | `"[clear]Tu émerges dans la nef..."` |
+| `[pause]` | structurel | attend une touche **après** l'affichage | `"...derrière cette porte.[pause]"` |
+| `[slow]` | rendu | machine à écrire, **vitesse par défaut** | `"[slow]« COURS, {NOM} »"` |
+| `[slow=NN]` | rendu | machine à écrire à **NN ms/caractère** | `"[slow=90]lentement, très lentement..."` |
+| `[/slow]` | rendu | **retour au normal** (instantané) | `"[slow]lent[/slow] et hop, normal."` |
+
+**Vitesses mixées dans une même ligne** — chaque `[slow]`/`[slow=NN]` redéfinit la vitesse
+courante, `[/slow]` revient à l'instantané :
+
+```
+"Normal, puis [slow]vitesse par défaut, [slow=100]bien plus lent[slow] retour au slow[/slow] et de nouveau normal."
+```
+
+→ « Normal, puis » instantané, « vitesse par défaut, » à ~50 ms, « bien plus lent » à 100 ms,
+« retour au slow » à ~50 ms, « et de nouveau normal. » instantané.
+
+On combine avec les structurels et la couleur :
+`"[clear][slow]Bonjour [rouge]{NOM}[/rouge][pause]"` = efface, écrit lentement (prénom en
+rouge), puis attend une touche. (Dans les mini-jeux C#, on n'utilise pas les marqueurs
+structurels : on appelle directement `io.WriteSlow(...)`, `io.Pause()`, `io.Clear()` — mais les
+balises de rendu `[slow]`/`[rouge]` fonctionnent aussi dans un `io.WriteLine(...)`/`io.WriteSlow(...)`.)
 
 ### C. Placeholders de texte (résolus par `GameEngine.T()`)
 

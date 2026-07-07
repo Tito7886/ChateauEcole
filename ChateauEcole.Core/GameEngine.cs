@@ -65,21 +65,17 @@ public class GameEngine
     private void Emit(string raw)
     {
         string text = T(raw);
+        // Marqueurs STRUCTURELS (actions du moteur) : [clear] efface avant, [pause] attend après.
         bool clear = text.Contains("[clear]");
         bool pause = text.Contains("[pause]");
-
-        // [slow] = machine à écrire vitesse par défaut ; [slow=NN] = vitesse explicite (ms/car).
-        var mSlow = System.Text.RegularExpressions.Regex.Match(text, @"\[slow(?:=(\d+))?\]");
-        bool slow = mSlow.Success;
-        int vitesse = slow && mSlow.Groups[1].Success ? int.Parse(mSlow.Groups[1].Value) : 0;
-
         if (clear) text = text.Replace("[clear]", "");
         if (pause) text = text.Replace("[pause]", "");
-        if (slow) text = System.Text.RegularExpressions.Regex.Replace(text, @"\[slow(?:=\d+)?\]", "");
         text = text.Trim();
 
         if (clear) _io.Clear();
-        if (slow) _io.WriteSlow(text, vitesse); else _io.WriteLine(text);
+        // Les balises de RENDU restantes ([rouge]..., [slow]/[slow=NN]/[/slow]) sont interprétées
+        // par l'IO : WriteLine anime les régions [slow] et affiche le reste normalement.
+        _io.WriteLine(text);
         if (pause) _io.Pause();
     }
 

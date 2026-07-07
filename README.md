@@ -205,10 +205,13 @@ couleur, pas d'attente, pas de blocage, texte brut sans balise.
     fuite de la grenouille : `PauseThenClear` avant le renvoi à l'église ; morts de la
     cantine avec `WriteSlow` + `Pause`).
   - **En data (world.json)**, la couleur est libre (via `WriteLine`), et des **marqueurs
-    inline** pilotent les effets sur les textes de salles/actions/examens : `[clear]`
-    (efface l'écran avant), `[slow]` / `[slow=NN]` (machine à écrire, vitesse optionnelle),
-    `[pause]` (attend une touche après). Le moteur les interprète dans `GameEngine.Emit()`
-    puis les retire du texte.
+    inline** pilotent les effets sur les textes de salles/actions/examens :
+    - **structurels** (moteur, `GameEngine.Emit()`) : `[clear]` (efface l'écran avant),
+      `[pause]` (attend une touche après) ;
+    - **de rendu** (affichage, comme la couleur) : `[slow]` (vitesse par défaut),
+      `[slow=NN]` (NN ms/caractère), `[/slow]` (retour au normal instantané). Ils peuvent
+      **changer de vitesse plusieurs fois au milieu d'une même ligne** — ex.
+      `"Normal [slow]lent [slow=100]très lent[/slow] et de nouveau normal."`.
 
 Le mémo complet des balises et marqueurs (avec exemples) est dans `RECAP-projet.md`.
 

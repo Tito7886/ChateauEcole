@@ -72,11 +72,24 @@ public class ConsoleIO : IGameIO
         ["gris"] = ConsoleColor.DarkGray, ["blanc"] = ConsoleColor.White,
     };
 
-    /// <summary>Découpe le texte en segments (texte, couleur?). Balises inconnues = littérales,
-    /// balises mal fermées = pas de plantage, marqueurs [slow]/[pause]/[clear] = ignorés ici.</summary>
-    private static IEnumerable<(string Text, ConsoleColor? Color)> Segments(string text)
+    /// <summary>Vitesse par défaut de la machine à écrire (ms/caractère), RÉGLABLE à chaud.
+    /// Utilisée pour [slow] et pour WriteSlow sans vitesse. Repères : lent ≈ 55, normal ≈ 30,
+    /// rapide ≈ 12.</summary>
+    public static int VitesseParDefautMs = 50;
+
+    /// <summary>
+    /// Découpe le texte en segments (texte, couleur?, vitesse ms/car) en interprétant les
+    /// balises INLINE de rendu : couleur ([rouge]...[/rouge], fermeture générique [/]) ET
+    /// vitesse machine à écrire — [slow] = vitesse par défaut, [slow=NN] = NN ms/car, [/slow] =
+    /// retour à la vitesse « instantanée » (0). La vitesse peut ainsi changer PLUSIEURS fois au
+    /// milieu d'une même ligne. <paramref name="vitesseBase"/> est la vitesse hors de toute
+    /// balise (0 pour WriteLine, la vitesse demandée pour WriteSlow). Balises inconnues/mal
+    /// fermées = littérales (jamais de plantage) ; marqueurs structurels [pause]/[clear] ignorés.
+    /// </summary>
+    private static IEnumerable<(string Text, ConsoleColor? Color, int Speed)> Segments(string text, int vitesseBase)
     {
-        ConsoleColor? courant = null;
+        ConsoleColor? couleur = null;
+        int vitesse = vitesseBase;
         var buf = new StringBuilder();
         int i = 0;
         while (i < text.Length)
@@ -87,64 +100,64 @@ public class ConsoleIO : IGameIO
                 if (close > i)
                 {
                     string tag = text.Substring(i + 1, close - i - 1);
+                    // Couleur ouvrante
                     if (Couleurs.ContainsKey(tag))
-                    { if (buf.Length > 0) { yield return (buf.ToString(), courant); buf.Clear(); } courant = Couleurs[tag]; i = close + 1; continue; }
+                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } couleur = Couleurs[tag]; i = close + 1; continue; }
+                    // Fermetures
                     if (tag.StartsWith("/"))
                     {
                         string n = tag.Substring(1);
+                        if (n.Equals("slow", StringComparison.OrdinalIgnoreCase))
+                        { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } vitesse = 0; i = close + 1; continue; }
                         if (n.Length == 0 || Couleurs.ContainsKey(n))
-                        { if (buf.Length > 0) { yield return (buf.ToString(), courant); buf.Clear(); } courant = null; i = close + 1; continue; }
+                        { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } couleur = null; i = close + 1; continue; }
                     }
-                    if (tag.Equals("slow", StringComparison.OrdinalIgnoreCase) ||
-                        tag.StartsWith("slow=", StringComparison.OrdinalIgnoreCase) ||
-                        tag.Equals("pause", StringComparison.OrdinalIgnoreCase) ||
+                    // Vitesse (machine à écrire)
+                    if (tag.Equals("slow", StringComparison.OrdinalIgnoreCase))
+                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } vitesse = VitesseParDefautMs; i = close + 1; continue; }
+                    if (tag.StartsWith("slow=", StringComparison.OrdinalIgnoreCase) && int.TryParse(tag.Substring(5), out int nn))
+                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } vitesse = nn; i = close + 1; continue; }
+                    // Marqueurs structurels (gérés par le moteur) : jamais affichés
+                    if (tag.Equals("pause", StringComparison.OrdinalIgnoreCase) ||
                         tag.Equals("clear", StringComparison.OrdinalIgnoreCase))
-                    { i = close + 1; continue; } // marqueurs d'effet : jamais affichés
+                    { i = close + 1; continue; }
                 }
             }
             buf.Append(text[i]); i++;
         }
-        if (buf.Length > 0) yield return (buf.ToString(), courant);
+        if (buf.Length > 0) yield return (buf.ToString(), couleur, vitesse);
     }
 
     /// <summary>Retire toutes les balises → texte brut (mode redirigé, mesures). Fonction unique.</summary>
     public static string StripTags(string text)
     {
         var sb = new StringBuilder();
-        foreach (var (seg, _) in Segments(text)) sb.Append(seg);
+        foreach (var (seg, _, _) in Segments(text, 0)) sb.Append(seg);
         return sb.ToString();
     }
 
-    public void WriteLine(string text = "")
+    /// <summary>Rend une ligne en respectant couleur ET vitesse inline, puis un saut de ligne.
+    /// vitesseBase = vitesse hors balise (0 = instantané).</summary>
+    private void RenderLine(string text, int vitesseBase)
     {
         if (Console.IsOutputRedirected) { Console.WriteLine(StripTags(text)); return; }
-        foreach (var (seg, color) in Segments(text))
+        foreach (var (seg, color, speed) in Segments(text, vitesseBase))
         {
             if (color.HasValue) Console.ForegroundColor = color.Value;
-            Console.Write(seg);
+            if (speed > 0) foreach (char ch in seg) { Console.Write(ch); Thread.Sleep(speed); }
+            else Console.Write(seg);
             if (color.HasValue) Console.ResetColor();
         }
         Console.WriteLine();
     }
 
-    /// <summary>Vitesse par défaut de la machine à écrire (ms/caractère), RÉGLABLE à chaud.
-    /// Utilisée quand WriteSlow est appelé sans vitesse (ou avec 0). Repères : lent ≈ 55,
-    /// normal ≈ 30, rapide ≈ 12.</summary>
-    public static int VitesseParDefautMs = 50;
+    // Ligne normale : instantanée par défaut, mais anime les régions [slow]/[slow=NN].
+    public void WriteLine(string text = "") => RenderLine(text, 0);
 
+    // Machine à écrire : toute la ligne s'anime à la vitesse demandée (0 = vitesse par défaut),
+    // avec possibilité de la faire varier au milieu via [slow=NN]/[/slow].
     public void WriteSlow(string text, int msParCaractere = 0)
-    {
-        // Sortie redirigée (tests, pipes) : instantané, sans balise (sinon les tests traînent).
-        if (Console.IsOutputRedirected) { Console.WriteLine(StripTags(text)); return; }
-        int ms = msParCaractere > 0 ? msParCaractere : VitesseParDefautMs; // 0/<0 = vitesse par défaut
-        foreach (var (seg, color) in Segments(text))
-        {
-            if (color.HasValue) Console.ForegroundColor = color.Value;
-            foreach (char ch in seg) { Console.Write(ch); Thread.Sleep(ms); }
-            if (color.HasValue) Console.ResetColor();
-        }
-        Console.WriteLine();
-    }
+        => RenderLine(text, msParCaractere > 0 ? msParCaractere : VitesseParDefautMs);
 
     public void Pause(string? message = null)
     {
