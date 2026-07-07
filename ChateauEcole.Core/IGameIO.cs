@@ -29,12 +29,24 @@ public interface IGameIO
     //     bouton « continuer », couleurs de police — sans changer une ligne du Core). ---
 
     /// <summary>
-    /// Effet machine à écrire : affiche le texte caractère par caractère (délai msParCaractere).
-    /// Respecte les balises couleur ([rouge]...[/rouge]). Instantané si la sortie est redirigée.
-    /// L'animation va toujours à son terme (non sautable). Ajoute un saut de ligne final.
+    /// Écran-titre affiché à l'ENTRÉE d'une salle : efface l'écran (Clear) puis met en valeur
+    /// le nom de la salle. Sans <paramref name="titleArt"/> : un encadré automatique coloré
+    /// dont la bordure s'adapte à la longueur du nom. Avec <paramref name="titleArt"/> (ASCII
+    /// art multi-lignes, balises couleur autorisées) : cet art est affiché à la place.
+    /// Dégradation : en sortie redirigée, un simple affichage texte du nom suffit.
+    /// En 2D : un bandeau / une scène d'entrée, l'art devenant une image par salle.
+    /// </summary>
+    void ShowRoomTitle(string roomName, string? titleArt = null);
+
+    /// <summary>
+    /// Effet machine à écrire : affiche le texte caractère par caractère.
+    /// <paramref name="msParCaractere"/> règle la vitesse ; 0 (ou &lt; 0) = vitesse par défaut
+    /// configurable (voir ConsoleIO.VitesseParDefautMs). Respecte les balises couleur
+    /// ([rouge]...[/rouge]). Instantané si la sortie est redirigée. L'animation va toujours à
+    /// son terme (non sautable). Ajoute un saut de ligne final.
     /// En 2D : affichage progressif dans le panneau de texte (même signature).
     /// </summary>
-    void WriteSlow(string text, int msParCaractere = 50);
+    void WriteSlow(string text, int msParCaractere = 0);
 
     /// <summary>Affiche un message et attend une frappe. Retour immédiat si entrée redirigée.</summary>
     void Pause(string? message = null);

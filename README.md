@@ -171,21 +171,46 @@ couleur, pas d'attente, pas de blocage, texte brut sans balise.
   de la même façon. Balise inconnue ou mal fermée = rendue littéralement, **jamais de
   plantage**. Fonction unique `ConsoleIO.StripTags(text)` pour obtenir le texte brut
   (mode redirigé, saisies) — les balises ne s'affichent jamais telles quelles en console.
-- **Machine à écrire** : `WriteSlow(text, msParCaractère = 30)` — égrène les caractères
+- **Machine à écrire** : `WriteSlow(text, msParCaractère = 0)` — égrène les caractères
   visibles (les balises sont parsées d'abord, la couleur est respectée). Toujours joué
-  jusqu'au bout (non interruptible) ; **instantané** si la sortie est redirigée.
+  jusqu'au bout (non interruptible) ; **instantané** si la sortie est redirigée. **Vitesse
+  réglable** : passer `msParCaractère` (ex. `WriteSlow(t, 12)` = rapide) ; `0` = vitesse par
+  défaut **configurable à chaud** via `ConsoleIO.VitesseParDefautMs` (repères : lent ≈ 55,
+  normal ≈ 30, rapide ≈ 12). Côté data : marqueur `[slow]` (défaut) ou `[slow=NN]` (ms explicites).
+- **Écran-titre de salle** : `ShowRoomTitle(roomName, titleArt?)` — appelé **à l'entrée** de
+  chaque salle. Efface l'écran (`Clear`) puis, sans art, dessine un **encadré cyan auto** dont
+  la bordure s'adapte à la longueur du nom (accents corrects) :
+  ```
+  ╔══════════════════════╗
+  ║  CLASSE DE FRANÇAIS  ║
+  ╚══════════════════════╝
+  ```
+  Avec un `titleArt` (voir §Room ci-dessous), cet ASCII art s'affiche à la place (balises couleur
+  rendues). Le moteur ne re-déclenche l'écran-titre **qu'au changement de salle**, pas à chaque
+  tour, sinon le `Clear` effacerait la sortie de l'action précédente.
+- **Champ `Room.TitleArt`** (world.json, optionnel) : ASCII art multi-lignes (séparateur `\n`,
+  balises couleur autorisées) qui remplace l'encadré auto pour cette salle. Vide partout par
+  défaut ; un exemple est posé sur `eglise` (petit orgue + croix).
 - **Pauses / effacement** : `Pause(message?)` (« — Appuie sur une touche pour continuer — »
   par défaut, ne bloque pas si l'entrée est redirigée), `PauseThenClear(message?)`,
   `WaitThenClear(secondes)` (aucune attente si redirigé) et `Clear()`.
+- **Pauses avant les `Clear` d'entrée** : parce que chaque entrée de salle efface l'écran, un
+  `Pause()` a été inséré là où un texte s'affiche juste avant un changement de salle, pour
+  laisser le temps de lire : intro/règles au lancement, message de réanimation, **texte de
+  transition de sortie** (`TransitionText`) et **mini-jeux qui téléportent** (fuite de la
+  grenouille → église, éjection du gymnase → cour).
 - **Déclenché des deux côtés** :
   - **En C#**, les mini-jeux appellent directement les méthodes et posent des balises
     couleur (ex. sacrifice de l'orgue : `WriteSlow` + `Pause` + « [rouge]immonde[/rouge] » ;
     fuite de la grenouille : `PauseThenClear` avant le renvoi à l'église ; morts de la
     cantine avec `WriteSlow` + `Pause`).
-  - **En data (world.json)**, la couleur est libre (via `WriteLine`), et trois **marqueurs
+  - **En data (world.json)**, la couleur est libre (via `WriteLine`), et des **marqueurs
     inline** pilotent les effets sur les textes de salles/actions/examens : `[clear]`
-    (efface l'écran avant), `[slow]` (machine à écrire), `[pause]` (attend une touche après).
-    Le moteur les interprète dans `GameEngine.Emit()` puis les retire du texte.
+    (efface l'écran avant), `[slow]` / `[slow=NN]` (machine à écrire, vitesse optionnelle),
+    `[pause]` (attend une touche après). Le moteur les interprète dans `GameEngine.Emit()`
+    puis les retire du texte.
+
+Le mémo complet des balises et marqueurs (avec exemples) est dans `RECAP-projet.md`.
 
 ## Solution du jeu (spoiler)
 
@@ -222,6 +247,7 @@ Le moteur ne connaissant que `IGameIO`, la version graphique consiste à :
    des boutons ou une liste navigable au clavier ; ajouter un sprite de salle par `roomId`.
    Les effets d'affichage sont déjà abstraits : la couleur des balises `[rouge]…[/rouge]`
    devient une couleur de police, `WriteSlow` une animation de texte, `Pause`/`Clear` une
-   transition d'écran — la même API sert au rendu graphique (réutiliser la logique de
-   `StripTags`/segments pour parser les balises).
+   transition d'écran, et `ShowRoomTitle` un **bandeau/scène d'entrée de salle** (le
+   `TitleArt` d'une salle devenant une image plein écran) — la même API sert au rendu
+   graphique (réutiliser la logique de `StripTags`/segments pour parser les balises).
 Aucune modification du Core ni de world.json n'est nécessaire.

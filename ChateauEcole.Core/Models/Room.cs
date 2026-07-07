@@ -58,6 +58,14 @@ public class Room
     /// « Combiner / utiliser un objet ». Une recette objet+décor référence leur Id.
     /// </summary>
     public List<DecorTarget> DecorTargets { get; set; } = new();
+
+    /// <summary>
+    /// ASCII art multi-lignes optionnel pour l'écran-titre de la salle (à l'entrée). Si renseigné,
+    /// il remplace l'encadré automatique. Les balises couleur ([cyan]...[/cyan]) y sont rendues.
+    /// Vide par défaut pour toutes les salles (encadré auto partout). En 2D : deviendra l'image
+    /// d'entrée de la salle, sans toucher au Core.
+    /// </summary>
+    public string? TitleArt { get; set; }
 }
 
 /// <summary>Un élément de décor ciblable par une combinaison objet+décor.</summary>

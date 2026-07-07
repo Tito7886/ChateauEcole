@@ -642,8 +642,9 @@
     {
       "id": "eglise",
       "name": "Église Saint-Léger",
+      "titleArt": "        [jaune]✝[/jaune]\n     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]ÉGLISE SAINT-LÉGER[/cyan]",
       "companionText": "Lapinou se serre contre ta jambe et fixe l'orgue sans bouger. Il tremble un peu. Comme s'il savait déjà quelque chose que tu ignores encore.",
-      "description": "[clear][slow]Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le [vert]monde normal[/vert] est juste derrière cette porte.[pause]",
+      "description": "[slow]Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le [vert]monde normal[/vert] est juste derrière cette porte.[pause]",
       "exits": [
         {
           "target": "passage",

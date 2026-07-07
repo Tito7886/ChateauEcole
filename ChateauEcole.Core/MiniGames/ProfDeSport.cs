@@ -95,6 +95,7 @@ public static class ProfDeSport
         io.WriteLine("Une poigne de fer se referme sur ton capuchon. « DIX TOURS. ON NE DISCUTE PAS. »");
         io.WriteLine("Tu ressors du gymnase les jambes en coton, expulsée dans la cour. (-5 pts)");
         io.WriteLine("Tu pourras retenter ta chance... ou trouver sa faiblesse. Il doit bien en avoir une.");
+        io.Pause(); // laisser lire avant que l'écran-titre de la cour n'efface l'écran
         engine.TeleportTo("cour");
     }
 

@@ -66,15 +66,20 @@ public class GameEngine
     {
         string text = T(raw);
         bool clear = text.Contains("[clear]");
-        bool slow = text.Contains("[slow]");
         bool pause = text.Contains("[pause]");
+
+        // [slow] = machine à écrire vitesse par défaut ; [slow=NN] = vitesse explicite (ms/car).
+        var mSlow = System.Text.RegularExpressions.Regex.Match(text, @"\[slow(?:=(\d+))?\]");
+        bool slow = mSlow.Success;
+        int vitesse = slow && mSlow.Groups[1].Success ? int.Parse(mSlow.Groups[1].Value) : 0;
+
         if (clear) text = text.Replace("[clear]", "");
-        if (slow) text = text.Replace("[slow]", "");
         if (pause) text = text.Replace("[pause]", "");
+        if (slow) text = System.Text.RegularExpressions.Regex.Replace(text, @"\[slow(?:=\d+)?\]", "");
         text = text.Trim();
 
         if (clear) _io.Clear();
-        if (slow) _io.WriteSlow(text); else _io.WriteLine(text);
+        if (slow) _io.WriteSlow(text, vitesse); else _io.WriteLine(text);
         if (pause) _io.Pause();
     }
 
@@ -108,6 +113,7 @@ public class GameEngine
     {
         State = new GameState();
         State.Reset(_world.StartRoom);
+        _titledRoomId = null; // forcer l'écran-titre de la salle de départ
 
         // Code de la serrure du sous-sol : tiré au sort à chaque partie (4 chiffres).
         State.CodeCombination = $"{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}";
@@ -125,6 +131,7 @@ public class GameEngine
         _io.WriteLine();
         _io.WriteLine("* Règle du lycée : si tu meurs, une UNIQUE réanimation te sera proposée.");
         _io.WriteLine("* Elle te ramènera à l'entrée de la dernière salle... contre UN QUART de tes points.");
+        _io.Pause(); // lire l'intro/les règles avant que l'écran-titre de la 1re salle n'efface l'écran
         _save.SaveCheckpoint(State);
     }
 
@@ -172,6 +179,7 @@ public class GameEngine
             int malus = restored.Score > 0 ? restored.Score / 4 : 0;
             restored.Score -= malus;
             State = restored;
+            _titledRoomId = null; // réafficher l'écran-titre de la salle où l'on ressuscite
             _save.SaveCheckpoint(State);
 
             _io.WriteLine();
@@ -179,6 +187,7 @@ public class GameEngine
             _io.WriteLine($"* La réanimation te coûte {malus} points. Rien n'est gratuit, ici.");
             _io.WriteLine("* La sauvegarde s'est consumée dans l'opération : il n'y en aura PAS d'autre.");
             _io.WriteLine(T("Te revoilà, {NOM}. Ne gaspille pas cette faveur."));
+            _io.Pause(); // lire avant que l'écran-titre de la salle de réanimation n'efface l'écran
             return true;
         }
 
@@ -219,17 +228,31 @@ public class GameEngine
         _world.Rooms.FirstOrDefault(r => r.Id == id)
         ?? throw new InvalidOperationException($"Salle inconnue dans world.json : '{id}'");
 
+    // Dernière salle dont l'écran-titre a été affiché : l'écran-titre (et son Clear) ne se
+    // déclenche qu'à l'ENTRÉE d'une salle, pas à chaque tour — sinon le Clear effacerait la
+    // sortie de l'action que le joueur vient de faire dans la même salle.
+    private string? _titledRoomId;
+
     private void ShowRoom(Room room)
     {
-        _io.WriteLine();
-        _io.WriteLine($"=== {room.Name} ===");
+        bool nouvelleEntree = _titledRoomId != room.Id;
+        if (nouvelleEntree)
+        {
+            _io.ShowRoomTitle(room.Name, room.TitleArt); // efface l'écran + affiche l'écran-titre
+            _titledRoomId = room.Id;
+        }
+        else
+        {
+            _io.WriteLine();
+        }
+
         string visitedFlag = "visited_" + room.Id;
         if (!State.Flags.Contains(visitedFlag))
         {
             Emit(room.Description);
             State.Flags.Add(visitedFlag);
         }
-        else
+        else if (nouvelleEntree)
         {
             // La salle a-t-elle changé depuis ? (prof vaincu, chose partie...)
             var etat = room.StateTexts.FirstOrDefault(st => State.Flags.Contains(st.Flag));
@@ -237,8 +260,8 @@ public class GameEngine
                 Emit(etat.Text);
         }
 
-        // Compagnon : présence affichée par le moteur, avec une réplique propre à la salle si définie.
-        if (State.LapinouSuit)
+        // Compagnon : présence affichée à l'entrée, avec une réplique propre à la salle si définie.
+        if (nouvelleEntree && State.LapinouSuit)
             _io.WriteLine("* " + T(room.CompanionText ?? "Lapinou trottine à tes côtés, truffe frémissante."));
     }
 
@@ -378,6 +401,14 @@ public class GameEngine
             Win();
             return;
         }
+
+        // La salle suivante commence par un Clear (écran-titre) : laisser lire le texte de
+        // transition (ou le message d'objet consommé) avant l'effacement. Pas de double pause
+        // si la transition portait déjà son propre [pause].
+        bool changeSalle = exit.Target != State.CurrentRoomId;
+        bool aAffiché = transition != null || (exit.ConsumeRequiredItems && exit.RequiredItems.Count > 0);
+        if (changeSalle && aAffiché && !(transition?.Contains("[pause]") ?? false))
+            _io.Pause();
 
         State.CurrentRoomId = exit.Target;
         _save.SaveCheckpoint(State); // checkpoint automatique à chaque changement de salle

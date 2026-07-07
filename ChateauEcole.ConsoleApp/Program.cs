@@ -96,6 +96,7 @@ public class ConsoleIO : IGameIO
                         { if (buf.Length > 0) { yield return (buf.ToString(), courant); buf.Clear(); } courant = null; i = close + 1; continue; }
                     }
                     if (tag.Equals("slow", StringComparison.OrdinalIgnoreCase) ||
+                        tag.StartsWith("slow=", StringComparison.OrdinalIgnoreCase) ||
                         tag.Equals("pause", StringComparison.OrdinalIgnoreCase) ||
                         tag.Equals("clear", StringComparison.OrdinalIgnoreCase))
                     { i = close + 1; continue; } // marqueurs d'effet : jamais affichés
@@ -126,14 +127,20 @@ public class ConsoleIO : IGameIO
         Console.WriteLine();
     }
 
-    public void WriteSlow(string text, int msParCaractere = 30)
+    /// <summary>Vitesse par défaut de la machine à écrire (ms/caractère), RÉGLABLE à chaud.
+    /// Utilisée quand WriteSlow est appelé sans vitesse (ou avec 0). Repères : lent ≈ 55,
+    /// normal ≈ 30, rapide ≈ 12.</summary>
+    public static int VitesseParDefautMs = 50;
+
+    public void WriteSlow(string text, int msParCaractere = 0)
     {
         // Sortie redirigée (tests, pipes) : instantané, sans balise (sinon les tests traînent).
         if (Console.IsOutputRedirected) { Console.WriteLine(StripTags(text)); return; }
+        int ms = msParCaractere > 0 ? msParCaractere : VitesseParDefautMs; // 0/<0 = vitesse par défaut
         foreach (var (seg, color) in Segments(text))
         {
             if (color.HasValue) Console.ForegroundColor = color.Value;
-            foreach (char ch in seg) { Console.Write(ch); Thread.Sleep(msParCaractere); }
+            foreach (char ch in seg) { Console.Write(ch); Thread.Sleep(ms); }
             if (color.HasValue) Console.ResetColor();
         }
         Console.WriteLine();
@@ -169,6 +176,32 @@ public class ConsoleIO : IGameIO
     public void Clear()
     {
         try { Console.Clear(); } catch { /* redirections : ignorer */ }
+    }
+
+    public void ShowRoomTitle(string roomName, string? titleArt = null)
+    {
+        Clear();
+
+        // Sortie redirigée (tests, pipes) : un simple nom en clair suffit, rien à animer/encadrer.
+        if (Console.IsOutputRedirected) { Console.WriteLine("=== " + StripTags(roomName) + " ==="); return; }
+
+        if (!string.IsNullOrWhiteSpace(titleArt))
+        {
+            // Art fourni par la salle : rendu tel quel (les balises couleur sont interprétées).
+            foreach (string ligne in titleArt.Replace("\r\n", "\n").Split('\n'))
+                WriteLine(ligne);
+            WriteLine();
+            return;
+        }
+
+        // Encadré automatique : bordure adaptée à la longueur réelle du nom (accents compris).
+        string nom = roomName.ToUpperInvariant();
+        int largeur = nom.Length + 4;                 // 2 espaces de marge de chaque côté
+        string barre = new string('═', largeur);
+        WriteLine($"[cyan]╔{barre}╗[/cyan]");
+        WriteLine($"[cyan]║  {nom}  ║[/cyan]");
+        WriteLine($"[cyan]╚{barre}╝[/cyan]");
+        WriteLine();
     }
 
     public string AskText(string prompt)
