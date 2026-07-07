@@ -67,10 +67,16 @@ Placés dans les champs texte de `world.json` (description, `examine.text`, `act
 | Marqueur | Type | Effet | Exemple (world.json) |
 |---|---|---|---|
 | `[clear]` | structurel | efface l'écran **avant** d'afficher | `"[clear]Tu émerges dans la nef..."` |
-| `[pause]` | structurel | attend une touche **après** l'affichage | `"...derrière cette porte.[pause]"` |
+| `[pause]` | structurel | attend une **touche** **après** l'affichage | `"...derrière cette porte.[pause]"` |
 | `[slow]` | rendu | machine à écrire, **vitesse par défaut** | `"[slow]« COURS, {NOM} »"` |
 | `[slow=NN]` | rendu | machine à écrire à **NN ms/caractère** | `"[slow=90]lentement, très lentement..."` |
 | `[/slow]` | rendu | **retour au normal** (instantané) | `"[slow]lent[/slow] et hop, normal."` |
+| `[pause=N]` | rendu | attend **N secondes AU MILIEU** du texte, sans touche, puis **repart** | `"Il attend[pause=3] puis reprend son souffle."` |
+
+> ⚠️ Ne pas confondre les deux pauses : `[pause]` (structurel) attend une **touche** en fin
+> de texte ; `[pause=N]` (rendu) attend **N secondes** là où il est placé dans la ligne, puis
+> continue tout seul. Comme les autres balises de rendu, `[pause=N]` ne bloque pas et n'attend
+> pas en sortie redirigée (tests/pipes).
 
 **Vitesses mixées dans une même ligne** — chaque `[slow]`/`[slow=NN]` redéfinit la vitesse
 courante, `[/slow]` revient à l'instantané :

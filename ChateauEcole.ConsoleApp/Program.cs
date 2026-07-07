@@ -79,14 +79,17 @@ public class ConsoleIO : IGameIO
 
     /// <summary>
     /// Découpe le texte en segments (texte, couleur?, vitesse ms/car) en interprétant les
-    /// balises INLINE de rendu : couleur ([rouge]...[/rouge], fermeture générique [/]) ET
-    /// vitesse machine à écrire — [slow] = vitesse par défaut, [slow=NN] = NN ms/car, [/slow] =
-    /// retour à la vitesse « instantanée » (0). La vitesse peut ainsi changer PLUSIEURS fois au
-    /// milieu d'une même ligne. <paramref name="vitesseBase"/> est la vitesse hors de toute
-    /// balise (0 pour WriteLine, la vitesse demandée pour WriteSlow). Balises inconnues/mal
-    /// fermées = littérales (jamais de plantage) ; marqueurs structurels [pause]/[clear] ignorés.
+    /// balises INLINE de rendu : couleur ([rouge]...[/rouge], fermeture générique [/]),
+    /// vitesse machine à écrire ([slow] = vitesse par défaut, [slow=NN] = NN ms/car, [/slow] =
+    /// retour à l'instantané), ET pause chronométrée [pause=N] (attend N secondes AU MILIEU du
+    /// texte, sans touche, puis reprend). Vitesse et pauses peuvent donc survenir PLUSIEURS fois
+    /// dans une même ligne. <paramref name="vitesseBase"/> = vitesse hors balise (0 pour
+    /// WriteLine, la vitesse demandée pour WriteSlow). Balises inconnues/mal fermées =
+    /// littérales (jamais de plantage) ; marqueurs structurels [pause]/[clear] (sans « = »)
+    /// ignorés ici (gérés par le moteur). Chaque segment porte PauseSec = secondes à attendre
+    /// APRÈS son texte.
     /// </summary>
-    private static IEnumerable<(string Text, ConsoleColor? Color, int Speed)> Segments(string text, int vitesseBase)
+    private static IEnumerable<(string Text, ConsoleColor? Color, int Speed, int PauseSec)> Segments(string text, int vitesseBase)
     {
         ConsoleColor? couleur = null;
         int vitesse = vitesseBase;
@@ -102,21 +105,24 @@ public class ConsoleIO : IGameIO
                     string tag = text.Substring(i + 1, close - i - 1);
                     // Couleur ouvrante
                     if (Couleurs.ContainsKey(tag))
-                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } couleur = Couleurs[tag]; i = close + 1; continue; }
+                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse, 0); buf.Clear(); } couleur = Couleurs[tag]; i = close + 1; continue; }
                     // Fermetures
                     if (tag.StartsWith("/"))
                     {
                         string n = tag.Substring(1);
                         if (n.Equals("slow", StringComparison.OrdinalIgnoreCase))
-                        { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } vitesse = 0; i = close + 1; continue; }
+                        { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse, 0); buf.Clear(); } vitesse = 0; i = close + 1; continue; }
                         if (n.Length == 0 || Couleurs.ContainsKey(n))
-                        { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } couleur = null; i = close + 1; continue; }
+                        { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse, 0); buf.Clear(); } couleur = null; i = close + 1; continue; }
                     }
                     // Vitesse (machine à écrire)
                     if (tag.Equals("slow", StringComparison.OrdinalIgnoreCase))
-                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } vitesse = VitesseParDefautMs; i = close + 1; continue; }
+                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse, 0); buf.Clear(); } vitesse = VitesseParDefautMs; i = close + 1; continue; }
                     if (tag.StartsWith("slow=", StringComparison.OrdinalIgnoreCase) && int.TryParse(tag.Substring(5), out int nn))
-                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse); buf.Clear(); } vitesse = nn; i = close + 1; continue; }
+                    { if (buf.Length > 0) { yield return (buf.ToString(), couleur, vitesse, 0); buf.Clear(); } vitesse = nn; i = close + 1; continue; }
+                    // Pause chronométrée AU MILIEU du texte : écrit ce qui précède, puis attend N s.
+                    if (tag.StartsWith("pause=", StringComparison.OrdinalIgnoreCase) && int.TryParse(tag.Substring(6), out int ps))
+                    { yield return (buf.ToString(), couleur, vitesse, ps); buf.Clear(); i = close + 1; continue; }
                     // Marqueurs structurels (gérés par le moteur) : jamais affichés
                     if (tag.Equals("pause", StringComparison.OrdinalIgnoreCase) ||
                         tag.Equals("clear", StringComparison.OrdinalIgnoreCase))
@@ -125,28 +131,29 @@ public class ConsoleIO : IGameIO
             }
             buf.Append(text[i]); i++;
         }
-        if (buf.Length > 0) yield return (buf.ToString(), couleur, vitesse);
+        if (buf.Length > 0) yield return (buf.ToString(), couleur, vitesse, 0);
     }
 
     /// <summary>Retire toutes les balises → texte brut (mode redirigé, mesures). Fonction unique.</summary>
     public static string StripTags(string text)
     {
         var sb = new StringBuilder();
-        foreach (var (seg, _, _) in Segments(text, 0)) sb.Append(seg);
+        foreach (var (seg, _, _, _) in Segments(text, 0)) sb.Append(seg);
         return sb.ToString();
     }
 
-    /// <summary>Rend une ligne en respectant couleur ET vitesse inline, puis un saut de ligne.
-    /// vitesseBase = vitesse hors balise (0 = instantané).</summary>
+    /// <summary>Rend une ligne en respectant couleur, vitesse ET pauses chronométrées inline,
+    /// puis un saut de ligne. vitesseBase = vitesse hors balise (0 = instantané).</summary>
     private void RenderLine(string text, int vitesseBase)
     {
         if (Console.IsOutputRedirected) { Console.WriteLine(StripTags(text)); return; }
-        foreach (var (seg, color, speed) in Segments(text, vitesseBase))
+        foreach (var (seg, color, speed, pauseSec) in Segments(text, vitesseBase))
         {
             if (color.HasValue) Console.ForegroundColor = color.Value;
             if (speed > 0) foreach (char ch in seg) { Console.Write(ch); Thread.Sleep(speed); }
             else Console.Write(seg);
             if (color.HasValue) Console.ResetColor();
+            if (pauseSec > 0) Thread.Sleep(pauseSec * 1000); // pause silencieuse, puis ça repart
         }
         Console.WriteLine();
     }

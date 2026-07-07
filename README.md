@@ -209,9 +209,11 @@ couleur, pas d'attente, pas de blocage, texte brut sans balise.
     - **structurels** (moteur, `GameEngine.Emit()`) : `[clear]` (efface l'écran avant),
       `[pause]` (attend une touche après) ;
     - **de rendu** (affichage, comme la couleur) : `[slow]` (vitesse par défaut),
-      `[slow=NN]` (NN ms/caractère), `[/slow]` (retour au normal instantané). Ils peuvent
-      **changer de vitesse plusieurs fois au milieu d'une même ligne** — ex.
-      `"Normal [slow]lent [slow=100]très lent[/slow] et de nouveau normal."`.
+      `[slow=NN]` (NN ms/caractère), `[/slow]` (retour au normal instantané) et `[pause=N]`
+      (attend **N secondes au milieu** du texte, sans touche, puis repart). Vitesses et pauses
+      peuvent survenir **plusieurs fois au milieu d'une même ligne** — ex.
+      `"Normal [slow]lent [slow=100]très lent[/slow] et il attend[pause=2] puis repart."`.
+      (À distinguer de `[pause]` structurel, qui attend une **touche** en fin de texte.)
 
 Le mémo complet des balises et marqueurs (avec exemples) est dans `RECAP-projet.md`.
 
