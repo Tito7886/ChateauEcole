@@ -64,14 +64,14 @@ public static class GrenouilleSciences
         // Échec : la grenouille s'échappe. Au 2e échec, elle disparaît DÉFINITIVEMENT.
         int echecs = (engine.State.Counters.TryGetValue("grenouille_echecs", out int e) ? e : 0) + 1;
         engine.State.Counters["grenouille_echecs"] = echecs;
-
-        if (echecs < 2)
+        /*
+        if (echecs < 1)
         {
             io.WriteLine("La grenouille file entre les mailles et se rétablit d'un bond, narquoise. Elle t'a échappé.");
             io.WriteLine("Tu peux retenter — mais dépêche-toi. Une bête pareille ne restera pas coincée éternellement.");
             return;
         }
-
+        */
         // 2e échec : point de non-retour.
         engine.State.Flags.Add("grenouille_perdue");
         io.WriteLine();
