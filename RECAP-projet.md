@@ -164,6 +164,30 @@ data-driven, objets au sol, SMS de « N. » (Nestor), pièges mortels. Détail c
 
 ---
 
+## 🏅 Score maximal (à ne pas oublier)
+
+**Maximum du jeu = 96 points (fin JUSTE).** Fin IMMORALE = **84 points**.
+
+Sources de points (les seules) : ramasser un objet pour la 1re fois **+5** (une fois par objet,
+flag `got_<id>`) ; combinaisons à `scoreDelta` positif ; bonus de fin (**+20** juste / **+15**
+immorale). Tout le reste ne fait que retirer des points (code faux, choix invalide, chifoumi
+perdu, prof de sport, réanimation −¼) — évitable en jeu parfait.
+
+- 13 objets ramassables sur 14 (la **digitale** est un `deadlyItem` : la ramasser tue → 0 pt).
+- Combos positifs : `radis+masque_gaz` **+5**, `craie+tableau` **+2 par salle** (Français +
+  Histoire = **+4**), `grenouille_morte+partition` **+2** (fin juste uniquement).
+
+| Fin | Objets | Combos | Bonus fin | **Total** |
+|---|---|---|---|---|
+| JUSTE `[ÉVADÉ]` | 13×5 = 65 | +5 +2 +4 = **+11** | +20 | **96** |
+| IMMORALE `[À QUEL PRIX]` | 12×5 = 60 | +5 +4 = **+9** | +15 | **84** |
+
+> La grenouille est incompatible avec la fin immorale (l'avoir déclenche la fin juste) : d'où
+> −1 objet (−5) et −2 (combo grenouille+partition) côté immoral. Hypothèses : jeu optimal, zéro
+> pénalité, réanimation jamais utilisée, sac (max 8) géré pour ramasser chaque objet une fois.
+
+---
+
 ## 🔭 Note portage 2D
 
 Rien à changer dans le Core : il suffit d'une nouvelle implémentation d'`IGameIO`. La couleur
