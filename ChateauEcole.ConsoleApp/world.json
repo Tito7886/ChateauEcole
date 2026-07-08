@@ -34,7 +34,7 @@
                 "id": "fouiller_bureau",
                 "label": "Fouiller le bureau",
                 "setsFlag": "bureau_fouille",
-                "text": "[slow]Sous ton bureau, coincé contre le pied de la table,ton [slow=150]téléphone [slow]: écran fissuré en toile d'araignée, batterie complètement morte. Inutilisable en l'état [pause=1]— il faudrait un chargeur, quelque part, un jour.[pause=1] Ton sac ne peut pas tout porter. La vraie question, c'est : est-ce que ça vaut la peine de le trimballer ?"
+                "text": "Sous ton bureau, coincé contre le pied de la table,ton téléphone : écran fissuré en toile d'araignée, batterie complètement morte. Inutilisable en l'état [pause=1]— il faudrait un chargeur, quelque part, un jour. Ton sac ne peut pas tout porter. La vraie question, c'est : est-ce que ça vaut la peine de le trimballer ?"
             },
             {
                 "id": "prendre_telephone",
@@ -43,13 +43,13 @@
                     "bureau_fouille"
                 ],
                 "offersItem": "telephone_casse",
-                "text": "[slow]Tu soupèses le téléphone mort dans ta main. Le prendre, c'est encombrer ton sac pour un objet qui ne sert à rien..."
+                "text": "Tu soupèses le téléphone mort dans ta main. Le prendre, c'est encombrer ton sac pour un objet qui ne sert à rien..."
             },
             {
                 "id": "inspecter_bibliotheque",
                 "label": "Inspecter la bibliothèque",
                 "setsFlag": "biblio_inspectee",
-                "text": "[slow]Tu t'approches de la grande bibliothèque murale. En te penchant, tu remarques un rail discret creusé dans le parquet, juste sous elle [pause=1][slow]— et un mince courant d'air froid qui filtre par l'interstice, à droite. Il y a quelque chose derrière. Sur le flanc du meuble, quelqu'un a gravé des bâtons dans le bois.[pause=1] Beaucoup de bâtons.[pause=1][slow] Comme on compte les jours[pause=1][slow=250]..."
+                "text": "Tu t'approches de la grande bibliothèque murale. En te penchant, tu remarques un rail discret creusé dans le parquet, juste sous elle — et un mince courant d'air froid qui filtre par l'interstice, à droite. Il y a quelque chose derrière. Sur le flanc du meuble, quelqu'un a gravé des bâtons dans le bois.[pause=1] Beaucoup de bâtons.[pause=1]Comme on compte les jours[slow=250]..."
             },
             {
                 "id": "pousser_bibliotheque",
@@ -775,6 +775,12 @@
       "itemA": "lampe_torche",
       "itemB": "ombre_marronnier",
       "resultText": "Tu braques la lampe torche sur l'ombre du marronnier. La lumière la traverse... et révèle, l'espace d'un instant, une silhouette d'enfant assise dans les branches, qui te fait signe de la main. Tu éteins la lampe très, très vite."
+    },
+    {
+      "itemA": "telephone_casse",
+      "itemB": "tableau",
+      "resultText": "Tu frottes le téléphone contre le tableau[pause=1][slow=150]....  ....  ....[/slow] une nouvelle petite fissure apparait sur l'écran... tu pensais faire quoi ?[pause=4]",
+      "scoreDelta": -1
     }
   ]
 }
