@@ -23,6 +23,14 @@
         "description": "[slow]Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — [slow=200]depuis quand ?[pause=2][slow] Tu te lèves, tu tournes la poignée de la porte du couloir : rien. Fermée à clef, de l'extérieur. Sur le tableau, une écriture tremblante à la craie : « [rouge]COURS, {NOM}[/rouge] ». Tu n'as dit ton prénom à personne[slow=250]... [slow]Il va falloir trouver une autre issue — et pour ça, fouiller.",
         "exits": [
             {
+                "target": "couloir_1er",
+                "label": "La porte de la classe (vers le couloir du 1er étage)",
+                "requiredFlags": [
+                    "francais_deverrouille"
+                ],
+                "lockedMessage": "[slow]Tu tournes la poignée de la porte du couloir : rien à faire.[pause=1] Fermée à clef, de l'extérieur — et la serrure est de l'autre côté. Impossible de l'ouvrir d'ici. Il va falloir trouver un autre chemin."
+            },
+            {
                 "target": "classe_histoire",
                 "label": "Passage secret vers la classe d'Histoire",
                 "hiddenUntilFlag": "passage_secret_francais",
@@ -87,7 +95,9 @@
             },
             {
                 "target": "classe_francais",
-                "label": "Classe de Français"
+                "label": "Classe de Français",
+                "setsFlag": "francais_deverrouille",
+                "transitionText": "[slow]Tu pousses la porte de la classe de Français depuis le couloir : de ce côté, la serrure joue sans peine. La voilà déverrouillée."
             },
             {
                 "target": "classe_histoire",

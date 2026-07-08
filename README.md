@@ -248,6 +248,12 @@ goûter la « jolie fleur violette » du portail (une digitale mortelle).
 Décor : le **bureau de Mme Roy** (sous-sol) reste verrouillé — l'ouvrir laisse seulement filtrer
 des plaintes d'anciens élèves, façon bruits de fantômes. On n'insiste pas.
 
+Porte de la classe de **Français** : verrouillée de l'extérieur au départ (on tente, message,
+on reste enfermé) — d'où le passage secret derrière la bibliothèque vers l'Histoire, puis le
+couloir. Une fois qu'on est entré en Français **depuis le couloir** (flag `francais_deverrouille`
+posé par cette sortie), la porte normale s'ouvre des deux côtés : on peut ressortir directement
+au couloir, sans repasser par l'Histoire.
+
 ## Roadmap 2D (old-school)
 
 Le moteur ne connaissant que `IGameIO`, la version graphique consiste à :
