@@ -253,8 +253,8 @@
                 "id": "inspecter_paillasses",
                 "label": "Inspecter les paillasses et les placards",
                 "setsFlag": "sciences_inspecte",
-                "text": "[slow]Tu longes les paillasses en observant vraiment, cette fois.[pause=1] Rien à emporter à l'œil nu[slow=100]... mais[slow] entre deux plans de travail, un placard métallique bas, à demi caché, porte une étiquette rouge : « SÉCURITÉ — NIVEAU 3 ». Il est juste poussé, pas verrouillé.",
-                "repeatText": "[slow]Le placard « SÉCURITÉ NIVEAU 3 » est toujours là, entre deux paillasses.[pause=1] Il n'attend que d'être fouillé.[pause=1]"
+                "text": "Tu longes les paillasses en observant vraiment, cette fois. Rien à emporter à l'œil nu... mais entre deux plans de travail, un placard métallique bas, à demi caché, porte une étiquette rouge : « SÉCURITÉ — NIVEAU 3 ». Il est juste poussé, pas verrouillé.",
+                "repeatText": "Le placard « SÉCURITÉ NIVEAU 3 » est toujours là, entre deux paillasses. Il n'attend que d'être fouillé."
             },
             {
                 "id": "fouiller_placard_securite",
@@ -269,8 +269,8 @@
             }
         ],
         "examine": {
-            "text": "[slow]Béchers, éprouvettes, une odeur de soufre. Au premier regard, rien à prendre — il faudrait vraiment inspecter les recoins pour trouver quelque chose d'utile.",
-            "repeatText": "[slow]L'eau de l'aquarium a bougé, mais tu choisis de ne pas l'avoir vu."
+            "text": "Béchers, éprouvettes, une odeur de soufre. Au premier regard, rien à prendre — il faudrait vraiment inspecter les recoins pour trouver quelque chose d'utile.",
+            "repeatText": "L'eau de l'aquarium a bougé, mais tu choisis de ne pas l'avoir vu."
         },
         "specialActionId": "grenouille_sciences",
         "specialActionLabel": "Attraper la grenouille du bocal",
@@ -279,7 +279,7 @@
     {
         "id": "infirmerie",
         "name": "Infirmerie",
-        "description": "[slow]L'infirmerie est déserte. Les lits sont soigneusement faits. Sur le registre ouvert, la dernière ligne : ton prénom, {NOM}, écrit à la date d'aujourd'hui. Motif de la visite : à définir prochainement.",
+        "description": "L'infirmerie est déserte. Les lits sont soigneusement faits. Sur le registre ouvert, la dernière ligne [pause=3][slow] : ton prénom, {NOM}, écrit à la date d'aujourd'hui. Motif de la visite : [rouge]à définir prochainement.[/rouge]",
         "exits": [
             {
                 "target": "couloir_2e",
@@ -294,7 +294,7 @@
     {
       "id": "couloir_rdc",
       "name": "Couloir du rez-de-chaussée",
-      "description": "Le hall principal du lycée. Les portes vitrées donnent sur la cour plongée dans la pénombre. Les panneaux d'affichage sont couverts de mots de la vie normale : sorties scolaires, menus de cantine, séances de torture avec Mme Leroy. Ça semble très loin, la vie normale.",
+      "description": "Le hall principal du lycée. Les portes vitrées donnent sur la cour plongée dans la pénombre. Les panneaux d'affichage sont couverts de mots de [rouge]la vie normale[/rouge] : sorties scolaires, menus de cantine, [gris]séances de torture avec Mme Leroy[/gris]. Ça semble très loin, la vie normale.",
       "exits": [
         {
           "target": "couloir_1er",
@@ -347,17 +347,17 @@
       ],
       "examine": {
         "requiredItem": "radis",
-        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. Quelque chose remue entre les cartables abandonnés — un froissement de copies, un souffle qui n'est pas le tien, du vert... Tu recules très lentement. À mains nues, tu n'as aucune chance : il te faudrait de quoi détourner son attention. Quelque chose de frais, de croquant — dans cet endroit où tout n'est que craie et poussière. Insister maintenant serait la dernière bêtise de ta vie.",
-        "deadlyOnRepeatWithoutItemMessage": "Tu avais senti le souffle. Tu avais reculé. Et pourtant tu refais un pas vers le fond de la salle, les mains vides. Cette fois, LA CHOSE ne se contente pas de froisser des copies. La dernière image que tu emportes, c'est une classe de 6e entière tournée vers toi. Ils avaient tous reculé, eux. Une fois.",
+        "blockedWithoutItemMessage": "Tu fais un pas vers le fond de la salle. [vert]Quelque chose[/vert] remue entre les cartables abandonnés — un froissement de copies, un souffle qui n'est pas le tien, du vert... Tu recules très lentement. À mains nues, tu n'as aucune chance : il te faudrait de quoi détourner son attention. Quelque chose de frais, de croquant — dans cet endroit où tout n'est que craie et poussière. Insister maintenant serait la dernière bêtise de ta vie.",
+        "deadlyOnRepeatWithoutItemMessage": "Tu avais senti le souffle. Tu avais reculé. Et pourtant tu refais un pas vers le fond de la salle, les mains vides. Cette fois, [vert]LA CHOSE[/vert] ne se contente pas de froisser des copies. La dernière image que tu emportes, c'est une classe de 6e entière tournée vers toi. Ils avaient tous reculé, eux. Une fois.",
         "consumeRequiredItem": true,
-        "text": "Tu fais rouler la botte de radis vers le fond de la salle. Le froissement s'arrête net... puis LA CHOSE jaillit de sous les cartables et se jette sur les radis avec une faim inhumaine — depuis combien de décennies n'a-t-elle rien croqué de frais ? Pendant qu'elle dévore, tu fouilles vite : sur le tableau du fond, à la craie, un chiffre entouré des dizaines de fois — « {CODE4} ». Le QUATRIÈME chiffre de la serrure du sous-sol. Tu le notes et tu détales avant qu'elle n'ait fini son festin.",
+        "text": "Tu fais rouler la botte de radis vers le fond de la salle. Le froissement s'arrête net... puis [vert]LA CHOSE[/vert] jaillit de sous les cartables et se jette sur les radis avec une faim inhumaine — depuis combien de décennies n'a-t-elle rien croqué de frais ? Pendant qu'elle dévore, tu fouilles vite : sur le tableau du fond, à la craie, un chiffre entouré des dizaines de fois — « {CODE4} ». Le QUATRIÈME chiffre de la serrure du sous-sol. Tu le notes et tu détales avant qu'[vert]elle[/vert] n'ait fini son festin.",
         "repeatText": "Le fond de la salle est vide. Vraiment vide, cette fois. Le « {CODE4} » est toujours là, entouré à la craie.",
         "setsFlag": "fragment_4_trouve"
       },
       "stateTexts": [
         {
           "flag": "examined_classe_6e",
-          "text": "Quelque part dans le lycée, on entend quelque chose croquer goulûment un dernier radis. La salle, elle, est enfin tranquille."
+          "text": "Quelque part dans le lycée, on entend quelque chose croquer goulûment un dernier radis. La salle, [vert]elle[/vert], est enfin tranquille."
         }
       ]
     },
@@ -379,9 +379,9 @@
           "consumeRequiredItems": true,
           "setsFlag": "surveillant_repu",
           "bypassIfFlag": "surveillant_repu",
-          "lockedMessage": "Le surveillant ouvre les yeux d'un coup, sans transition, et te barre la route : « On ne passe pas. » Son estomac gargouille bruyamment. C'est le premier son vraiment humain que tu entends de sa part.",
-          "transitionText": "Tu tends le sandwich au surveillant. Il le contemple longuement, comme un souvenir, puis te laisse passer en mâchouillant. « Merci, petite. Ça faisait... longtemps. »",
-          "bypassTransitionText": "Le surveillant, repu, te reconnaît et te fait signe de passer d'un geste mou. « Vas-y, petite. Fais comme chez toi. »"
+          "lockedMessage": "Le surveillant ouvre les yeux d'un coup, sans transition, et te barre la route : [bleu]« Eh! c'est par un moulin ici. »[/bleu] Son estomac gargouille bruyamment. C'est le premier son vraiment humain que tu entends de sa part.",
+          "transitionText": "Tu tends le sandwich au surveillant. Il le contemple longuement, comme un souvenir, puis te laisse passer en mâchouillant. « Merci, Ça faisait... longtemps. »",
+          "bypassTransitionText": "Le surveillant, repu, te reconnaît et te fait signe de passer d'un geste mou. « Vas-y, Fais comme chez toi. [gris](quel professionnalisme !)[/gris] »"
         }
       ],
       "examine": {
@@ -407,7 +407,7 @@
     {
       "id": "classe_techno",
       "name": "Classe de Techno",
-      "description": "Des établis, des éthylomètres en arduino (... hein!) et des fers à souder bien rangés. Une maquette du lycée trône sur le bureau du prof. Dans la maquette, une minuscule silhouette se tient dans la classe de techno. Elle te ressemble.",
+      "description": "Des établis, des éthylomètres en arduino [gris](... hein!)[/gris] et des fers à souder bien rangés. Une maquette du lycée trône sur le bureau du prof. Dans la maquette, une minuscule silhouette se tient dans la classe de techno. Elle te ressemble.",
       "exits": [
         {
           "target": "couloir_rdc",
@@ -426,7 +426,7 @@
       "id": "sous_sol",
       "name": "Sous-sol",
       "companionText": "Lapinou hésite en haut des marches, puis descend en te collant, ses petites griffes cliquetant sur la pierre humide.",
-      "description": "Un sous-sol sombre et humide. Les anciennes « salles de torture... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie (du sang?! des larmes séchées?!) : « Bureau de Mme Roy ». Sur les murs, les mêmes griffures parallèles que celles du chambranle, là-haut. Tu ne les recomptes pas : une fois suffisait.",
+      "description": "Un sous-sol sombre et humide. Les anciennes « [gris]salles de torture[/gris]... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie [gris](du sang?! des larmes séchées?!)[/gris] : « Bureau de Mme Roy ». Sur les murs, les mêmes griffures parallèles que celles du chambranle, là-haut. Tu ne les recomptes pas : une fois suffisait.",
       "exits": [
         {
           "target": "couloir_rdc",
@@ -446,7 +446,7 @@
           "requiredFlags": [
             "bureau_roy_ouvert"
           ],
-          "lockedMessage": "Tu poses la main sur la poignée du bureau de Mme Roy. Verrouillée. Mais derrière la porte, il y a des voix : des plaintes d'anciens élèves, faibles, qui gémissent, grattent le bois, murmurent qu'on les laisse enfin sortir. Des bruits de fantômes. Tu retires ta main très lentement et tu recules, frissonnante. Tu décides de ne pas insister. Vraiment pas."
+          "lockedMessage": "Tu poses la main sur la poignée du bureau de Mme Roy. Verrouillée. Mais derrière la porte, il y a des voix : des plaintes d'anciens élèves, faibles, qui gémissent, grattent le bois, murmurent qu'on les laisse enfin sortir. Des bruits de fantômes. [pause=5][slow] Tu retires ta main très lentement et tu recules, frissonnante. Tu décides de ne pas insister. Vraiment pas."
         }
       ]
     },
