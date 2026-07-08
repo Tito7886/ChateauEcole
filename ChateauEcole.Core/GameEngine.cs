@@ -102,7 +102,7 @@ public class GameEngine
         }
 
         _io.WriteLine();
-        _io.WriteLine(T("À bientôt, {NOM}... si tu oses revenir."));
+        _io.WriteLine(T("À bientôt, {NOM}... "));
     }
 
     private void NewGame()
@@ -210,7 +210,7 @@ public class GameEngine
         int rang = 1;
         foreach (var s in scores.Take(5))
         {
-            string marque = s.Victory ? (s.Mark ?? "[ÉVADÉ]") : "[disparu]";
+            string marque = s.Victory ? (s.Mark ?? "[ÉVADÉ]") : "[MORT]";
             _io.WriteLine($"  {rang}. {s.Name} — {s.Score} pts {marque}");
             rang++;
         }

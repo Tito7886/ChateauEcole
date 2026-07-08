@@ -713,7 +713,7 @@
       "requiredFlags": [
         "fragment_1_trouve"
       ],
-      "text": "N° INCONNU : « Un code en quatre chiffres pour le sous-sol. {NOM} as-tu regardé la classe des 6e ? — N. »"
+      "text": "N° INCONNU : « Un code en quatre chiffres pour le sous-sol. {NOM} as-tu regardé la classe des 6e ? ou le bureau du proviseur ? — N. »"
     },
     {
       "id": "cantine",
@@ -735,7 +735,7 @@
         "medaillon",
         "partition"
       ],
-      "text": "N° INCONNU : « Médaille et mélodie, tu les as. Il manquera « l'essence ». Il y a une possibilité au 2e étage. Et une autre, plus courte, juste à côté de toi. — N. »"
+      "text": "N° INCONNU : « Médaille et mélodie, tu les as. J'ai hâte de voir comment tu vas gérer maintenant — N. »"
     },
     {
       "id": "passage",
@@ -784,7 +784,7 @@
     {
       "itemA": "lampe_torche",
       "itemB": "ombre_marronnier",
-      "resultText": "Tu braques la lampe torche sur l'ombre du marronnier. La lumière la traverse... et révèle, l'espace d'un instant, une silhouette d'enfant assise dans les branches, qui te fait signe de la main. Tu éteins la lampe très, très vite."
+      "resultText": "Tu braques la lampe torche sur l'ombre du marronnier. La lumière la traverse... et révèle, l'espace d'un instant, une silhouette [vert]verte[/vert] assise dans les branches, qui te fait signe de la main. Tu éteins la lampe très, très vite."
     },
     {
       "itemA": "telephone_casse",
