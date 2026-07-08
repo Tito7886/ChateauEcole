@@ -17,14 +17,14 @@ public static class ChargeTelephone
 {
     public static void Jouer(GameEngine engine, IGameIO io)
     {
-        io.WriteSlow("Tu branches le chargeur sur une prise murale et tu y relies le téléphone fissuré.");
-        io.WriteSlow("Le téléphone charge...");
-        io.WriteSlow("Le téléphone charge encore....");
-        io.WriteSlow("Le téléphone est dramatiquement toujours en train de charger....");
-        io.WriteSlow("Heureusement, votre patience vous protège....");
-        io.WriteSlow("Ah... oui... encore en charge...");
-        io.WriteSlow("Oh...");
-        io.WriteSlow("Et puis zut. 10% de batterie, ce sera bien suffisant !");
+        io.WriteSlow("Tu branches le chargeur sur une prise murale et tu y relies le téléphone fissuré.", 30);
+        io.WriteSlow("Le téléphone charge...", 60);
+        io.WriteSlow("Le téléphone charge encore....", 120);
+        io.WriteSlow("Le téléphone est dramatiquement toujours en train de charger....",120);
+        io.WriteSlow("Heureusement, votre patience vous protège....", 200);
+        io.WriteSlow("Ah... oui... encore en charge...", 200);
+        io.WriteSlow("Oh...", 300);
+        io.WriteSlow("Et puis zut. 10% de batterie, ce sera bien suffisant !",40);
 
         engine.State.Flags.Add("telephone_charge");
         engine.State.Inventory.Remove("chargeur"); // laissé branché à la prise : consommé
