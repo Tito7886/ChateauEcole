@@ -123,7 +123,7 @@ public class GameEngine
         State.PlayerName = string.IsNullOrWhiteSpace(nom) ? "Bichette" : nom;
 
         _io.WriteLine();
-        _io.WriteLine(T("« {NOM} »... c'est noté. Quelque part, quelque chose vient de le noter aussi."));
+        _io.WriteSlow(T("« {NOM} »... c'est noté. Quelque part, quelque chose vient de le noter aussi."));
         _io.WriteLine();
         _io.WriteLine("* Règle du lycée : si tu meurs, une UNIQUE réanimation te sera proposée.");
         _io.WriteLine("* Elle te ramènera à l'entrée de la dernière salle... contre UN QUART de tes points.");

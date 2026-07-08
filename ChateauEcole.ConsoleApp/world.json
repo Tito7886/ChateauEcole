@@ -20,13 +20,13 @@
     {
       "id": "classe_francais",
       "name": "Classe de Français",
-      "description": "[slow]Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — depuis quand ? Tu te lèves, tu tournes la poignée de la porte du couloir : rien. Fermée à clef, de l'extérieur. Sur le tableau, une écriture tremblante à la craie : « [rouge]COURS, {NOM}[/rouge] ». Tu n'as dit ton prénom à personne. Il va falloir trouver une autre issue — et pour ça, fouiller.",
+      "description": "[slow]Tu te réveilles la joue collée à ton bureau. La salle est vide, les lumières éteintes. Dehors, il fait nuit — [slow=150]depuis quand ? [slow]Tu te lèves, tu tournes la poignée de la porte du couloir : rien. Fermée à clef, de l'extérieur. Sur le tableau, une écriture tremblante à la craie : « [rouge]COURS, {NOM}[/rouge] ». Tu n'as dit ton prénom à personne. Il va falloir trouver une autre issue — et pour ça, fouiller.",
       "exits": [
         {
           "target": "classe_histoire",
           "label": "Passage secret vers la classe d'Histoire",
           "hiddenUntilFlag": "passage_secret_francais",
-          "transitionText": "Tu te faufiles derrière la bibliothèque. Derrière toi, quelque chose de vert (?!) remet doucement le panneau en place."
+          "transitionText": "Tu te faufiles derrière la bibliothèque. Derrière toi, quelque chose de [vert]vert (?!)[/vert] remet doucement le panneau en place."
         }
       ],
       "actions": [
