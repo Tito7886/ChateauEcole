@@ -135,6 +135,24 @@
                 "label": "Retour au couloir"
             }
         ],
+        "actions": [
+            {
+                "id": "regarder_sous_bureau",
+                "label": "Regarder sous le bureau du prof",
+                "setsFlag": "chargeur_repere_histoire",
+                "text": "[slow]Tu te penches sous le bureau du prof d'Histoire. Un fil noir pendouille de son sac resté ouvert, tombé là sans qu'il s'en aperçoive.[pause=1] « C'est quoi, ça...? »[pause=1][slow] Le reste est coincé dans l'ombre, hors de portée — à moins de tirer franchement dessus.",
+                "repeatText": "[slow]Le fil noir pend toujours sous le bureau. Il ne demande qu'à être tiré."
+            },
+            {
+                "id": "attraper_fil",
+                "label": "Attraper le fil sous le bureau",
+                "requiredFlags": [
+                    "chargeur_repere_histoire"
+                ],
+                "offersItem": "chargeur",
+                "text": "[slow]Tu tires doucement sur le fil.[pause=1] Vient un petit bloc noir : un [slow=100]chargeur de téléphone.[slow][pause=1] Tu retournes le connecteur — et là, coup de chance rare dans ce lycée : il correspond EXACTEMENT à ton téléphone fissuré. Le prof a dû le laisser tomber en rangeant ses copies. Merci, m'sieur."
+            }
+        ],
         "examine": {
             "text": "[slow]Dans les archives, un dossier jauni sur l'histoire du lycée : d'anciennes [slow=200]« salles de correction »[slow] au sous-sol, murées puis rouvertes. Et une note au crayon : « l'aumônerie cache quelquechose. Tous les indices convergent ici... »[pause=2] Sur le rebord du tableau traîne un bâton de craie encore utilisable. Tu le prends — on ne sait jamais.",
             "repeatText": "[slow]Les archives n'ont plus de secret pour toi : l'aumônerie était déjà suspecte dans ton esprit... Le rebord du tableau est vide, tu as déjà pris la craie.",
@@ -387,7 +405,7 @@
         }
       ],
       "examine": {
-        "text": "Dans une caisse de composants, un chargeur de téléphone universel, encore emballé. Tu le prends — ça pourra servir, si un jour tu remets un téléphone en marche.",
+        "text": "Dans une caisse de composants, un chargeur de téléphone universel, encore emballé. Tu le prends — au cas où tu aurais laissé traîner l'autre sous un bureau, quelque part. On n'est jamais trop prudent, dans ce lycée.",
         "repeatText": "Rien d'autre d'utile parmi les maquettes. Des prises murales partout, en revanche — pratique, maintenant que tu as de quoi recharger. Dans la maquette du lycée, une minuscule paire d'oreilles vertes dépasse d'une salle, puis file vers une autre en laissant un « héhé » à peine audible. La petite silhouette qui te ressemble, elle, a encore changé de salle. Tu ne regardes pas laquelle.",
         "grantsItems": [
           "chargeur"
@@ -728,12 +746,6 @@
     "digitale": "Tu cueilles la jolie fleur violette et, sans réfléchir, tu portes une clochette à tes lèvres pour la goûter. Sucré. Puis amer. Puis... c'était une digitale — la digitale pourprée. Ton cœur s'emballe, cogne, s'affole, puis ralentit. Ralentit. Étonnamment vite, tout devient calme. Si joli, pourtant, pour une dernière chose à voir."
   },
   "combinations": [
-    {
-      "itemA": "telephone_casse",
-      "itemB": "chargeur",
-      "resultText": "Tu branches le chargeur sur une prise murale et tu y relies le téléphone fissuré. Il grésille, l'écran s'allume en tremblotant... Ton téléphone est de nouveau en vie. Enfin... « en vie ».",
-      "setsFlag": "telephone_charge"
-    },
     {
       "itemA": "radis",
       "itemB": "masque_gaz",

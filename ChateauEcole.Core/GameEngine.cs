@@ -301,6 +301,13 @@ public class GameEngine
         if (State.FloorItems.TryGetValue(room.Id, out var atSol) && atSol.Count > 0)
             choices.Add(("Ramasser (objets au sol)", () => DoPickUp(room)));
 
+        // Charge du téléphone : choix intégré disponible DANS TOUTE SALLE dès qu'on a le
+        // téléphone + le chargeur et qu'il n'est pas déjà chargé (anti-softlock : peu importe
+        // où l'on a trouvé le chargeur, on peut toujours lancer l'animation de charge).
+        if (State.Inventory.Contains("telephone_casse") && State.Inventory.Contains("chargeur")
+            && !State.Flags.Contains("telephone_charge"))
+            choices.Add(("Brancher le téléphone pour le charger", () => ChargeTelephone.Jouer(this, _io)));
+
         if (State.Inventory.Count > 0)
             choices.Add(("Combiner / utiliser un objet", () => DoCombine(room)));
 
@@ -318,13 +325,16 @@ public class GameEngine
 
     /// <summary>
     /// Après chaque action : envoi d'au plus UN SMS de « N. » dont les conditions sont réunies.
-    /// Le téléphone ne s'allume PLUS automatiquement : il faut combiner téléphone + chargeur
-    /// (recette « tutoriel »), ce qui pose le flag « telephone_charge ».
+    /// Le téléphone ne s'allume PLUS automatiquement : il faut le charger via l'action
+    /// « Brancher le téléphone pour le charger » (téléphone + chargeur), ce qui pose le flag
+    /// « telephone_charge ». Chaque SMS a un rituel animé : vibration en machine à écrire (verte)
+    /// puis le message en vert. Dégradation propre en sortie redirigée (WriteSlow instantané,
+    /// balises retirées).
     /// </summary>
     private void CheckPhoneAndSms()
     {
         if (State.IsDead || State.IsVictory) return;
-        if (!State.Flags.Contains("telephone_charge")) return; // téléphone pas encore allumé
+        if (!State.Flags.Contains("telephone_charge")) return; // téléphone pas encore chargé
 
         foreach (var sms in _world.Sms)
         {
@@ -335,8 +345,8 @@ public class GameEngine
 
             State.Flags.Add(flag);
             _io.WriteLine();
-            _io.WriteLine("* Ton téléphone vibre.");
-            _io.WriteLine(T("* " + sms.Text));
+            _io.WriteSlow("[vert]Bzzt. Bzzt.[/vert]", 120); // la vibration, en machine à écrire verte
+            _io.WriteLine("[vert]" + T(sms.Text) + "[/vert]"); // le message (déjà signé « — N. »)
             break; // un seul SMS par tour, pour le rythme
         }
     }

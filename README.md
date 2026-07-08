@@ -124,10 +124,10 @@ semés au lancement, ramassables via « Ramasser »).
 - **Combinaisons (réflexion)** : action « Combiner / utiliser un objet » — choisir un objet,
   puis une cible (autre objet OU élément de décor de la salle). Le moteur cherche une recette ;
   sinon « Ça ne donne rien ». Rien n'indique quoi combiner : ça se déduit des descriptions.
-  Recettes : **téléphone + chargeur** = allumage (NÉCESSAIRE — le téléphone ne s'allume plus tout
-  seul) ; et des recettes loufoques/bonus (radis + masque = +5 ; laitue + sandwich = -2 ; grenouille
+  Recettes loufoques/bonus (radis + masque = +5 ; laitue + sandwich = -2 ; grenouille
   + partition = +2 ; **craie** + tableau = inscription cachée +2 par tableau ; lampe + ombre du
   marronnier = frisson). Aucune recette loufoque ne consomme un objet nécessaire (anti-softlock).
+  (Le téléphone ne se charge plus par combinaison : voir l'action « Brancher le téléphone » ci-dessous.)
   La **craie** se trouve en Histoire (rebord du tableau), sans usage de progression.
 - **Mme Bernard (Maths)** : chifoumi. Récompense = **3e chiffre du code**, donné sous forme d'un
   **petit calcul** (« neuf moins deux ») à résoudre de tête (générateur `GenererCalcul`, résultat
@@ -147,10 +147,16 @@ semés au lancement, ramassables via « Ramasser »).
   (la collation santé du prof).
 - **Classe de 6e** : la botte de radis distrait « la chose » (affamée de frais) → 4ᵉ chiffre du
   code. Insister à mains nues (2e tentative) = mort (avertissement à la 1re).
-- **Téléphone + SMS de « N. »** : téléphone cassé (Français) + chargeur (Techno) à **combiner**
-  volontairement (recette « tutoriel ») = téléphone allumé, puis SMS d'un
-  mystérieux **« N. »** (= Nestor, jamais nommé) qui oriente vers les 3 branches et sème le
-  doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le passage.
+- **Téléphone + SMS de « N. »** : téléphone cassé (Français, prendre/laisser) + **chargeur trouvé
+  très tôt en classe d'Histoire** (sous le bureau du prof : « Regarder » puis « Attraper le fil »,
+  prendre/laisser ; **filet de sécurité** : un second chargeur en Techno si tu as laissé le premier).
+  Dès qu'on a les deux objets, l'action intégrée **« Brancher le téléphone pour le charger »**
+  (disponible dans **toute** salle, anti-softlock) lance une petite **animation de charge comique**
+  puis pose `telephone_charge` (le **chargeur est consommé**). Le **premier SMS tombe aussitôt**.
+  Chaque SMS a un **rituel animé** : vibration `[vert]Bzzt. Bzzt.[/vert]` en machine à écrire, puis
+  le message en **vert**. Les SMS d'un mystérieux **« N. »** (= Nestor, jamais nommé) orientent vers
+  les 3 branches et sèment le doute sur Lapinou. Un SMS max par tour ; le signal meurt dans le
+  passage. Le téléphone reste un **bonus narratif**, jamais un verrou de progression.
 - **Cantine** : sandwich (surveillant → bureau) et, pour Lapinou, **soit la carotte, soit une
   vieille laitue — jamais les deux à la fois** (on peut reposer l'une pour prendre l'autre, donc
   pas de blocage). La carotte l'apprivoise ; **offrir la laitue à Lapinou est MORTEL** (rage
@@ -233,7 +239,7 @@ Traversée : **lampe** (au sol au pied du portail, action « Ramasser »). Les t
      Lapinou** → **FIN IMMORALE**.
 
 Branche 4e chiffre : verbes irréguliers (couloir 1er) → prof de sport → botte de radis → chose de la 6e → 4ᵉ chiffre du code.
-Branche téléphone : téléphone cassé (Français) + chargeur (Techno) → SMS de « N. ».
+Branche téléphone : téléphone cassé (Français) + chargeur (Histoire, sous le bureau ; secours en Techno) → action « Brancher le téléphone » → SMS animés de « N. » dès le début de partie.
 
 Pièges mortels : toilettes sans masque, relire le livre de latin, la « Surprise du chef »,
 offrir la vieille laitue à Lapinou, insister à mains nues sur la chose de la 6e, cueillir et

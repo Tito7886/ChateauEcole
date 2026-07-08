@@ -159,8 +159,16 @@ Progression non-linéaire : réunir **médaille** (Lapinou + carotte), **mélodi
 serrure à code 4 chiffres déductible) et **essence** (grenouille OU sacrifice de Lapinou) pour
 l'orgue de l'église → **2 fins** (juste / immorale). Mini-jeux : chifoumi Bernard, grenouille
 (Sciences), prof de sport (gymnase chronométré), rituel de l'orgue. Combinaisons d'objets
-data-driven, objets au sol, SMS de « N. » (Nestor), pièges mortels. Détail complet des salles,
-énigmes et de la solution : voir `README.md`.
+data-driven, objets au sol, pièges mortels. Détail complet des salles, énigmes et de la
+solution : voir `README.md`.
+
+**Téléphone & SMS de « N. » (Nestor)** : le **chargeur** se trouve **tôt** en classe d'Histoire
+(sous le bureau : « Regarder » → « Attraper le fil », prendre/laisser ; secours en Techno).
+L'action intégrée **« Brancher le téléphone pour le charger »** (dispo dans **toute** salle,
+anti-softlock ; scène `ChargeTelephone`) joue une animation comique, pose `telephone_charge` et
+**consomme le chargeur**. Le 1er SMS suit aussitôt. Rituel animé de CHAQUE SMS : vibration
+`[vert]Bzzt. Bzzt.[/vert]` en `WriteSlow`, puis message en vert (`CheckPhoneAndSms`). Bonus
+narratif, jamais un verrou. (Ancienne recette de combinaison téléphone+chargeur **retirée**.)
 
 ---
 
