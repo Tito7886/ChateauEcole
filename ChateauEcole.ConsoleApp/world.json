@@ -57,7 +57,7 @@
                 "id": "inspecter_bibliotheque",
                 "label": "Inspecter la bibliothèque",
                 "setsFlag": "biblio_inspectee",
-                "text": "Tu t'approches de la grande bibliothèque murale. En te penchant, tu remarques un rail discret creusé dans le parquet, juste sous elle — et un mince courant d'air froid qui filtre par l'interstice, à droite. Il y a quelque chose derrière. Sur le flanc du meuble, quelqu'un a gravé des bâtons dans le bois.[pause=1] Beaucoup de bâtons.[pause=1]Comme on compte les jours[slow=250]..."
+                "text": "Tu t'approches de la grande bibliothèque murale. En te penchant, tu remarques un rail discret creusé dans le parquet, juste sous elle — et un mince courant d'air froid qui filtre par l'interstice, à droite. Il y a quelque chose derrière. Sur le flanc du meuble, quelqu'un a gravé des bâtons dans le bois. Beaucoup de bâtons.Comme on compte les jours[slow=250]..."
             },
             {
                 "id": "pousser_bibliotheque",
@@ -791,6 +791,12 @@
       "itemB": "tableau",
       "resultText": "Tu frottes le téléphone contre le tableau[pause=1][slow=150]....  ....  ....[/slow] une nouvelle petite fissure apparait sur l'écran... tu pensais faire quoi ?[pause=4]",
       "scoreDelta": -1
+    },
+    {
+      "itemA": "telephone_casse",
+      "itemB": "craie",
+      "resultText": "Tu frottes la craie contre le téléphone[pause=1][slow=150]....  ....  ....[/slow] Bravo, Cro-Magnon... c'est comme ça qu'avançait l'humanité..... il y a ... 30 000 ans ! [pause=4]",
+      "scoreDelta": -2
     }
   ]
 }
