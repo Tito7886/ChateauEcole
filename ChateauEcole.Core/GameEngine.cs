@@ -221,7 +221,9 @@ public class GameEngine
         foreach (var s in scores.Take(5))
         {
             string marque = !string.IsNullOrEmpty(s.Mark) ? s.Mark! : (s.Victory ? "[ÉVADÉ]" : "[MORT]");
-            _io.WriteLine($"  {rang}. {s.Name} — {s.Score} pts {marque}");
+            // Date + heure locale du joueur (ex. « 18/09 04:12 »), quand elle est connue.
+            string quand = s.Date > DateTime.MinValue ? $" · {s.Date:dd/MM HH:mm}" : "";
+            _io.WriteLine($"  {rang}. {s.Name} — {s.Score} pts {marque}{quand}");
             rang++;
         }
     }

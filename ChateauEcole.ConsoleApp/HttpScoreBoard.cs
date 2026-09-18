@@ -57,12 +57,15 @@ public class HttpScoreBoard : IScoreBoard
         try
         {
             string mark = entry.Mark ?? (entry.Victory ? "[ÉVADÉ]" : "[MORT]");
+            // Heure LOCALE du joueur (pour le fun : « joué à 4h du matin »), pas celle du serveur.
+            DateTime quand = entry.Date == default ? DateTime.Now : entry.Date;
             var form = new FormUrlEncodedContent(new[]
             {
                 new KeyValuePair<string, string>("secret", _secret),
                 new KeyValuePair<string, string>("name", entry.Name),
                 new KeyValuePair<string, string>("score", entry.Score.ToString(System.Globalization.CultureInfo.InvariantCulture)),
                 new KeyValuePair<string, string>("mark", mark),
+                new KeyValuePair<string, string>("when", quand.ToString("yyyy-MM-dd HH:mm", System.Globalization.CultureInfo.InvariantCulture)),
             });
             using var resp = Http.PostAsync(_url, form).GetAwaiter().GetResult();
             // Corps ignoré : best-effort.

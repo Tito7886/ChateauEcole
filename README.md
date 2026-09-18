@@ -93,6 +93,9 @@ Un classement en ligne partagé est disponible en plus des scores locaux, via un
 - **Config** : URL + secret sont des constantes dans `Program.cs` (`ScoreUrl`, `ScoreSecret`)
   à ajuster puis recompiler. Le classement affiché indique « en ligne » ou « (local) » selon
   la connectivité.
+- **Date + heure** : chaque score porte la date et l'heure **locale du joueur** (envoyée par le
+  jeu, champ `when` ; repli sur l'heure serveur), affichées dans le classement — pour le fun
+  (« untel a fini le jeu à 4h du matin »).
 - **2D** : rien à refaire — la version graphique réutilise `HttpScoreBoard` via `IScoreBoard`.
 
 ## Progression v2 : 3 branches parallèles + un choix moral
