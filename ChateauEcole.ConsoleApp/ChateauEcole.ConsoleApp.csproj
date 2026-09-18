@@ -5,6 +5,9 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- Icône de l'exe (visible dans l'Explorateur / barre des tâches). Remplace icon.ico
+         par la tienne (même nom) puis republie. Fonctionne aussi en single-file. -->
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
