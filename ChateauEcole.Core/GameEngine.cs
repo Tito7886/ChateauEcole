@@ -121,7 +121,9 @@ public class GameEngine
             foreach (string item in room.FloorItems)
                 DropToFloor(room.Id, item);
 
-        string nom = _io.AskText("Quel est ton prénom ?").Trim();
+        string nom = _io.AskText("Quel est ton prénom ? (20 caractères max)").Trim();
+        const int maxNom = 20;
+        if (nom.Length > maxNom) nom = nom.Substring(0, maxNom).Trim(); // évite qu'un copier-coller géant devienne le pseudo
         State.PlayerName = string.IsNullOrWhiteSpace(nom) ? "Bichette" : nom;
 
         _io.WriteLine();
