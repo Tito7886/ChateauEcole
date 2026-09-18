@@ -13,15 +13,17 @@ public class GameEngine
     private readonly WorldData _world;
     private readonly IGameIO _io;
     private readonly SaveService _save;
+    private readonly IScoreBoard? _online; // classement en ligne (optionnel, best-effort)
     private readonly Dictionary<string, Action<GameEngine, IGameIO>> _specialActions;
 
     public GameState State { get; private set; }
 
-    public GameEngine(WorldData world, IGameIO io, SaveService save)
+    public GameEngine(WorldData world, IGameIO io, SaveService save, IScoreBoard? online = null)
     {
         _world = world;
         _io = io;
         _save = save;
+        _online = online;
         State = new GameState();
 
         // Les mini-jeux et scènes scriptées sont enregistrés ici, par id.
@@ -149,6 +151,7 @@ public class GameEngine
             _save.DeleteCheckpoint();
             string marque = State.VictoryImmoral ? "[À QUEL PRIX]" : "[ÉVADÉ]";
             _save.AddHighScore(State.PlayerName, State.Score, victory: true, mark: marque);
+            PublishOnline(marque);
             ShowHighScores();
             int c = _io.AskChoice("Voulez-vous rejouer ?", new List<string> { "Oui", "Non" });
             if (c == 0) { NewGame(); return true; }
@@ -189,6 +192,7 @@ public class GameEngine
 
         // La partie s'arrête vraiment : le score entre au tableau
         _save.AddHighScore(State.PlayerName, State.Score, victory: false);
+        PublishOnline("[MORT]");
         ShowHighScores();
         _save.DeleteCheckpoint();
 
@@ -203,17 +207,39 @@ public class GameEngine
 
     private void ShowHighScores()
     {
-        var scores = _save.LoadHighScores();
+        // Classement en ligne d'abord (best-effort) ; repli sur le local si vide/indisponible.
+        List<HighScore> scores = _online?.GetTop(10) ?? new List<HighScore>();
+        bool enLigne = scores.Count > 0;
+        if (!enLigne) scores = _save.LoadHighScores();
         if (scores.Count == 0) return;
+
         _io.WriteLine();
-        _io.WriteLine("--- Meilleurs scores ---");
+        _io.WriteLine(enLigne ? "--- Classement en ligne ---" : "--- Meilleurs scores (local) ---");
         int rang = 1;
         foreach (var s in scores.Take(5))
         {
-            string marque = s.Victory ? (s.Mark ?? "[ÉVADÉ]") : "[MORT]";
+            string marque = !string.IsNullOrEmpty(s.Mark) ? s.Mark! : (s.Victory ? "[ÉVADÉ]" : "[MORT]");
             _io.WriteLine($"  {rang}. {s.Name} — {s.Score} pts {marque}");
             rang++;
         }
+    }
+
+    /// <summary>Publie le score de fin de partie en ligne (best-effort, silencieux si KO).</summary>
+    private void PublishOnline(string mark)
+    {
+        if (_online == null) return;
+        try
+        {
+            _online.Submit(new HighScore
+            {
+                Name = State.PlayerName,
+                Score = State.Score,
+                Victory = State.IsVictory,
+                Mark = mark,
+                Date = DateTime.Now
+            });
+        }
+        catch { /* le classement en ligne ne doit jamais gêner la partie */ }
     }
 
     // ------------------------------------------------------------------

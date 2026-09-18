@@ -74,9 +74,26 @@ dictionnaire `_specialActions` de `GameEngine`, référencée par `specialAction
   début de partie, le coût est rappelé au moment du choix, et le joueur est
   prévenu après coup que la sauvegarde est consumée. Flag : GameState.ResurrectionUsed.
 - **Meilleurs scores** : top 10 avec prénom et marque de fin — `[ÉVADÉ]` (fin juste),
-  `[À QUEL PRIX]` (fin immorale), `[disparu]` (mort). Le score n'est enregistré que
+  `[À QUEL PRIX]` (fin immorale), `[MORT]` (mort). Le score n'est enregistré que
   lorsque la partie se termine vraiment.
 - **Fichiers** : `%AppData%\ChateauEcole\sauvegarde.json` et `highscores.json`.
+
+## Classement en ligne (optionnel)
+
+Un classement en ligne partagé est disponible en plus des scores locaux, via une abstraction
+`IScoreBoard` (comme `IGameIO` pour la console : **le moteur ne touche jamais le réseau**).
+
+- **Backend** : un petit `scores.php` (stockage fichier) hébergé sur un espace perso Free
+  (PHP 4). `GET` renvoie le top en JSON, `POST` ajoute un score (secret partagé, rejet des
+  scores impossibles `>96` ou négatifs). Le client n'a jamais les identifiants FTP.
+- **Client** : `HttpScoreBoard` (dans `ChateauEcole.ConsoleApp`) fait le `GET`/`POST` HTTP.
+  **Best-effort / offline-first** : timeout court (3 s), `User-Agent` propre, et **repli
+  automatique sur `highscores.json` local** si hors-ligne ou serveur muet — jamais de blocage
+  ni de plantage. En fin de partie le score est **publié en ligne ET gardé en local**.
+- **Config** : URL + secret sont des constantes dans `Program.cs` (`ScoreUrl`, `ScoreSecret`)
+  à ajuster puis recompiler. Le classement affiché indique « en ligne » ou « (local) » selon
+  la connectivité.
+- **2D** : rien à refaire — la version graphique réutilise `HttpScoreBoard` via `IScoreBoard`.
 
 ## Progression v2 : 3 branches parallèles + un choix moral
 

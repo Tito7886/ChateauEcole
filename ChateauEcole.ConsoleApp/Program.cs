@@ -26,7 +26,12 @@ public static class Program
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
             "ChateauEcole");
 
-        var engine = new GameEngine(world, new ConsoleIO(), new SaveService(saveDir));
+        // Classement en ligne (scores.php sur Free). Pour changer d'URL/secret : éditer ici puis recompiler.
+        const string ScoreUrl = "http://cefir.free.fr/scores.php";
+        const string ScoreSecret = "cefir-chateau-2026";
+        var online = new HttpScoreBoard(ScoreUrl, ScoreSecret);
+
+        var engine = new GameEngine(world, new ConsoleIO(), new SaveService(saveDir), online);
         engine.Run();
     }
 
