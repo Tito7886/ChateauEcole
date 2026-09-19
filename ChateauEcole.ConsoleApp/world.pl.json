@@ -206,7 +206,8 @@
 },
 {
 "target": "classe_sciences",
-"label": "Klasa przyrodnicza"
+"label": "Klasa przyrodnicza",
+"transitionText": "Drzwi klasy przyrodniczej nie są nawet zamknięte. Otwierają się same, jakby ktoś na ciebie czekał."
 },
 {
 "target": "infirmerie",
