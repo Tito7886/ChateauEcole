@@ -39,6 +39,22 @@ public static class Program
         WorldData world = JsonSerializer.Deserialize<WorldData>(worldSource, options)
             ?? throw new InvalidOperationException("world.json invalide.");
 
+        // [DIAGNOSTIC TEMPORAIRE] écrit un rapport dans %AppData%\ChateauEcole\diag_i18n.txt
+        // (l'écran est effacé par le jeu au démarrage, donc on écrit dans un fichier). À retirer ensuite.
+        try
+        {
+            var asmDiag = typeof(Program).Assembly;
+            string diag =
+                $"langue choisie      = {lang}\n" +
+                $"traduction chargee  = {traductionChargee}\n" +
+                $"1re salle chargee   = {world.Rooms.FirstOrDefault()?.Name}\n" +
+                $"BaseDirectory       = {AppContext.BaseDirectory}\n" +
+                $"world_en.json a cote = {File.Exists(Path.Combine(AppContext.BaseDirectory, "world_en.json"))}\n" +
+                $"ressources embarquees = {string.Join(" | ", asmDiag.GetManifestResourceNames())}\n";
+            File.WriteAllText(Path.Combine(saveDir, "diag_i18n.txt"), diag);
+        }
+        catch { /* diagnostic best-effort */ }
+
         // Classement en ligne (scores.php sur Free). Pour changer d'URL/secret : éditer ici puis recompiler.
         const string ScoreUrl = "http://cefir.free.fr/scores.php";
         const string ScoreSecret = "cefir-chateau-2026";
