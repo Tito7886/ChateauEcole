@@ -7,9 +7,23 @@ namespace ChateauEcole.ConsoleApp;
 
 public static class Program
 {
+    // Langues gérées (fr = source/repli). L'italien viendra plus tard : ajouter "it" ici + world.it.json.
+    private static readonly string[] Langues = { "fr", "en", "pl" };
+    private static readonly (string Code, string Label)[] LangChoix =
+    {
+        ("fr", "Français"), ("en", "English"), ("pl", "Polski"),
+    };
+
     public static void Main()
     {
         Console.OutputEncoding = Encoding.UTF8; // accents corrects sous Windows
+
+        // Sauvegardes, scores et préférence de langue dans %AppData%\ChateauEcole
+        string saveDir = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "ChateauEcole");
+
+        string lang = SelectLanguage(saveDir); // fr / en / pl
 
         var options = new JsonSerializerOptions
         {
@@ -18,13 +32,8 @@ public static class Program
             AllowTrailingCommas = true
         };
 
-        WorldData world = JsonSerializer.Deserialize<WorldData>(ReadWorldJson(), options)
+        WorldData world = JsonSerializer.Deserialize<WorldData>(ReadWorldJson(lang), options)
             ?? throw new InvalidOperationException("world.json invalide.");
-
-        // Sauvegardes et scores dans %AppData%\ChateauEcole : ils survivent aux recompilations
-        string saveDir = Path.Combine(
-            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "ChateauEcole");
 
         // Classement en ligne (scores.php sur Free). Pour changer d'URL/secret : éditer ici puis recompiler.
         const string ScoreUrl = "http://cefir.free.fr/scores.php";
@@ -36,22 +45,85 @@ public static class Program
     }
 
     /// <summary>
-    /// Lit le contenu de world.json. Priorité à un fichier posé À CÔTÉ de l'exe
-    /// (permet d'éditer/modder le jeu sans recompiler) ; sinon, la ressource embarquée
-    /// dans l'exe (ce qui rend l'exe autonome : un seul fichier suffit).
+    /// Choisit la langue : préférence mémorisée (langue.cfg) si présente, sinon langue de l'OS
+    /// comme défaut, proposée dans un petit sélecteur universel (une seule fois, puis mémorisée).
+    /// Pour rechoisir plus tard : supprimer %AppData%\ChateauEcole\langue.cfg.
     /// </summary>
-    private static string ReadWorldJson()
+    private static string SelectLanguage(string saveDir)
     {
-        string external = Path.Combine(AppContext.BaseDirectory, "world.json");
-        if (File.Exists(external))
-            return File.ReadAllText(external);
+        string cfg = Path.Combine(saveDir, "langue.cfg");
 
+        try
+        {
+            if (File.Exists(cfg))
+            {
+                string saved = File.ReadAllText(cfg).Trim().ToLowerInvariant();
+                if (Array.IndexOf(Langues, saved) >= 0) return saved;
+            }
+        }
+        catch { /* config illisible : on redemande */ }
+
+        string detected = "fr";
+        try
+        {
+            string two = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+            if (Array.IndexOf(Langues, two) >= 0) detected = two;
+        }
+        catch { /* pas de culture dispo : fr par défaut */ }
+
+        // Sélecteur volontairement multilingue (compréhensible quelle que soit la langue).
+        Console.WriteLine();
+        Console.WriteLine("  Langue / Language / Język :");
+        for (int i = 0; i < LangChoix.Length; i++)
+            Console.WriteLine($"    {i + 1}. {LangChoix[i].Label}");
+        string defLabel = LangChoix.First(l => l.Code == detected).Label;
+        Console.Write($"  > (Entrée = {defLabel}) ");
+
+        string chosen = detected;
+        try
+        {
+            string? line = Console.ReadLine();
+            if (int.TryParse(line, out int n) && n >= 1 && n <= LangChoix.Length)
+                chosen = LangChoix[n - 1].Code;
+        }
+        catch { /* entrée redirigée : on garde le défaut */ }
+
+        try { Directory.CreateDirectory(saveDir); File.WriteAllText(cfg, chosen); } catch { }
+        return chosen;
+    }
+
+    /// <summary>
+    /// Lit le contenu du monde pour la langue demandée. Ordre de recherche, pour chaque candidat
+    /// (world.&lt;langue&gt;.json puis world.json en repli) : d'abord un fichier posé À CÔTÉ de l'exe
+    /// (ajouter/tester une traduction sans recompiler), sinon la ressource embarquée. Le français
+    /// (world.json) est toujours le repli — jamais d'écran vide si une traduction manque.
+    /// </summary>
+    private static string ReadWorldJson(string lang)
+    {
+        foreach (string name in LangFileCandidates(lang))
+        {
+            string external = Path.Combine(AppContext.BaseDirectory, name);
+            if (File.Exists(external)) return File.ReadAllText(external);
+
+            string? embedded = ReadEmbedded(name);
+            if (embedded != null) return embedded;
+        }
+        throw new InvalidOperationException(
+            "Monde introuvable : ni traduction, ni world.json (à côté de l'exe ou embarqué).");
+    }
+
+    private static IEnumerable<string> LangFileCandidates(string lang)
+    {
+        if (lang != "fr") yield return $"world.{lang}.json"; // la traduction demandée d'abord
+        yield return "world.json";                           // puis le français (source + repli)
+    }
+
+    private static string? ReadEmbedded(string fileName)
+    {
         var asm = typeof(Program).Assembly;
         string? resName = asm.GetManifestResourceNames()
-            .FirstOrDefault(n => n.EndsWith("world.json", StringComparison.OrdinalIgnoreCase));
-        if (resName == null)
-            throw new InvalidOperationException(
-                "world.json introuvable : ni à côté de l'exe, ni embarqué dans l'assembly.");
+            .FirstOrDefault(n => n.EndsWith(fileName, StringComparison.OrdinalIgnoreCase));
+        if (resName == null) return null;
 
         using Stream stream = asm.GetManifestResourceStream(resName)!;
         using var reader = new StreamReader(stream, Encoding.UTF8);

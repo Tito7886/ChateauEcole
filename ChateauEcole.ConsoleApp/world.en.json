@@ -1,0 +1,802 @@
+{
+  "startRoom": "classe_francais",
+  "items": {
+    "masque_gaz": "Gas mask",
+    "lampe_torche": "Flashlight",
+    "sandwich": "Cafeteria sandwich",
+    "carotte": "Carrot (fresh, almost too orange)",
+    "laitue": "Gorgeous lettuce",
+    "medaillon": "Gold medallion (Lapinou's pendant)",
+    "partition": "Sheet music « Hymn of Saint-Léger »",
+    "grenouille_morte": "Dissection frog (« essence of animal knowledge »)",
+    "digitale": "Pretty purple bell-shaped flower",
+    "telephone_casse": "Cell phone (cracked screen, dead battery)",
+    "chargeur": "Phone charger",
+    "radis": "Bunch of radishes (fresh, crunchy)",
+    "cours_anglais": "Sheet of English irregular verbs",
+    "craie": "Piece of chalk"
+  },
+  "rooms": [
+    {
+        "id": "classe_francais",
+        "name": "French Classroom",
+        "description": "[slow]You wake up with your cheek stuck to your desk. The room is empty, the lights off. Outside, it's dark — [slow=200]since when?[pause=2][slow] You get up, you turn the doorknob to the hallway: nothing. Locked from the outside. On the blackboard, shaky chalk handwriting: « [rouge]RUN, {NOM}[/rouge] ». You haven't told your first name to anyone[slow=250]... [slow]You'll have to find another way out — and for that, you'll need to search.",
+        "exits": [
+            {
+                "target": "couloir_1er",
+                "label": "The classroom door (to the 1st floor hallway)",
+                "requiredFlags": [
+                    "francais_deverrouille"
+                ],
+                "lockedMessage": "You turn the doorknob to the hallway: no luck. Locked from the outside — and the lock is on the other side. Impossible to open it from here. You'll have to find another way."
+            },
+            {
+                "target": "classe_histoire",
+                "label": "Secret passage to the History classroom",
+                "hiddenUntilFlag": "passage_secret_francais",
+                "transitionText": "[slow]You slip behind the bookcase.[pause=1][slow] Behind you, something [vert]green (?!)[/vert] gently puts the panel back in place.[pause]"
+            }
+        ],
+        "actions": [
+            {
+                "id": "fouiller_bureau",
+                "label": "Search the desk",
+                "setsFlag": "bureau_fouille",
+                "text": "Under your desk, wedged against the table leg, your phone: screen cracked into a spiderweb, battery completely dead. Unusable as it is — you'd need a charger, somewhere, someday. Your bag can't carry everything. The real question is: is it worth lugging around?"
+            },
+            {
+                "id": "prendre_telephone",
+                "label": "Decide what to do with the phone",
+                "requiredFlags": [
+                    "bureau_fouille"
+                ],
+                "offersItem": "telephone_casse",
+                "text": "You weigh the dead phone in your hand. Taking it means cluttering your bag with an object that's completely useless..."
+            },
+            {
+                "id": "inspecter_bibliotheque",
+                "label": "Inspect the bookcase",
+                "setsFlag": "biblio_inspectee",
+                "text": "You approach the large wall bookcase. Leaning in, you notice a discreet rail carved into the floorboards, just beneath it — and a thin draft of cold air filtering through the gap on the right. There's something behind it. On the side of the piece of furniture, someone has carved tally marks into the wood. A lot of tally marks. Like counting the days[slow=250]..."
+            },
+            {
+                "id": "pousser_bibliotheque",
+                "label": "Push the bookcase",
+                "requiredFlags": [
+                    "biblio_inspectee"
+                ],
+                "setsFlag": "passage_secret_francais",
+                "text": "You brace your shoulder against the bookcase and push.[pause=3] It slides on its rail with a low rumble, revealing a loosened panel in the wall:[slow=100] a narrow passage to the History classroom.[slow][pause=1] The cold draft greets you like a door left open just for you."
+            }
+        ],
+        "decorTargets": [
+            {
+                "id": "tableau",
+                "label": "The blackboard (« RUN ... » in chalk)"
+            }
+        ]
+    },
+    {
+        "id": "couloir_1er",
+        "name": "1st Floor Hallway",
+        "description": "A long, silent hallway. Dented lockers line the walls. One of them seems to have shown a green ear.... You decide not to check which one. On the Maths classroom door, a half-peeled sticky note, in hurried handwriting: « Bernard only lets it go if you play her. »",
+        "exits": [
+            {
+                "target": "couloir_2e",
+                "label": "Stairs to the 2nd floor"
+            },
+            {
+                "target": "couloir_rdc",
+                "label": "Stairs to the ground floor"
+            },
+            {
+                "target": "classe_maths",
+                "label": "Maths Classroom"
+            },
+            {
+                "target": "classe_francais",
+                "label": "French Classroom",
+                "setsFlag": "francais_deverrouille",
+                "transitionText": "You push open the French classroom door from the hallway: on this side, the lock gives easily. There, it's unlocked."
+            },
+            {
+                "target": "classe_histoire",
+                "label": "History Classroom"
+            },
+            {
+                "target": "toilettes",
+                "label": "Restrooms"
+            }
+        ],
+        "examine": {
+            "text": "A locker was left ajar. A laminated sheet sticks out of it: English irregular verbs, left behind by a student. You take it — in this school, you never know what might scare people. On the wall, under a thin layer of recent paint, you can also make out an old graffiti: « RUN AWAY {NOM} ». The paint looks about ten years old. You, on the other hand, arrived this year.",
+            "repeatText": "The half-open locker is empty now. The graffiti « RUN AWAY {NOM} » hasn't moved under the paint.",
+            "grantsItems": [
+                "cours_anglais"
+            ]
+        }
+    },
+    {
+        "id": "classe_maths",
+        "name": "Maths Classroom",
+        "description": "The Maths classroom is perfectly tidy. Too tidy, perhaps. Mrs. Bernard is there, absorbed in her papers, as if nothing were wrong. It's almost reassuring.[pause=2][slow=150] Almost...",
+        "exits": [
+            {
+                "target": "couloir_1er",
+                "label": "Back to the hallway"
+            }
+        ],
+        "specialActionId": "chifoumi_bernard",
+        "specialActionLabel": "Talk to Mrs. Bernard",
+        "stateTexts": [
+            {
+                "flag": "bernard_vaincue",
+                "text": "Mrs. Bernard hums as she grades papers. She gives you a little wave: « Still here, sweetie? »"
+            }
+        ]
+    },
+    {
+        "id": "classe_histoire",
+        "name": "History Classroom",
+        "description": "Timelines and old maps cover the walls. On one of them, the school is drawn... but with one more building than today.",
+        "exits": [
+            {
+                "target": "couloir_1er",
+                "label": "Back to the hallway"
+            }
+        ],
+        "actions": [
+            {
+                "id": "regarder_sous_bureau",
+                "label": "Look under the teacher's desk",
+                "setsFlag": "chargeur_repere_histoire",
+                "text": "You lean under the History teacher's desk. A black wire dangles from his bag, left open, having fallen there without him noticing. « What is that...? » The rest is stuck in the shadows, out of reach — unless you pull firmly on it.",
+                "repeatText": "The black wire still hangs under the desk. It's just waiting to be pulled."
+            },
+            {
+                "id": "attraper_fil",
+                "label": "Grab the wire under the desk",
+                "requiredFlags": [
+                    "chargeur_repere_histoire"
+                ],
+                "offersItem": "chargeur",
+                "text": "You gently pull on the wire. Out comes a small black block: a phone charger. You turn the connector over — and there, a rare stroke of luck in this school: it matches your cracked phone EXACTLY. The teacher must have dropped it while putting away his papers. Thanks, sir."
+            }
+        ],
+        "examine": {
+            "text": "In the archives, a yellowed file on the school's history: old « correction rooms » in the basement, walled up then reopened. And a pencil note: « the chaplaincy is hiding something. All the clues point here... » On the chalkboard ledge lies a still-usable piece of chalk. You take it — you never know.",
+            "repeatText": "The archives hold no more secrets for you: the chaplaincy was already suspicious in your mind... The chalkboard ledge is empty, you've already taken the chalk.",
+            "grantsItems": [
+                "craie"
+            ]
+        },
+        "decorTargets": [
+            {
+                "id": "tableau",
+                "label": "The blackboard in the History classroom"
+            }
+        ]
+    },
+    {
+        "id": "toilettes",
+        "name": "Restrooms",
+        "description": "A dreadful smell hangs here, thick, almost alive. Something is shining at the bottom of a toilet bowl. Of course. It's always at the bottom of a toilet bowl.",
+        "exits": [
+            {
+                "target": "couloir_1er",
+                "label": "Back to the hallway"
+            }
+        ],
+        "examine": {
+            "requiredItem": "masque_gaz",
+            "deathWithoutItemMessage": "[slow]You lean over the bowl. The smell grips your throat like a hand. Your knees give way, the tiled floor rushes up toward you, very fast. The last thing you hear is the toilet flushing. No one pressed the handle.",
+            "text": "[slow]Protected by the gas mask, you search without fear [slow=300]. . . [slow]At the back of the last stall, carved deep into the tile, a riddle: [pause]« the 2nd digit of the code is the number of scratch marks around the basement door. Count them before opening it, if you dare. » Below, in another hand: « the others are elsewhere! nyeh! ». You'd rather not know who carved this, mask on your face.",
+            "repeatText": "The riddle is still carved into the tile: « the number of scratch marks around the basement door ». They're visible from the hallway, even before opening it. Better not to linger here.",
+            "setsFlag": "fragment_2_trouve"
+        }
+    },
+    {
+        "id": "couloir_2e",
+        "name": "2nd Floor Hallway",
+        "description": "The top floor of the school. A class photo is pinned to a corkboard. All the students are smiling. All looking at the camera. Except one, who's looking exactly where you're standing.",
+        "exits": [
+            {
+                "target": "classe_latin",
+                "label": "Latin Classroom"
+            },
+            {
+                "target": "classe_sciences",
+                "label": "Science Classroom",
+                "transitionText": "The Science classroom door isn't even closed. It opens by itself, as if you were expected."
+            },
+            {
+                "target": "infirmerie",
+                "label": "Infirmary"
+            },
+            {
+                "target": "couloir_1er",
+                "label": "Stairs to the 1st floor"
+            }
+        ],
+        "examine": {
+            "text": "You turn the class photo over. On the back, careful handwriting: « the way out demands glory and melody ». And below, smaller, in another hand: [vert]« nyeh![/vert] »."
+        }
+    },
+    {
+        "id": "classe_latin",
+        "name": "Latin Classroom",
+        "description": "Rosa, rosa, rosam... Latin books are piled on the desks. A dead language, in a school that might not be completely dead itself.",
+        "exits": [
+            {
+                "target": "couloir_2e",
+                "label": "Back to the hallway"
+            }
+        ],
+        "examine": {
+            "text": "[slow]You leaf through an old book: [slow=50]« In ecclesia Sancti Leodegarii, musica portas aperit »[slow=100] — in the church of Saint-Léger, music opens the doors.[slow] A student's note in the margin: « NEVER reread this book. The boredom here is literally [slow=150]deadly.[slow] » Out of the corner of your eye, [slow=50]a green shadow darts between two shelves and vanishes.[slow] You don't believe it for a second.[pause=1] Or maybe you do.",
+            "deadlyOnRepeatMessage": "[slow]You reopen the same Latin book. You were warned.[pause=1][slow=100] Your eyelids grow heavy, the declensions start spinning around you like a lullaby...[slow=200] Rosa. Rosa. Rosam.[slow=100] You will not get up from this class."
+        }
+    },
+    {
+        "id": "classe_sciences",
+        "name": "Science Classroom",
+        "description": "Lab benches, beakers, a smell of sulfur. On one of them, an old jar of formaldehyde: [vert]a dissection frog[/vert] floats there, perfectly still. Well... almost. In the back, an empty aquarium. But the water is still there. It's just that you can no longer see what used to be inside.",
+        "companionText": "Lapinou sniffs the jars on the bench and jumps back from the one with the frog. He doesn't like this place. Neither do you, deep down.",
+        "exits": [
+            {
+                "target": "couloir_2e",
+                "label": "Back to the hallway"
+            }
+        ],
+        "actions": [
+            {
+                "id": "inspecter_paillasses",
+                "label": "Inspect the lab benches and cabinets",
+                "setsFlag": "sciences_inspecte",
+                "text": "You walk along the benches, really looking this time. Nothing to take at first glance... but between two workstations, a low metal cabinet, half-hidden, bears a red label: « SAFETY — LEVEL 3 ». It's just pushed shut, not locked.",
+                "repeatText": "The « SAFETY LEVEL 3 » cabinet is still there, between two benches. It's just waiting to be searched."
+            },
+            {
+                "id": "fouiller_placard_securite",
+                "label": "Search the « SAFETY LEVEL 3 » cabinet",
+                "requiredFlags": [
+                    "sciences_inspecte"
+                ],
+                "grantsItems": [
+                    "masque_gaz"
+                ],
+                "text": "[slow]You open the low cabinet. Inside, a gas mask in perfect condition. The label reads: « In case of a level 3 incident, DO NOT try to understand. Put on the mask. Walk fast. » You take it."
+            }
+        ],
+        "examine": {
+            "text": "Beakers, test tubes, a smell of sulfur. At first glance, nothing to take — you'd really need to inspect the corners to find something useful.",
+            "repeatText": "The water in the aquarium moved, but you choose not to have seen it."
+        },
+        "specialActionId": "grenouille_sciences",
+        "specialActionLabel": "Catch the frog from the jar",
+        "specialActionRequiredFlag": "sortie_tentee"
+    },
+    {
+        "id": "infirmerie",
+        "name": "Infirmary",
+        "description": "The infirmary is deserted. The beds are neatly made. On the open register, the last line [pause=3][slow]: your first name, {NOM}, written with today's date. Reason for visit: [rouge]to be determined soon.[/rouge]",
+        "exits": [
+            {
+                "target": "couloir_2e",
+                "label": "Back to the hallway"
+            }
+        ],
+        "examine": {
+            "text": "The shelves were emptied long ago: no more bandages, no more syrup, nothing to take. On the desk, a stack of absence slips, all with the same reason: « did not wake up ». The ink on the last one is still fresh.",
+            "repeatText": "Nothing to take here. Just beds that are too neatly made — and two big green ears poking out of a half-open cabinet. When you look, they vanish with a shrill giggle. The cabinet is empty. Of course it is."
+        }
+    },
+    {
+      "id": "couloir_rdc",
+      "name": "Ground Floor Hallway",
+      "description": "The school's main hall. Glass doors look out onto the courtyard, plunged in darkness. The bulletin boards are covered with words from [rouge]normal life[/rouge]: school trips, cafeteria menus, [gris]torture sessions with Mrs. Leroy[/gris]. Normal life feels very far away.",
+      "exits": [
+        {
+          "target": "couloir_1er",
+          "label": "Stairs to the 1st floor"
+        },
+        {
+          "target": "classe_6e",
+          "label": "6th Grade Classroom"
+        },
+        {
+          "target": "salle_profs",
+          "label": "Teachers' Lounge"
+        },
+        {
+          "target": "classe_techno",
+          "label": "Technology Classroom"
+        },
+        {
+          "target": "sous_sol",
+          "label": "Basement",
+          "requiredFlags": [
+            "soussol_ouvert"
+          ],
+          "lockedMessage": "The basement door no longer has a rusty lock: it's been replaced with a combination keypad, four digits, brand new in the middle of the grime. Someone wrote underneath: « keep it closed ». Someone else scratched out the word « closed ». Around the doorframe, deep scratches streak the stone — you count exactly {CODE2} of them. You immediately regret counting them.",
+          "transitionText": "The combination accepted, the bolt slides open. The basement door creaks open, and the cold air rising smells of damp stone and old memories.",
+          "codeLock": {
+            "combination": "{CODE}",
+            "setsFlag": "soussol_ouvert",
+            "label": "Enter the four digits on the keypad",
+            "prompt": "You type the four digits:",
+            "successText": "Four beeps, then a dull click. The keypad turns green.",
+            "failText": "The keypad emits a low beep. Nothing happens. You can try again."
+          }
+        },
+        {
+          "target": "cour",
+          "label": "Outdoor Courtyard"
+        }
+      ]
+    },
+    {
+      "id": "classe_6e",
+      "name": "6th Grade Classroom",
+      "description": "Tiny tables, crumpled papers everywhere. All the chairs are turned toward the back of the room, as if the whole class had turned around to look at something. The back of the room is empty. Now.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Back to the hallway"
+        }
+      ],
+      "examine": {
+        "requiredItem": "radis",
+        "blockedWithoutItemMessage": "You take a step toward the back of the room. [vert]Something[/vert] stirs among the abandoned backpacks — a rustle of papers, a breath that isn't yours, a flash of green... You slowly back away. Bare-handed, you don't stand a chance: you'd need something to distract it. Something fresh, something crunchy — in this place where everything is chalk and dust. Pushing your luck now would be the last mistake of your life.",
+        "deadlyOnRepeatWithoutItemMessage": "You had felt the breath. You had backed away. And yet you take another step toward the back of the room, empty-handed. This time, [vert]THE THING[/vert] doesn't just rustle papers. The last image you carry with you is an entire 6th grade class turned toward you. They had all backed away too. Once.",
+        "consumeRequiredItem": true,
+        "text": "You roll the bunch of radishes toward the back of the room. The rustling stops dead... then [vert]THE THING[/vert] bursts out from under the backpacks and throws itself on the radishes with an inhuman hunger — how many decades has it gone without anything fresh to crunch? While it devours them, you search quickly: on the back blackboard, in chalk, a digit circled dozens of times — « {CODE4} ». The FOURTH digit of the basement lock. You note it down and bolt before [vert]it[/vert] finishes its feast.",
+        "repeatText": "The back of the room is empty. Truly empty, this time. The « {CODE4} » is still there, circled in chalk.",
+        "setsFlag": "fragment_4_trouve"
+      },
+      "stateTexts": [
+        {
+          "flag": "examined_classe_6e",
+          "text": "Somewhere in the school, you can hear something greedily crunching one last radish. The room, at least, is finally quiet."
+        }
+      ]
+    },
+    {
+      "id": "salle_profs",
+      "name": "Teachers' Lounge",
+      "description": "The legendary teachers' lounge! A supervisor dozes in an armchair, in front of the Principal's office door. His chest rises at a perfectly regular rhythm. Too regular. Like a metronome.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Back to the hallway"
+        },
+        {
+          "target": "bureau_proviseur",
+          "label": "Principal's Office",
+          "requiredItems": [
+            "sandwich"
+          ],
+          "consumeRequiredItems": true,
+          "setsFlag": "surveillant_repu",
+          "bypassIfFlag": "surveillant_repu",
+          "lockedMessage": "The supervisor's eyes snap open, with no transition, and he blocks your way: [bleu]« Hey! This isn't a mill, you know. »[/bleu] His stomach growls loudly. It's the first truly human sound you've heard from him.",
+          "transitionText": "You hand the sandwich to the supervisor. He gazes at it for a long moment, like a memory, then lets you pass while chewing. « Thanks. It's been... a while. »",
+          "bypassTransitionText": "The supervisor, full, recognizes you and waves you through limply. « Go ahead, make yourself at home. [gris](what professionalism!)[/gris] »"
+        }
+      ],
+      "examine": {
+        "text": "The coffee machine has been empty for years, judging by the dust. The supervisor, on the other hand, looks starving. A bit of food might win him over... or wake him up for good."
+      }
+    },
+    {
+      "id": "bureau_proviseur",
+      "name": "Principal's Office",
+      "description": "An imposing solid oak desk, framed diplomas on the walls. All the same name. Every decade. The same name since 191{CODE1}.",
+      "exits": [
+        {
+          "target": "salle_profs",
+          "label": "Back to the teachers' lounge"
+        }
+      ],
+      "examine": {
+        "text": "On the desk, an old photo: the Principal in front of the organ at Saint-Léger church, holding a gold medallion and sheet music. You turn it over. Two handwritings on the back. The old one: « the passage under the chaplaincy leads to the exit. I'm sealing everything behind me. Sorry to those who remain. » And scratched in more recently with a sharp point, a riddle: « the 1st digit of the code is the last decimal of the year it all began. The other three are where you wash your hands, where probability gets annoying, and where the 6th graders stare at the back of the classroom. »",
+        "repeatText": "The photo is still there, and so is the riddle on the back: « the last decimal of the year it all began ». The Principal, meanwhile, seems to stare at you a little more with each visit. (The year is displayed on his diplomas, on the wall.)",
+        "setsFlag": "fragment_1_trouve"
+      }
+    },
+    {
+      "id": "classe_techno",
+      "name": "Technology Classroom",
+      "description": "Workbenches, Arduino breathalyzers [gris](... right!)[/gris] and neatly arranged soldering irons. A model of the school sits proudly on the teacher's desk. In the model, a tiny figure stands in the technology classroom. It looks like you.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Back to the hallway"
+        }
+      ],
+      "examine": {
+        "text": "In a bin of components, a universal phone charger, still in its packaging. You take it — in case you left the other one lying around under a desk somewhere. You can never be too careful in this school.",
+        "repeatText": "Nothing else useful among the models. Wall outlets everywhere, though — handy, now that you have something to charge with. In the model of the school, a tiny pair of green ears pokes out of one room, then darts to another, leaving behind a barely audible « heh heh ». The little figure that looks like you has changed rooms again. You don't look to see which one.",
+        "grantsItems": [
+          "chargeur"
+        ]
+      }
+    },
+    {
+      "id": "sous_sol",
+      "name": "Basement",
+      "companionText": "Lapinou hesitates at the top of the stairs, then comes down close beside you, his little claws clicking on the damp stone.",
+      "description": "A dark, damp basement. The old « [gris]torture rooms[/gris]... » ... renamed the Music room and the English room. A third door, at the very back, bears a tarnished plaque [gris](blood?! dried tears?!)[/gris]: « Mrs. Roy's Office ». On the walls, the same parallel scratches as the ones on the doorframe upstairs. You don't count them again: once was enough.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Stairs to the ground floor"
+        },
+        {
+          "target": "salle_musique",
+          "label": "Music Room"
+        },
+        {
+          "target": "salle_anglais",
+          "label": "English Room"
+        },
+        {
+          "target": "bureau_roy",
+          "label": "Mrs. Roy's Office (door closed)",
+          "requiredFlags": [
+            "bureau_roy_ouvert"
+          ],
+          "lockedMessage": "You put your hand on the handle of Mrs. Roy's office. Locked. But behind the door, there are voices: faint moans of former students, whimpering, scratching at the wood, murmuring to finally be let out. Ghostly sounds. [pause=5][slow] You pull your hand back very slowly and step away, shivering. You decide not to push it. Really not."
+        }
+      ]
+    },
+    {
+      "id": "bureau_roy",
+      "name": "Mrs. Roy's Office",
+      "description": "You should never have been able to get in here. No one should.",
+      "exits": [
+        {
+          "target": "sous_sol",
+          "label": "Get out immediately"
+        }
+      ]
+    },
+    {
+      "id": "salle_musique",
+      "name": "Music Room",
+      "description": "An old upright piano stands among overturned music stands. The keyboard lid is open. Yet you're certain it was closed when you looked through the door.",
+      "exits": [
+        {
+          "target": "sous_sol",
+          "label": "Back to the basement"
+        }
+      ],
+      "examine": {
+        "text": "Behind the piano, a hiding spot in the wall. You find an old piece of sheet music there: « Hymn of Saint-Léger ». On the sheet music, a note: « to be played only once. He doesn't like encores. » The hiding spot is a bit too big for just the sheet music — as if another object had once rested there.",
+        "repeatText": "The hiding spot behind the piano is empty now. A piano key sinks down on its own, very slowly, without a sound.",
+        "grantsItems": [
+          "partition"
+        ]
+      }
+    },
+    {
+      "id": "salle_anglais",
+      "name": "English Room",
+      "description": "The blackboard is covered in irregular verbs. To be, was/were, been. Someone has conjugated « to escape » over the entire height of the board. The last tense on the list doesn't exist in any grammar.",
+      "exits": [
+        {
+          "target": "sous_sol",
+          "label": "Back to the basement"
+        }
+      ],
+      "examine": {
+        "text": "You decipher the unknown conjugation at the bottom of the board: a future tense that translates into the past. « You will have escaped. » The teacher's desk is empty, its drawers open: someone has already taken everything. All that's left is the chalk and this sentence, conjugated just for you.",
+        "repeatText": "The board still conjugates « to escape » in tenses that don't exist. The rest of the room is empty."
+      }
+    },
+    {
+      "id": "cour",
+      "name": "Outdoor Courtyard",
+      "companionText": "Lapinou lifts his nose toward the chestnut tree's shadow, freezes for a moment, then comes back to snuggle against your ankle.",
+      "description": "The school's deserted courtyard. Night has fallen, moonless. The big chestnut tree casts a shadow... that doesn't quite match the shape of the tree.",
+      "exits": [
+        {
+          "target": "couloir_rdc",
+          "label": "Back inside the building"
+        },
+        {
+          "target": "aumonerie",
+          "label": "Chaplaincy"
+        },
+        {
+          "target": "portail",
+          "label": "Gate"
+        },
+        {
+          "target": "gymnase",
+          "label": "Gymnasium"
+        },
+        {
+          "target": "cantine",
+          "label": "Cafeteria"
+        }
+      ],
+      "examine": {
+        "text": "On the trunk of the chestnut tree, an old carving: an arrow pointing toward the chaplaincy, topped with a small cross. Below, initials and dates. The dates always stop on the same day of the year. Today is that day."
+      },
+      "decorTargets": [
+        { "id": "ombre_marronnier", "label": "The chestnut tree's warped shadow" }
+      ]
+    },
+    {
+      "id": "portail",
+      "name": "Gate",
+      "description": "The school's large front gate. On the other side of the fence, the street, the streetlights, the normal world. A bus drives by without stopping. The driver doesn't turn his head. No one ever turns their head toward the school, at night. At the foot of the gate, someone dropped a flashlight on the ground — the batteries still look good. Right next to it grows a pretty purple bell-shaped flower, strikingly lively amid all this grayness.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Back to the courtyard"
+        }
+      ],
+      "floorItems": [
+        "lampe_torche",
+        "digitale"
+      ],
+      "examine": {
+        "text": "The gate is padlocked with a thick chain, placed recently: the metal is still shiny. Someone knew you'd try to get out this way. You'll need to find another path... the one the archives mention. On a bar, carved with a knife by an enthusiastic hand: « N... what a total legend! ». You don't know who N. is, but someone here really admires them."
+      }
+    },
+    {
+      "id": "gymnase",
+      "name": "Gymnasium",
+      "companionText": "Lapinou happily chases an old tennis ball across the gymnasium, then comes back to you, quite proud of himself.",
+      "description": "The familiar smell of floor mats and tennis balls. The school's record board hangs on the wall. Sprint record: an impossible time. Holder: illegible, the name has been scratched out insistently.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Back to the courtyard"
+        }
+      ],
+      "examine": {
+        "text": "The school's record board: sprint record, an impossible time; holder, a name scratched out insistently that starts with an N. On the gym teacher's poster, someone wrote in marker: « he hates English more than anything in the world ». Worth noting, just in case."
+      },
+      "specialActionId": "prof_sport",
+      "specialActionLabel": "Venture onto the field",
+      "stateTexts": [
+        {
+          "flag": "gym_vaincu",
+          "text": "The gymnasium is quiet. From the storage room, you can hear a gym teacher reviewing his irregular verbs while sniffling."
+        }
+      ]
+    },
+    {
+      "id": "cantine",
+      "name": "Cafeteria",
+      "companionText": "Lapinou sniffs everywhere in search of a crumb, one ear raised, wary, toward the walk-in fridge.",
+      "description": "The « Aux Délices » cafeteria! The chairs are stacked on the tables. The weekly menu is still posted. Friday: « chef's surprise ». The word « surprise » has been underlined three times, by three different hands.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Back to the courtyard"
+        }
+      ],
+      "examine": {
+        "text": "The weekly menu is still posted. Friday: « chef's surprise ». The word « surprise » has been underlined three times, by three different hands. The kitchens, on the other hand, deserve a thorough search.",
+        "repeatText": "The menu hasn't changed. Neither has the « chef's surprise », unfortunately for everyone."
+      },
+      "specialActionId": "choix_cantine",
+      "specialActionLabel": "Search the kitchens"
+    },
+    {
+      "id": "aumonerie",
+      "name": "Chaplaincy",
+      "description": "A small, warm room — the only room in the school that still seems... protected. Student drawings and Mr. Perrier's best jokes are pinned to the wall. Here, the silence is gentle, not threatening. You breathe a little easier. And in a corner, under a chair, two round eyes watch you: a little white rabbit, a gold medallion around his neck, trembling. He doesn't dare come closer.",
+      "exits": [
+        {
+          "target": "cour",
+          "label": "Back to the courtyard"
+        },
+        {
+          "target": "passage",
+          "label": "Go down into the underground passage",
+          "hiddenUntilFlag": "aumonerie_examinee",
+          "requiredItems": [
+            "lampe_torche"
+          ],
+          "lockedMessage": "A trapdoor opens onto a staircase plunged in absolute darkness. This isn't ordinary darkness: it has thickness. Impossible to move forward without light.",
+          "transitionText": "You switch on the flashlight and carefully go down the stone steps. Behind you, the trapdoor closes on its own, silently, as if out of politeness."
+        }
+      ],
+      "companionText": "Lapinou knows the chaplaincy by heart; he relaxes, ears drooping, almost happy. But he stares at the trapdoor and refuses to go near it.",
+      "actions": [
+        {
+          "id": "donner_carotte",
+          "label": "Give the carrot to Lapinou",
+          "requiredItem": "carotte",
+          "requiredFlagsAbsent": [
+            "lapinou_ami"
+          ],
+          "consumesItem": true,
+          "setsFlag": "lapinou_ami",
+          "setsCompanion": true,
+          "grantsItems": [
+            "medaillon"
+          ],
+          "text": "You crouch down, holding the carrot out at arm's length. The little white rabbit hesitates, nose twitching... then he hops closer and nibbles the carrot right from your hand, trustingly. He rubs against your leg. Gently, he slips his nose under the clasp of his medallion and pushes it into your palm, like a gift. « Lapinou, » you say — you don't know why, it's just his name. He follows you now. He won't leave your side again."
+        },
+        {
+          "id": "donner_laitue",
+          "label": "Give the lettuce to Lapinou",
+          "requiredItem": "laitue",
+          "requiredFlagsAbsent": [
+            "lapinou_ami"
+          ],
+          "text": "You crouch down, quite proud of yourself, and offer the old wilted lettuce to Lapinou like a gift.",
+          "deadlyMessage": "Lapinou sniffs the lettuce. Once. Twice. Then his eyes turn bloodshot — pure fury at this unspeakable offering. A flash of white and red catches you full force, and the world tears apart. ... What a thought, feeding THAT to someone. You had it coming, {NOM}."
+        },
+        {
+          "id": "donner_radis",
+          "label": "Offer the radishes to Lapinou",
+          "requiredItem": "radis",
+          "repeatable": true,
+          "text": "You hold out the bunch of radishes to the rabbit. He approaches cautiously and sniffs them at length — once, twice, nose twitching... then he turns his head away with a little offended pout and backs off. No. Definitely no. Radishes are not how you win over THIS rabbit. You pack up your radishes, a little offended."
+        }
+      ],
+      "stateTexts": [
+        {
+          "flag": "lapinou_ami",
+          "text": "The chaplaincy is soft and calm. Lapinou already knows the place; he bounds around among the student drawings like he owns it."
+        }
+      ],
+        "examine": {
+            "text": "You pull back a curtain: a slightly open trapdoor hints at a staircase sinking into darkness — the underground passage the archives mention. On the wall, a note from Mr. Perrier is pinned just above: « The Lord always forgives. So do I… but I still keep the names for the prayer intentions list! » You really, really hope that's just a joke.",
+            "repeatText": "The trapdoor is still there, gaping into the dark. You'll need light to venture in.",
+            "setsFlag": "aumonerie_examinee"
+        }
+    },
+    {
+      "id": "passage",
+      "name": "Underground Passage",
+      "companionText": "In the darkness of the tunnel, Lapinou presses against your leg. His quick little breaths are the only warm sound here.",
+      "description": "A narrow stone tunnel. Your footsteps echo — and between two echoes, sometimes, there's one footstep too many. The beam of the flashlight trembles a little. So do you.",
+      "exits": [
+        {
+          "target": "eglise",
+          "label": "Continue toward Saint-Léger church"
+        },
+        {
+          "target": "aumonerie",
+          "label": "Go back up to the chaplaincy"
+        }
+      ],
+      "examine": {
+        "text": "On the wall, inscriptions left by those who passed before you. First names, dates. The oldest goes back a century. Below the last name, a space has been left empty. Just the right size for yours."
+      }
+    },
+    {
+      "id": "eglise",
+      "name": "Saint-Léger Church",
+      "titleArt": "        [jaune]✝[/jaune]\n     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]SAINT-LÉGER CHURCH[/cyan]",
+      "companionText": "Lapinou presses against your leg and stares at the organ without moving. He's trembling a little. As if he already knew something you don't yet.",
+      "description": "[slow]You emerge into the silent nave of Saint-Léger church. A great organ stands at the far end, majestic, patient. The main door is locked from the inside by a strange mechanism. The stained-glass windows let in the streetlight glow: the [vert]normal world[/vert] is right behind this door.[pause]",
+      "exits": [
+        {
+          "target": "passage",
+          "label": "Go back into the underground passage",
+          "hiddenIfFlag": "grenouille_perdue"
+        }
+      ],
+      "specialActionId": "rituel_orgue",
+      "specialActionLabel": "Approach the organ",
+      "examine": {
+        "text": "The organ seems to be waiting for a melody. A round notch is carved into the music stand... exactly the size of a medallion. On the organist's bench, an inscription worn by time: « play it right, {NOM} ». The inscription looks very, very old."
+      }
+    }
+  ],
+  "sms": [
+    {
+      "id": "premier",
+      "requiredFlags": [
+        "telephone_charge"
+      ],
+      "text": "UNKNOWN NUMBER: « You managed to turn it back on. Good. We don't have much time, {NOM}. Find the radishes... uh, the exit. — N. »"
+    },
+    {
+      "id": "masque",
+      "requiredItems": [
+        "masque_gaz"
+      ],
+      "text": "UNKNOWN NUMBER: « The mask. Keep it on you. Don't ask how I know what you just found. — N. »"
+    },
+    {
+      "id": "code",
+      "requiredFlags": [
+        "fragment_1_trouve"
+      ],
+      "text": "UNKNOWN NUMBER: « A four-digit code for the basement. {NOM}, have you checked the 6th grade classroom? Or the principal's office? — N. »"
+    },
+    {
+      "id": "cantine",
+      "requiredFlags": [
+        "visited_cantine"
+      ],
+      "text": "UNKNOWN NUMBER: « The cafeteria... Look closely at what you're picking up there. Who could swallow a lettuce? Certainly not anything human. — N. »"
+    },
+    {
+      "id": "lapinou",
+      "requiredItems": [
+        "medaillon"
+      ],
+      "text": "UNKNOWN NUMBER: « He entrusted you with his medallion. He follows you without suspecting a thing. I hope you deserve it, {NOM}. Really. — N. »"
+    },
+    {
+      "id": "orgue_doute",
+      "requiredItems": [
+        "medaillon",
+        "partition"
+      ],
+      "text": "UNKNOWN NUMBER: « Medallion and melody, you have them both. I can't wait to see how you're going to handle this now — N. »"
+    },
+    {
+      "id": "passage",
+      "requiredFlags": [
+        "visited_passage"
+      ],
+      "text": "UNKNOWN NUMBER: « i'm los— the sig— whatever happens don't turn around. Do NOT turn around. — N. »"
+    },
+    {
+      "id": "eglise",
+      "requiredFlags": [
+        "visited_eglise"
+      ],
+      "text": "Your phone no longer shows any signal. Just one last message, already received, with no sender: « GET OUT. »"
+    }
+  ],
+  "deadlyItems": {
+    "digitale": "You pick the pretty purple flower and, without thinking, bring one of its bell-shaped blossoms to your lips to taste it. Sweet. Then bitter. Then... it was foxglove — purple foxglove. Your heart races, pounds, panics, then slows. Slows. Surprisingly fast, everything goes calm. So pretty, though, for a last thing to see."
+  },
+  "combinations": [
+    {
+      "itemA": "radis",
+      "itemB": "masque_gaz",
+      "resultText": "You stuff a bunch of radishes into the gas mask filter. Result: a « tactical radish-mustard » that stings eyes from three meters away. Completely useless. Absolutely glorious. Nestor, wherever he is, would weep with pride.",
+      "scoreDelta": 5
+    },
+    {
+      "itemA": "laitue",
+      "itemB": "sandwich",
+      "resultText": "You open the sandwich and slip in the old wilted lettuce. You take a bite. Once. The taste of defeat and spoiled chlorophyll. You put it back down, a little less dignified.",
+      "scoreDelta": -2
+    },
+    {
+      "itemA": "grenouille_morte",
+      "itemB": "partition",
+      "resultText": "You place the frog on the sheet music and press its belly in rhythm: CROAK, croak, CROAK-croak-CROAK. A little macabre concert. Somewhere, far away, two green ears applaud, cackling.",
+      "scoreDelta": 2
+    },
+    {
+      "itemA": "craie",
+      "itemB": "tableau",
+      "resultText": "You rub the chalk on the blackboard: under the white dust, a hidden inscription appears — « N. was here. And N. will return. (N., that's me. heh heh.) ». A joke, surely.",
+      "scoreDelta": 2,
+      "repeatable": true
+    },
+    {
+      "itemA": "lampe_torche",
+      "itemB": "ombre_marronnier",
+      "resultText": "You shine the flashlight on the chestnut tree's shadow. The light passes through it... and reveals, for an instant, a [vert]green[/vert] silhouette sitting in the branches, waving at you. You switch off the flashlight very, very fast."
+    },
+    {
+      "itemA": "telephone_casse",
+      "itemB": "tableau",
+      "resultText": "You rub the phone against the blackboard[pause=1][slow=150]....  ....  ....[/slow] a new little crack appears on the screen... what did you think would happen?[pause=4]",
+      "scoreDelta": -1
+    },
+    {
+      "itemA": "telephone_casse",
+      "itemB": "craie",
+      "resultText": "You rub the chalk against the phone[pause=1][slow=150]....  ....  ....[/slow] Bravo, Cro-Magnon... that's how humanity used to advance..... 30,000 years ago! [pause=4]",
+      "scoreDelta": -2
+    }
+  ]
+}

@@ -21,6 +21,12 @@
     <EmbeddedResource Include="world.json">
       <LogicalName>world.json</LogicalName>
     </EmbeddedResource>
+    <!-- Traductions du monde (world.en.json, world.pl.json, world.it.json...) : embarquées
+         automatiquement si présentes, pour rester en fichier unique. Le motif "??" ne matche
+         PAS world.json (source FR, déjà embarqué ci-dessus). -->
+    <EmbeddedResource Include="world.??.json">
+      <LogicalName>%(Filename)%(Extension)</LogicalName>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

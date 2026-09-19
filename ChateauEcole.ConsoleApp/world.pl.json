@@ -1,0 +1,804 @@
+{
+"startRoom": "classe_francais",
+"items": {
+"masque_gaz": "Maska przeciwgazowa",
+"lampe_torche": "Latarka",
+"sandwich": "Kanapka z stołówki",
+"carotte": "Marchewka (świeża, niemal zbyt pomarańczowa)",
+"laitue": "Wspaniała sałata",
+"medaillon": "Złoty medalion (wisiorek Lapinou)",
+"partition": "Nuty «Hymn do św. Legera»",
+"grenouille_morte": "Żaba do sekcji («esencja wiedzy o zwierzętach»)",
+"digitale": "Ładny fioletowy kwiat w kształcie dzwonka",
+"telephone_casse": "Telefon komórkowy (pęknięty ekran, rozładowana bateria)",
+"chargeur": "Ładowarka do telefonu",
+"radis": "Pęczek rzodkiewek (świeże, chrupiące)",
+"cours_anglais": "Kartka z angielskimi czasownikami nieregularnymi",
+"craie": "Kawałek kredy"
+},
+"rooms": [
+{
+"id": "classe_francais",
+"name": "Klasa języka francuskiego",
+"description": "[slow]Budzisz się z policzkiem przyklejonym do ławki. Sala jest pusta, światła zgaszone. Na zewnątrz jest ciemno — [slow=200]od kiedy?[pause=2][slow] Wstajesz, naciskasz klamkę drzwi na korytarz: nic. Zamknięte na klucz, od zewnątrz. Na tablicy drżące pismo kredą: « [rouge]UCIEKAJ, {NOM}[/rouge] ». Nikomu nie mówiłaś, jak masz na imię[slow=250]... [slow]Trzeba będzie znaleźć inne wyjście — a w tym celu przeszukać salę.",
+"exits": [
+{
+"target": "couloir_1er",
+"label": "Drzwi klasy (na korytarz 1. piętra)",
+"requiredFlags": [
+"francais_deverrouille"
+],
+"lockedMessage": "Naciskasz klamkę drzwi na korytarz: nic z tego. Zamknięte na klucz od zewnątrz — a zamek jest po drugiej stronie. Nie da się ich stąd otworzyć. Trzeba będzie znaleźć inną drogę."
+},
+{
+"target": "classe_histoire",
+"label": "Tajemne przejście do klasy historii",
+"hiddenUntilFlag": "passage_secret_francais",
+"transitionText": "[slow]Prześlizgujesz się za regałem na książki.[pause=1][slow] Za tobą coś [vert]zielonego (?!)[/vert] delikatnie przesuwa panel na miejsce.[pause]"
+}
+],
+"actions": [
+{
+"id": "fouiller_bureau",
+"label": "Przeszukać ławkę",
+"setsFlag": "bureau_fouille",
+"text": "Pod twoją ławką, zaklinowany przy nodze stołu, leży twój telefon: ekran pęknięty w pajęczynkę, bateria całkowicie wyładowana. W tym stanie bezużyteczny — przydałaby się ładowarka, gdzieś, kiedyś. Twój plecak nie pomieści wszystkiego. Prawdziwe pytanie brzmi: czy warto go ze sobą targać?"
+},
+{
+"id": "prendre_telephone",
+"label": "Zdecydować, co zrobić z telefonem",
+"requiredFlags": [
+"bureau_fouille"
+],
+"offersItem": "telephone_casse",
+"text": "Ważysz w dłoni martwy telefon. Wzięcie go oznacza zagracenie plecaka przedmiotem, który do niczego się nie przydaje..."
+},
+{
+"id": "inspecter_bibliotheque",
+"label": "Zauważyć biblioteczkę",
+"setsFlag": "biblio_inspectee",
+"text": "Podchodzisz do dużego regału na książki. Nachylając się, zauważasz dyskretną szynę wyżłobioną w parkiecie, tuż pod nim — oraz cienką stróżkę zimnego powietrza, która sączy się przez szczelinę po prawej stronie. Coś za tym jest. Na boku mebla ktoś wyrył kreski w drewnie. Bardzo dużo kresek. Jakby odliczał dni[slow=250]..."
+},
+{
+"id": "pousser_bibliotheque",
+"label": "Pchnąć biblioteczkę",
+"requiredFlags": [
+"biblio_inspectee"
+],
+"setsFlag": "passage_secret_francais",
+"text": "Opierasz ramię o regał i pchasz.[pause=3] Przesuwa się po szynie z cichym mruknięciem, odsłaniając poluzowany panel w ścianie:[slow=100] wąskie przejście do klasy historii.[slow][pause=1] Powiew zimnego powietrza wita cię jak drzwi otwarte specjalnie dla ciebie."
+}
+],
+"decorTargets": [
+{
+"id": "tableau",
+"label": "Czarna tablica (« UCIEKAJ... » napisane kredą)"
+}
+]
+},
+{
+"id": "couloir_1er",
+"name": "Korytarz na 1. piętrze",
+"description": "Długi, cichy korytarz. Pogięte szafki ciągną się wzdłuż ścian. Wydaje się, że z jednej z nich wystawało zielone ucho.... Decydujesz się nie sprawdzać, z której. Na drzwiach do klasy matematyki wisi na wpół odklejona karteczka, napisana pośpiesznym pismem: « Bernard oddaje ją tylko podczas gry. »",
+"exits": [
+{
+"target": "couloir_2e",
+"label": "Schody na 2. piętro"
+},
+{
+"target": "couloir_rdc",
+"label": "Schody na parter"
+},
+{
+"target": "classe_maths",
+"label": "Klasa matematyki"
+},
+{
+"target": "classe_francais",
+"label": "Klasa języka francuskiego",
+"setsFlag": "francais_deverrouille",
+"transitionText": "Pchasz drzwi do klasy francuskiego od strony korytarza: z tej strony zamek ustępuje bez trudu. Drzwi są odblokowane."
+},
+{
+"target": "classe_histoire",
+"label": "Klasa historii"
+},
+{
+"target": "toilettes",
+"label": "Toalety"
+}
+],
+"examine": {
+"text": "Jedna z szafek pozostała uchylona. Wystaje z niej zalaminowana kartka: angielskie czasowniki nieregularne, zapomniane przez jakiegoś ucznia. Biorą ją — w tym liceum nigdy nie wiadomo, co straszy ludzi. Na ścianie, pod cienką warstwą świeżej farby, można też dostrzec stare graffiti: « RATUJ SIĘ {NOM} ». Farba wygląda na mającą dziesięć lat. Ty przyszłaś tu w tym roku.",
+"repeatText": "Uchylona szafka jest teraz pusta. Graffiti « RATUJ SIĘ {NOM} » nie drgnęło pod farbą.",
+"grantsItems": [
+"cours_anglais"
+]
+}
+},
+{
+"id": "classe_maths",
+"name": "Klasa matematyki",
+"description": "Klasa matematyki jest idealnie uporządkowana. Może aż za bardzo. Pani Bernard tu jest, pogrążona w sprawdzianach, jakby nic się nie stało. To prawie uspokajające.[pause=2][slow=150] Prawie...",
+"exits": [
+{
+"target": "couloir_1er",
+"label": "Powrót na korytarz"
+}
+],
+"specialActionId": "chifoumi_bernard",
+"specialActionLabel": "Porozmawiać z panią Bernard",
+"stateTexts": [
+{
+"flag": "bernard_vaincue",
+"text": "Pani Bernard poprawia klasówki, podśpiewując pod nosem. Robi do ciebie mały gest: « A więc, Sarenko, wciąż tutaj? »"
+}
+]
+},
+{
+"id": "classe_histoire",
+"name": "Klasa historii",
+"description": "Osi czasu i stare mapy pokrywają ściany. Na jednej z nich narysowano liceum... ale z jednym budynkiem więcej niż dzisiaj.",
+"exits": [
+{
+"target": "couloir_1er",
+"label": "Powrót na korytarz"
+}
+],
+"actions": [
+{
+"id": "regarder_sous_bureau",
+"label": "Zajrzeć pod biurko nauczyciela",
+"setsFlag": "chargeur_repere_histoire",
+"text": "Schylasz się pod biurko nauczyciela historii. Czarny kabel zwisa z jego otwartej torby, która spadła tam niepostrzeżenie. « Co to jest...? » Reszta utknęła w cieniu, poza zasięgiem — chyba że mocno za nią pociągniesz.",
+"repeatText": "Czarny kabel wciąż zwisa pod biurkiem. Aż się prosi, by go pociągnąć."
+},
+{
+"id": "attraper_fil",
+"label": "Złapać kabel pod biurkiem",
+"requiredFlags": [
+"chargeur_repere_histoire"
+],
+"offersItem": "chargeur",
+"text": "Delikatnie pociągasz za kabel. Wyciągasz mały czarny bloczek: ładowarkę do telefonu. Sprawdzasz wtyczkę — i oto rzadki łut szczęścia w tym liceum: pasuje DOKŁADNIE do twojego pękniętego telefonu. Nauczyciel musiał ją upuścić, pakując sprawdziany. Dzięki, profesorze."
+}
+],
+"examine": {
+"text": "W archiwach pożółkła teczka dotycząca historii liceum: dawne «sale korekcyjne» w piwnicy, zamurowane, a potem ponownie otwarte. I notatka ołówkiem: «duszpasterstwo coś ukrywa. Wszystkie poszlaki zbiegają się tutaj...» Na krawędzi tablicy poniewiera się kawałek kredy nadający się jeszcze do użytku. Biorą go — nigdy nie wiadomo.",
+"repeatText": "Archiwa nie mają już przed tobą tajemnic: duszpasterstwo już wcześniej budziło twoje Podejrzenia... Krawędź tablicy jest pusta, kreda została już zabrana.",
+"grantsItems": [
+"craie"
+]
+},
+"decorTargets": [
+{
+"id": "tableau",
+"label": "Czarna tablica w klasie historii"
+}
+]
+},
+{
+"id": "toilettes",
+"name": "Toalety",
+"description": "Panuje tu okropny smród, gęsty, niemal żywy. Coś błyszczy na dnie muszli klozetowej. Oczywiście. To zawsze jest na dnie muszli.",
+"exits": [
+{
+"target": "couloir_1er",
+"label": "Powrót na korytarz"
+}
+],
+"examine": {
+"requiredItem": "masque_gaz",
+"deathWithoutItemMessage": "[slow]Nachylasz się nad muszlą. Smród chwyta cię za gardło niczym dłoń. Kolana pod tobą uginają się, kafelki pędzą w twoją stronę bardzo szybko. Ostatnia rzecz, jaką słyszysz, to dźwięk spłukiwanej wody. Nikt jej nie nacisnął.",
+"text": "[slow]Chroniona przez maskę przeciwgazową przeszukujesz wnętrze bez obaw [slow=300]. . . [slow]Na dnie ostatniej kabiny, głęboko wyryta w kafelku, znajduje się zagadka: [pause]«2. cyfra kodu to liczba zadrapań wokół drzwi do piwnicy. Policz je przed otwarciem, jeśli się odważysz.» Poniżej, inną ręką: «pozostałe są gdzie indziej! nyeh!». Wolisz nie wiedzieć, kto to wyrył, mając maskę na twarzy.",
+"repeatText": "Zagadka wciąż jest wyryta na kafelku: «liczba zadrapań wokół drzwi do piwnicy». Są widoczne z korytarza, jeszcze przed otwarciem. Lepiej się tu nie zasiedzieć.",
+"setsFlag": "fragment_2_trouve"
+}
+},
+{
+"id": "couloir_2e",
+"name": "Korytarz na 2. piętrze",
+"description": "Ostatnie piętro liceum. Zdjęcie klasowe jest przypięte do korkowej tablicy. Wszyscy uczniowie się uśmiechają. Wszyscy patrzą w obiektyw. Z wyjątkiem jednego, który patrzy dokładnie tam, gdzie stoisz.",
+"exits": [
+{
+"target": "classe_latin",
+"label": "Klasa łaciny"
+},
+{
+"target": "classe_sciences",
+"label": "Klasa przyrodnicza"
+},
+{
+"target": "infirmerie",
+"label": "Gabinet pielęgniarki"
+},
+{
+"target": "couloir_1er",
+"label": "Schody na 1. piętro"
+}
+],
+"examine": {
+"text": "Odwracasz zdjęcie klasowe. Z tyłu staranne pismo: «wyjście wymaga chwały i melodii». A poniżej, drobniejszym pismem, inną ręką: [vert]«nyeh![/vert] »."
+}
+},
+{
+"id": "classe_latin",
+"name": "Klasa łaciny",
+"description": "Rosa, rosa, rosam... Książki do łaciny piętrzą się na ławkach. Martwy język w liceum, które być może nie jest do końca martwe.",
+"exits": [
+{
+"target": "couloir_2e",
+"label": "Powrót na korytarz"
+}
+],
+"examine": {
+"text": "[slow]Kartkujesz starą książkę: [slow=50]« In ecclesia Sancti Leodegarii, musica portas aperit »[slow=100] — w kościele św. Legera muzyka otwiera drzwi.[slow] Notatka ucznia na marginesie: «NIGDY nie czytaj tej książki ponowne. Nuda jest tu dosłownie [slow=150]śmiertelna.[slow] » Kątem oka dostrzegasz, jak [slow=50]zielony cień mka między regałami i rozpływa się w powietrzu.[slow] Nie wierzysz w to ani przez chwilę.[pause=1] A może jednak.",
+"deadlyOnRepeatMessage": "[slow]Otwierasz ponownie tę samą książkę do łaciny. Ostrzegano cię.[pause=1][slow=100] Twoje powieki stają się ciężkie, odmiany zaczynają wirować wokół ciebie jak kołysanka...[slow=200] Rosa. Rosa. Rosam.[slow=100] Już nie wstaniesz z tej lekcji."
+}
+},
+{
+"id": "classe_sciences",
+"name": "Klasa przyrodnicza",
+"description": "Stoły laboratoryjne, zlewki, zapach siarki. Na jednym ze stołów stoi stary słoik z formaliną: pływa w nim [vert]żaba[/vert] do sekcji, całkowicie nieruchoma. No... prawie. Na dnie stoi puste akwarium. Ale woda wciąż tam jest. Po prostu nie widać już tego, co w niej było.",
+"companionText": "Lapinou wącha słoiki na stole i odskakuje do tyłu przed słoikiem z żabą. Nie lubi tego miejsca. Ty w głębi duszy też nie.",
+"exits": [
+{
+"target": "couloir_2e",
+"label": "Powrót na korytarz"
+}
+],
+"actions": [
+{
+"id": "inspecter_paillasses",
+"label": "Sprawdzić stoły laboratoryjne i szafki",
+"setsFlag": "sciences_inspecte",
+"text": "Przechodzisz wzdłuż stołów, tym razem naprawdę się przyglądając. Nic do wzięcia na pierwszy rzut oka... ale między dwoma stanowiskami niska metalowa szafka, po części ukryta, ma czerwoną etykietę: «BEZPIECZEŃSTWO — POZIOM 3». Jest tylko przymknięta, nie zamknięta na klucz.",
+"repeatText": "Szafka «BEZPIECZEŃSTWO POZIOM 3» wciąż tam stoi, między dwoma stołami. Czeka tylko na przeszukanie."
+},
+{
+"id": "fouiller_placard_securite",
+"label": "Przeszukać szafkę «BEZPIECZEŃSTWO POZIOM 3»",
+"requiredFlags": [
+"sciences_inspecte"
+],
+"grantsItems": [
+"masque_gaz"
+],
+"text": "[slow]Otwierasz niską szafkę. Wewnątrz znajduje się maska przeciwgazowa w idealnym stanie. Etykieta głosi: «W przypadku incydentu poziomu 3 NIE próbuj rozumieć. Załóż maskę. Idź szybko.» Biorą ją ze sobą."
+}
+],
+"examine": {
+"text": "Zlewki, probówki, zapach siarki. Na pierwszy rzut oka nic do wzięcia — trzeba by naprawdę przeszukać zakamarki, aby znaleźć coś przydatnego.",
+"repeatText": "Woda w akwarium poruszyła się, ale decydujesz się udać, że tego nie widziałaś."
+},
+"specialActionId": "grenouille_sciences",
+"specialActionLabel": "Złapać żabę ze słoika",
+"specialActionRequiredFlag": "sortie_tentee"
+},
+{
+"id": "infirmerie",
+"name": "Gabinet pielęgniarki",
+"description": "Gabinet jest pusty. Łóżka są starannie zasłane. W otwartym rejestrze ostatnia linijka [pause=3][slow] : twoje imię, {NOM}, wpisane z dzisiejszą datą. Powód wizyty: [rouge]do określenia wkrótce.[/rouge]",
+"exits": [
+{
+"target": "couloir_2e",
+"label": "Powrót na korytarz"
+}
+],
+"examine": {
+"text": "Półki zostały opróżnione dawno temu: brakuje bandaży, syropów, czegokolwiek do wzięcia. Na biurku stos usprawiedliwień nieobecności, wszystkie z tym samym powodem: «nie obudził(a) się». Tusz na ostatnim jest jeszcze świeży.",
+"repeatText": "Nic tu nie ma do wzięcia. Tylko zbyt starannie zasłane łóżka — i dwa duże zielone uszy wystające z uchylonej szafki. Kiedy patrzysz, znikają z piskliwym chichotem. Szafka jest pusta. Oczywiście."
+}
+},
+{
+"id": "couloir_rdc",
+"name": "Korytarz na parterze",
+"description": "Główny hol liceum. Oszklone drzwi wychodzą na dziedziniec pogrążony w półmroku. Tablice ogłoszeń pokryte są wiadomościami z [rouge]normalnego życia[/rouge]: wycieczki szkolne, menu ze stołówki, [gris]sesje tortur z panią Leroy[/gris]. Normalne życie wydaje się stąd bardzo dalekie.",
+"exits": [
+{
+"target": "couloir_1er",
+"label": "Schody na 1. piętro"
+},
+{
+"target": "classe_6e",
+"label": "Klasa 6"
+},
+{
+"target": "salle_profs",
+"label": "Pokój nauczycielski"
+},
+{
+"target": "classe_techno",
+"label": "Klasa techniki"
+},
+{
+"target": "sous_sol",
+"label": "Piwnica",
+"requiredFlags": [
+"soussol_ouvert"
+],
+"lockedMessage": "Drzwi do piwnicy nie mają już zardzewiałego zamka: zastąpiono go klawiaturą kodową, cztery cyfry, całkiem nową pośród brudu. Kś napis pod spodem: «zostawcie zamknięte». Ktoś inny przekreślił słowo «zamknięte». Wokół ościeżnicy głębokie zadrapania przecinają kamień — liczysz ich dokładnie {CODE2}. Natychmiast żałujesz, że je policzyłaś.",
+"transitionText": "Szyfr zaakceptowany, rygiel przesuwa się. Drzwi do piwnicy otwierają się ze skrzypnięciem, a zimne powietrze, które się wznosi, pachnie wilgotnym kamieniem i starymi wspomnieniami.",
+"codeLock": {
+"combination": "{CODE}",
+"setsFlag": "soussol_ouvert",
+"label": "Wprowadź cztery cyfry na klawiaturze",
+"prompt": "Wpisujesz cztery cyfry:",
+"successText": "Cztery sygnały, a potem głuchy klik. Klawiatura zmienia kolor na zielony.",
+"failText": "Klawiatura wydaje niski sygnał. Nic się nie dzieje. Możesz spróbować ponownie."
+}
+},
+{
+"target": "cour",
+"label": "Dziedziniec zewnętrzny"
+}
+]
+},
+{
+"id": "classe_6e",
+"name": "Klasa 6",
+"description": "Malutkie stoliki, wszędzie pozgniatane kartki. Wszystkie krzesła są odwrócone w stronę końca sali, jakby cała klasa odwróciła się, by na coś popatrzeć. Tył sali jest pusty. Teraz.",
+"exits": [
+{
+"target": "couloir_rdc",
+"label": "Powrót na korytarz"
+}
+],
+"examine": {
+"requiredItem": "radis",
+"blockedWithoutItemMessage": "Robisz krok w stronę końca sali. [vert]Coś[/vert] porusza się między porzuconymi plecakami — szelest papierów, oddech, który nie należy do ciebie, coś zielonego... Cofasz się bardzo powoli. Gołymi rękami nie masz szans: potrzebujesz czegoś, co odwróciłoby tego uwagę. Czegoś świeżego, chrupiącego — w tym miejscu, gdzie jest tylko kreda i kurz. Naleganie teraz byłoby ostatnią głupotą w twoim życiu.",
+"deadlyOnRepeatWithoutItemMessage": "Czułaś ten oddech. Cofałaś się. A jednak robisz kolejny krok w stronę końca sali z pustymi rękami. Tym razem [vert]TO COŚ[/vert] nie ogranicza się do szeleszczenia papierami. Ostatni obraz, jaki ze sobą zabierasz, to cała klasa 6 odwrócona w twoją stronę. Oni wszyscy się cofnęli. Raz.",
+"consumeRequiredItem": true,
+"text": "Rzucasz pęczek rzodkiewek w stronę końca sali. Szelest ustaje gwałtownie... po czym [vert]TO COŚ[/vert] wyskakuje spod plecaków i rzuca się na rzodkiewki z nieludzkim głodem — od ilu dekad nie chrupało niczego świeżego? Podczas gdy ono pożera jedzenie, szybko przeszukujesz otoczenie: na tylnej tablicy, napisana kredą, widnieje cyfra otoczona dziesiątki razy — « {CODE4} ». CZWARTA cyfra zamku do piwnicy. Zapisujesz ją i uciekasz, zanim [vert]ono[/vert] skończy swoją ucztę.",
+"repeatText": "Koniec sali jest pusty. Naprawdę pusty tym razem. Cyfra « {CODE4} » wciąż tam jest, otoczona kredą.",
+"setsFlag": "fragment_4_trouve"
+},
+"stateTexts": [
+{
+"flag": "examined_classe_6e",
+"text": "Gdzieś w liceum słychać, jak ktoś chciwie chrupie ostatnią rzodkiewkę. Sama sala jest [vert]wreszcie[/vert] spokojna."
+}
+]
+},
+{
+"id": "salle_profs",
+"name": "Pokój nauczycielski",
+"description": "Mityczny pokój nauczycielski! Woźny drzemie w fotelu przed drzwiami do gabinetu Dyrektora. Jego klatka piersiowa unosi się w idealnie regularnym rytmie. Zbyt regularnym. Jak metronom.",
+"exits": [
+{
+"target": "couloir_rdc",
+"label": "Powrót na korytarz"
+},
+{
+"target": "bureau_proviseur",
+"label": "Gabinet Dyrektora",
+"requiredItems": [
+"sandwich"
+],
+"consumeRequiredItems": true,
+"setsFlag": "surveillant_repu",
+"bypassIfFlag": "surveillant_repu",
+"lockedMessage": "Woźny otwiera oczy gwałtownie, bez przejścia, i zastępuje ci drogę: [bleu]« Ej! To nie młyn, żeby tak wchodzić. »[/bleu] W jego brzuchu głośno burczy. To pierwszy naprawdę ludzki dźwięk, jaki z jego strony słyszysz.",
+"transitionText": "Podajesz kanapkę woźnemu. Przygląda się jej długo, jakby wspomnieniu, a potem przepuszcza cię, żując. « Dziękuję. Minęło... dużo czasu. »",
+"bypassTransitionText": "Najedzony woźny rozpoznaje cię i daje ci znak leniwym gestem, byś przeszła. « Idź, czuj się jak u siebie. [gris](co za profesjonalizm!)[/gris] »"
+}
+],
+"examine": {
+"text": "Ekspres do kawy jest pusty od lat, sądząc po kurzu. Sam woźny wygląda na głodnego. Troszkę jedzenia mogłoby go przekonać... albo obudzić na dobre."
+}
+},
+{
+"id": "bureau_proviseur",
+"name": "Gabinet Dyrektora",
+"description": "Odosobnione, majestatyczne biurko z litego dębu, oprawione dyplomy na ścianach. Wszystkie na to samo nazwisko. Przez wszystkie dekady. To samo nazwisko od 191{CODE1} roku.",
+"exits": [
+{
+"target": "salle_profs",
+"label": "Powrót do pokoju nauczycielskiego"
+}
+],
+"examine": {
+"text": "Na biurku stare zdjęcie: Dyrektor przed organami w kościele św. Legera, trzymający złoty medalion i nuty. Odwracasz je. Z tyłu dwa pismem napisane teksty. Stary: «przejście pod duszpasterstwem prowadzi do wyjścia. Zamykam wszystko za sobą. Przepraszam tych, którzy zostają.» I wyryta ostrym narzędziem, nowsza zagadka: «1. cyfra kodu to ostatnia cyfra roku, w którym wszystko się zaczęło. Pozostałe trzy są tam, gdzie myje się ręce, tam, gdzie prawdopodobieństwo staje się denerwujące, i tam, gdzie maluchy z 6. klasy patrzą na koniec sali.»",
+"repeatText": "Zdjęcie wciąż tam jest, zagadka z tyłu również: «ostatnia cyfra roku, w którym wszystko się zaczęło». Sam Dyrektor zdaje się wpatrywać w ciebie nieco mocniej przy każdej wizycie. (Rok widnieje na jego dyplomach na ścianie.)",
+"setsFlag": "fragment_1_trouve"
+}
+},
+{
+"id": "classe_techno",
+"name": "Klasa techniki",
+"description": "Stoły warsztatowe, alkomaty na arduino [gris](... co?!)[/gris] i starannie poukładane lutownice. Maketa liceum pyszni się na biurku nauczyciela. W makiecie miniaturowa sylwetka stoi w klasie techniki. Wygląda zupełnie jak ty.",
+"exits": [
+{
+"target": "couloir_rdc",
+"label": "Powrót na korytarz"
+}
+],
+"examine": {
+"text": "W skrzynce z częściami uniwersalna ładowarka do telefonu, wciąż zapakowana. Biorą ją — na wypadek, gdybyś zostawiła drugą pod jakimś biurkiem. Nigdy nie jest się zbyt ostrożnym w tym liceum.",
+"repeatText": "Nic innego przydatnego wśród makiet. Za to gniazdka ścienne są wszędzie — przydatne, teraz gdy masz czym naładować telefon. W makiecie liceum malutka para zielonych uszu wystaje z jednej sali, po czym przemyka do innej, zostawiając ledwo słyszalne «hehe». Mała sylwetka, która cię przypomina, znowu zmieniła salę. Nie sprawdzasz, którą.",
+"grantsItems": [
+"chargeur"
+]
+}
+},
+{
+"id": "sous_sol",
+"name": "Piwnica",
+"companionText": "Lapinou waha się na szczycie schodów, po czym schodzi, przytulając się do ciebie, a jego małe pazurki stukają o wilgotny kamień.",
+"description": "Ciemna i wilgotna piwnica. Dawne « [gris]sale tortur[/gris]... » ... przemianowane na salę muzyczną i salę języka angielskiego. Trzecie drzwi, na samym końcu, mają zasnujną tabliczkę [gris](krew?! zaschnięte łzy?!)[/gris]: «Gabinet pani Roy». Na ścianach te same równoległe zadrapania, co na ościeżnicy na górze. Nie liczysz ich ponownie: raz wystarczyło.",
+"exits": [
+{
+"target": "couloir_rdc",
+"label": "Schody na parter"
+},
+{
+"target": "salle_musique",
+"label": "Sala muzyczna"
+},
+{
+"target": "salle_anglais",
+"label": "Sala języka angielskiego"
+},
+{
+"target": "bureau_roy",
+"label": "Gabinet pani Roy (drzwi zamknięte)",
+"requiredFlags": [
+"bureau_roy_ouvert"
+],
+"lockedMessage": "Kładziesz dłoń na klamce gabinetu pani Roy. Zamknięte. Ale za drzwiami słychać głosy: skargi dawnych uczniów, słabe, jęczące, drapanie w drewno, szeptanie, by wreszcie pozwolono im wyjść. Odgłosy duchów. [pause=5][slow] Bardzo powoli zabierasz dłoń i cofasz się ze wstrząsem. Decydujesz się nie nalegać. Naprawdę nie."
+}
+]
+},
+{
+"id": "bureau_roy",
+"name": "Gabinet pani Roy",
+"description": "Nigdy nie powinnaś była móc tu wejść. Nikt nie powinien.",
+"exits": [
+{
+"target": "sous_sol",
+"label": "Natychmiast wyjdź"
+}
+]
+},
+{
+"id": "salle_musique",
+"name": "Sala muzyczna",
+"description": "Stare pianino stoi pośrodku przewróconych pulpitów. Pokrywa klawiatury jest otwarta. A przecież jesteś pewna, że była zamknięta, kiedy patrzyłaś przez drzwi.",
+"exits": [
+{
+"target": "sous_sol",
+"label": "Powrót do piwnicy"
+}
+],
+"examine": {
+"text": "Za pianinem schowek w ścianie. Znajdujesz w nim stare nuty: «Hymn do św. Legera». Na nutach adnotacja: «zagrać tylko raz. On nie lubi bisów.» Schowek jest nieco za duży jak na same nuty — jakby kiedyś spoczywał tam inny przedmiot.",
+"repeatText": "Schowek za pianinem jest teraz pusty. Jeden z klawiszy pianina zapada się sam, bardzo powoli, bez dźwięku.",
+"grantsItems": [
+"partition"
+]
+}
+},
+{
+"id": "salle_anglais",
+"name": "Sala języka angielskiego",
+"description": "Tablica jest pokryta czasownikami nieregularnymi. To be, was/were, been. Ktoś odmienił «to escape» na całej wysokości tablicy. Ostatniego czasu z listy nie ma w żadnej gramatyce.",
+"exits": [
+{
+"target": "sous_sol",
+"label": "Powrót do piwnicy"
+}
+],
+"examine": {
+"text": "Odczytujesz nieznaną odmianę na dole tablicy: czas przyszły, który tłumaczy się na czas przeszły. «Uciekniesz (będziesz tą, która uciekła).» Biurko nauczyciela jest puste, jego szuflady otwarte: ktoś już wszystko zabrał. Została tylko kreda i to zdanie, odmienione specjalnie dla ciebie.",
+"repeatText": "Tablica wciąż odmienia «to escape» w czasach, które nie istnieją. Reszta sali jest pusta."
+}
+},
+{
+"id": "cour",
+"name": "Dziedziniec zewnętrzny",
+"companionText": "Lapinou podnosi nos w stronę cienia kasztanowca, zamiera na chwilę, po czym wraca, by wtulić się w twoją kostkę.",
+"description": "Opustoszały dziedziniec liceum. Zapadła noc, bez księżyca. Wielki kasztanowiec rzuca cień... który nie do końca odpowiada kształtowi drzewa.",
+"exits": [
+{
+"target": "couloir_rdc",
+"label": "Powrót do budynku"
+},
+{
+"target": "aumonerie",
+"label": "Duszpasterstwo"
+},
+{
+"target": "portail",
+"label": "Brama"
+},
+{
+"target": "gymnase",
+"label": "Szkolna sala gimnastyczna"
+},
+{
+"target": "cantine",
+"label": "Stołówka"
+}
+],
+"examine": {
+"text": "Na pniu kasztanowca stary ryt: strzałka wskazująca duszpasterstwo, zwieńczona małym krzyżykiem. Poniżej inicjały i daty. Daty zawsze kończą się tego samego dnia roku. Dzisiaj jest właśnie ten dzień."
+},
+"decorTargets": [
+{
+"id": "ombre_marronnier",
+"label": "Zniekształcony cień kasztanowca"
+}
+]
+},
+{
+"id": "portail",
+"name": "Brama",
+"description": "Wielka brama wjazdowa do liceum. Po drugiej stronie kraty ulica, latarnie, normalny świat. Autobus przejeżdża bez zatrzymania. Kierowca nie odwraca głowy. Nikt nigdy nie odwraca głowy w stronę liceum nocą. U stóp bramy ktoś upuścił na ziemię latarkę — baterie wyglądają na jeszcze dobre. Tuż obok rośnie ładny fioletowy kwiat w kształcie dzwonka, zadziwiająco żywy w tej całej szarości.",
+"exits": [
+{
+"target": "cour",
+"label": "Powrót na dziedziniec"
+}
+],
+"floorItems": [
+"lampe_torche",
+"digitale"
+],
+"examine": {
+"text": "Brama jest zamknięta na kłódkę z grubym łańcuchem, założonym niedawno: metal wciąż błyszczy. Ktoś wiedział, że będziesz próbowała tędy wyjść. Trzeba będzie znaleźć inną drogę... tę, o której mówią archiwa. Na pręcie, wyryte nożem z entuzjazmem: «N... co za niesamowity przystojniak!». Nie wiesz, kim jest N., ale ktoś tutaj bardzo go podziwia."
+}
+},
+{
+"id": "gymnase",
+"name": "Szkolna sala gimnastyczna",
+"companionText": "Lapinou radośnie goni starą piłkę tenisową przez salę, po czym wraca do ciebie, bardzo z siebie dumny.",
+"description": "Znajomy zapach mat do ćwiczeń i piłek tenisowych. Tablica rekordów szkoły wisi na ścianie. Rekord sprintu: niemożliwy czas. Posiadacz: nieczytelne, nazwisko zostało zawzięcie zdrapane.",
+"exits": [
+{
+"target": "cour",
+"label": "Powrót na dziedziniec"
+}
+],
+"examine": {
+"text": "Tablica rekordów szkoły: rekord sprintu, niemożliwy czas; posiadacz, nazwisko zawzięcie zdrapane rozpoczynające się na N. Na plakacie nauczyciela wuefu ktoś napisał flamastrem: «nienawidzi angielskiego bardziej niż czegokolwiek na świecie». Warto zapamiętać, na wszelki wypadek."
+},
+"specialActionId": "prof_sport",
+"specialActionLabel": "Wejść na boisko",
+"stateTexts": [
+{
+"flag": "gym_vaincu",
+"text": "Sala gimnastyczna jest spokojna. Z magazynku słychać, jak nauczyciel wuefu powtarza czasowniki nieregularne, pociągając nosem."
+}
+]
+},
+{
+"id": "cantine",
+"name": "Stołówka",
+"companionText": "Lapinou wącha wszystko w poszukiwaniu okruszka, z jednym uchem postawionym, nieufnie patrzy w stronę chłodni.",
+"description": "Stołówka «Przysmaki»! Krzesła są ułożone na stołach. Menu na ten tydzień wciąż wisi. Piątek: «niespodzianka szefa kuchni». Słowo «niespodzianka» zostało podkreślone trzy razy, trzema różnymi charakterami pisma.",
+"exits": [
+{
+"target": "cour",
+"label": "Powrót na dziedziniec"
+}
+],
+"examine": {
+"text": "Menu na ten tydzień wciąż wisi. Piątek: «niespodzianka szefa kuchni». Słowo «niespodzianka» zostało podkreślone trzy razy, trzema różnymi charakterami pisma. Kuchnie zasługują na porządne przeszukanie.",
+"repeatText": "Menu się nie zmieniło. «Niespodzianka szefa kuchni» również nie, niestety dla wszystkich."
+},
+"specialActionId": "choix_cantine",
+"specialActionLabel": "Przeszukać kuchnię"
+},
+{
+"id": "aumonerie",
+"name": "Duszpasterstwo",
+"description": "Mała, przytulna sala — jedyne pomieszczenie w liceum, które wydaje się jeszcze... chronione. Rysunki uczniów i najlepsze żarty pana Perriera są przypięte do ściany. Tutaj cisza jest łagodna, niegroźna. Oddychasz spokojniej. A w kącie, pod krzesłem, dwie okrągłe czarne plamki cię obserwują: mały biały króliczek ze złotym medalionem na szyi, drżący. Nie śmie podejść.",
+"exits": [
+{
+"target": "cour",
+"label": "Powrót na dziedziniec"
+},
+{
+"target": "passage",
+"label": "Schodzę do podziemnego przejścia",
+"hiddenUntilFlag": "aumonerie_examinee",
+"requiredItems": [
+"lampe_torche"
+],
+"lockedMessage": "Klapa otwiera się na schody pogrążone w absolutnej ciemności. To nie jest zwykła ciemność: ma swoją gęstość. Nie da się iść dalej bez światła.",
+"transitionText": "Włączasz latarkę i ostrożnie schodzisz po kamiennych stopniach. Za tobą klapa zamyka się sama, bezszelestnie, jakby przez grzeczność."
+}
+],
+"companionText": "Lapinou zna duszpasterstwo na pamięć; relaksuje się, klapnięte uszy, niemal szczęśliwy. Ale wpatruje się w klapę i odmawia podejścia do niej.",
+"actions": [
+{
+"id": "donner_carotte",
+"label": "Dać marchewkę Lapinou",
+"requiredItem": "carotte",
+"requiredFlagsAbsent": [
+"lapinou_ami"
+],
+"consumesItem": true,
+"setsFlag": "lapinou_ami",
+"setsCompanion": true,
+"grantsItems": [
+"medaillon"
+],
+"text": "Kucasz, wyciągając marchewkę na odległość ramienia. Mały biały króliczek waha się, z drżącym noskiem... po czym podchodzi małymi skokami i chrupie marchewkę przy twojej dłoni, z ufnością. Ociera się o twoją nogę. Delikatnie przesuwa pyszczek pod zapięciem swojego medalionu i wsuwa ci go do dłoni, jak prezent. «Lapinou», mówisz — nie wiesz dlaczego, to po prostu jego imię. Teraz idzie za tobą. Już cię nie opuści."
+},
+{
+"id": "donner_laitue",
+"label": "Dać sałatę Lapinou",
+"requiredItem": "laitue",
+"requiredFlagsAbsent": [
+"lapinou_ami"
+],
+"text": "Kucasz z dumą i wyciągasz starą, zwiędłą sałatę do Lapinou jako dar.",
+"deadlyMessage": "Lapinou wącha sałatę. Raz. Dwa razy. A potem jego oczy zachodzą krwią — złość, czysta wściekłość na widok tej nieopisanej zniewagi. Biała i czerwona błyskawica uderza w ciebie z pełną mocą, a świat się rozdziera. ... Co za pomysł, żeby dawać TO komuś do jedzenia. Całkowicie na to zasłużyłaś, {NOM}."
+},
+{
+"id": "donner_radis",
+"label": "Zaproponować rzodkiewki Lapinou",
+"requiredItem": "radis",
+"repeatable": true,
+"text": "Wyciągasz pęczek rzodkiewek do królika. Podchodzi ostrożnie i długo je wącha — raz, dwa razy, z drżącym noskiem... po czym odwraca głowę z małym, oburzonym grymasem i cofa się. Nie. Stanowczo nie. To nie rzodkiewkami udobrucha się TEGO królika. Pakujesz rzodkiewki z powrotem, trochę dotknięta."
+}
+],
+"stateTexts": [
+{
+"flag": "lapinou_ami",
+"text": "Duszpasterstwo jest łagodne i spokojne. Lapinou zna już to miejsce; bryka między rysunkami uczniów jak u siebie."
+}
+],
+"examine": {
+"text": "Odsuwasz zasłonę: uchylona klapa pozwala dostrzec schody niknące w ciemności — podziemne przejście, o którym wspominają archiwa. Na ścianie, tuż powyżej, przypięta jest notatka od pana Perriera: «Pan bóg zawsze wybacza. Ja też… ale i tak zachowuję imiona na listę intencji modlitewnych!» Masz ogromną nadzieję, że to tylko żart.",
+"repeatText": "Klapa wciąż tam jest, ziewając w ciemność. Będziesz potrzebować światła, aby w nią wejść.",
+"setsFlag": "aumonerie_examinee"
+}
+},
+{
+"id": "passage",
+"name": "Podziemne przejście",
+"companionText": "W ciemności tunelu Lapinou przytula się do twojej nogi. Jego szybki, mały oddech jest jedynym ciepłym dźwiękiem tutaj.",
+"description": "Wąski kamienny tunel. Twoje kroki odbijają się echem — a między dwoma echami czasami pojawia się jeden krok za dużo. Promień latarki trochę drży. Ty też.",
+"exits": [
+{
+"target": "eglise",
+"label": "Idź dalej w stronę kościoła św. Legera"
+},
+{
+"target": "aumonerie",
+"label": "Wróć do duszpasterstwa"
+}
+],
+"examine": {
+"text": "Na ścianie napisy pozostawione przez tych, którzy przeszli przed tobą. Imiona, daty. Najstarsze sięgają wieku wstecz. Pod ostatnim imieniem pozostawiono wolne miejsce. Wpół idealne na twoje."
+}
+},
+{
+"id": "eglise",
+"name": "Kościół św. Legera",
+"titleArt": "        [jaune]✝[/jaune]\n     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]KOŚCIÓŁ ŚW. LEGERA[/cyan]",
+"companionText": "Lapinou przytula się do twojej nogi i wpatruje się w organy bez ruchu. Drży nieco. Jakby wiedział już coś, czego ty jeszcze nie wiesz.",
+"description": "[slow]Wychodzisz w cichej nawie kościoła św. Legera. Wielkie organy pysznią się na końcu, majestatyczne, cierpliwe. Wielkie drzwi są zamknięte od wewnątrz przez dziwny mechanizm. Witraże przepuszczają światło latarni: [vert]normalny świat[/vert] jest tuż za tymi drzwiami.[pause]",
+"exits": [
+{
+"target": "passage",
+"label": "Wróć do podziemnego przejścia",
+"hiddenIfFlag": "grenouille_perdue"
+}
+],
+"specialActionId": "rituel_orgue",
+"specialActionLabel": "Podejść do organów",
+"examine": {
+"text": "Organy zdają się czekać na melodię. W pulpicie wyżłobiono okrągłą szczelinę... dokładnie wielkości medalionu. Na ławce organisty widnieje wyartykułowany przez lata napis: «graj czysto, {NOM}». Napis wygląda na bardzo, bardzo stary."
+}
+}
+],
+"sms": [
+{
+"id": "premier",
+"requiredFlags": [
+"telephone_charge"
+],
+"text": "NIEZNANY NUMER: «Udało ci się go ponownie włączyć. Dobrze. Nie mamy wiele czasu, {NOM}. Znajdź rzodkiewki... eee, wyjście. — N.»"
+},
+{
+"id": "masque",
+"requiredItems": [
+"masque_gaz"
+],
+"text": "NIEZNANY NUMER: «Maska. Trzymaj ją przy sobie. Nie pytaj, skąd wiem, co właśnie znalazłaś. — N.»"
+},
+{
+"id": "code",
+"requiredFlags": [
+"fragment_1_trouve"
+],
+"text": "NIEZNANY NUMER: «Czterocyfrowy kod do piwnicy. {NOM}, czy sprawdziłaś klasę 6? Albo gabinet dyrektora? — N.»"
+},
+{
+"id": "cantine",
+"requiredFlags": [
+"visited_cantine"
+],
+"text": "NIEZNANY NUMER: «Stołówka... Przyjrzyj się dobrze temu, co tam zbierasz. Kto mógłby zjeść sałatę? Na pewno nic ludzkiego. — N.»"
+},
+{
+"id": "lapinou",
+"requiredItems": [
+"medaillon"
+],
+"text": "NIEZNANY NUMER: «Powierzył ci swój medalion. Idzie za tobą, niczego nie podejrzewając. Mam nadzieję, że na to zasługujesz, {NOM}. Naprawdę. — N.»"
+},
+{
+"id": "orgue_doute",
+"requiredItems": [
+"medaillon",
+"partition"
+],
+"text": "NIEZNANY NUMER: «Medal i melodia, masz je. Nie mogę się doczekać, aż zobaczę, jak sobie teraz poradzisz — N.»"
+},
+{
+"id": "passage",
+"requiredFlags": [
+"visited_passage"
+],
+"text": "NIEZNANY NUMER: «tra— sygn— cokolwiek się stanie, nie odwracaj się. NIE odwracaj się. — N.»"
+},
+{
+"id": "eglise",
+"requiredFlags": [
+"visited_eglise"
+],
+"text": "Twój telefon nie pokazuje już żadnego sygnału. Tylko jedna ostatnia wiadomość, już odebrana, bez nadawcy: «WYJDŹ.»"
+}
+],
+"deadlyItems": {
+"digitale": "Zrywasz ładny fioletowy kwiat i bez namysłu przykładasz dzwonek do ust, by go spróbować. Słodki. Potem gorzki. Potem... to była naparstnica — naparstnica purpurowa. Twoje serce przyspiesza, wali, szaleje, po czym zwalnia. Zwalnia. Zadziwiająco szybko wszystko staje się spokojne. Takie piękne, jak na ostatnią rzecz do zobaczenia."
+},
+"combinations": [
+{
+"itemA": "radis",
+"itemB": "masque_gaz",
+"resultText": "Wtykasz pęczek rzodkiewek do filtra maski przeciwgazowej. Wynik: «taktyczna rzodkiewka musztardowa», która szczypie w oczy z odległości trzech metrów. Całkowicie bezużyteczne. Absolutnie wspaniałe. Nestor, gdziekolwiek jest, rozpłakałby się z dumy.",
+"scoreDelta": 5
+},
+{
+"itemA": "laitue",
+"itemB": "sandwich",
+"resultText": "Otwierasz kanapkę i wsuwasz do niej starą, zwiędłą sałatę. Gryziesz. Raz. Smak porażki i zepsutego chlorofilu. Odkładasz całość, mając nieco mniej godności.",
+"scoreDelta": -2
+},
+{
+"itemA": "grenouille_morte",
+"itemB": "partition",
+"resultText": "Kładziesz żabę na nutach i naciskasz na jej brzuch w rytm: KWA, kwa, KWA-kwa-KWA. Mały makabryczny koncert. Gdzieś bardzo daleko dwoje zielonych uszu klaszcze, chichocząc.",
+"scoreDelta": 2
+},
+{
+"itemA": "craie",
+"itemB": "tableau",
+"resultText": "Pocierasz kredą o tablicę: pod białym pyłem pojawia się ukryty napis — «N. tu był. I N. powróci. (N. to ja. hehe.)». Żart, na pewno.",
+"scoreDelta": 2,
+"repeatable": true
+},
+{
+"itemA": "lampe_torche",
+"itemB": "ombre_marronnier",
+"resultText": "Kierujesz latarkę na cień kasztanowca. Światło przechodzi przez niego... i ujawnia na ułamek sekundy [vert]zieloną[/vert] sylwetkę siedzącą w gałęziach, która macha do ciebie ręką. Wyłączasz latarkę bardzo, bardzo szybko."
+},
+{
+"itemA": "telephone_casse",
+"itemB": "tableau",
+"resultText": "Pocierasz telefonem o tablicę[pause=1][slow=150]....  ....  ....[/slow] na ekranie pojawia się mała nowa rysą... co myślałaś, że zrobisz?[pause=4]",
+"scoreDelta": -1
+},
+{
+"itemA": "telephone_casse",
+"itemB": "craie",
+"resultText": "Pocierasz kredą o telefon[pause=1][slow=150]....  ....  ....[/slow] Brawo, Cro-Magnon... tak właśnie rozwijała się ludzkość..... ... 30 000 lat temu! [pause=4]",
+"scoreDelta": -2
+}
+]
+}
