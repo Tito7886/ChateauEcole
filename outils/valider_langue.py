@@ -23,8 +23,11 @@ TEXT_FIELDS = {
     "lockedMessage", "deathWithoutItemMessage", "blockedWithoutItemMessage",
     "deadlyOnRepeatMessage", "deadlyOnRepeatWithoutItemMessage", "deadlyMessage",
     "resultText", "deathMessage", "companionText", "titleArt", "successText",
-    "failText", "prompt", "bypassTransitionText",
+    "failText", "prompt", "bypassTransitionText", "specialActionLabel",
 }
+
+# Dictionnaires "id -> texte" (les clés sont des ids structurels, les valeurs du texte traduisible).
+TEXT_DICTS = {"items", "deadlyItems"}
 
 problems = []   # cassants
 warnings = []   # placeholders / marqueurs
@@ -51,16 +54,21 @@ def walk(path, a, b, key=None):
         if not isinstance(b, dict):
             problems.append(f"{path}: objet attendu dans la traduction")
             return
-        if key == "items":  # dict id -> texte
+        if key in TEXT_DICTS:  # dict id -> texte (items, deadlyItems)
             if set(a) != set(b):
-                problems.append(f"{path}: items différents  manquants={sorted(set(a)-set(b))}  en trop={sorted(set(b)-set(a))}")
+                problems.append(f"{path}: entrées différentes  manquantes={sorted(set(a)-set(b))}  en trop={sorted(set(b)-set(a))}")
             for k in set(a) & set(b):
                 if isinstance(a[k], str) and isinstance(b[k], str):
                     check_text(f"{path}.{k}", a[k], b[k])
             return
         ka, kb = set(a), set(b)
-        if ka != kb:
-            problems.append(f"{path}: clés différentes  manquantes={sorted(ka-kb)}  en trop={sorted(kb-ka)}")
+        for k in ka - kb:  # présent en FR, absent de la traduction
+            if k in TEXT_FIELDS:
+                warnings.append(f"{path}.{k}: champ texte absent de la traduction (ce texte manquera dans cette langue)")
+            else:
+                problems.append(f"{path}: clé structurelle manquante '{k}'")
+        for k in kb - ka:  # en trop dans la traduction
+            problems.append(f"{path}: clé en trop '{k}'")
         for k in ka & kb:
             walk(f"{path}.{k}" if path else k, a[k], b[k], k)
     elif isinstance(a, list):
