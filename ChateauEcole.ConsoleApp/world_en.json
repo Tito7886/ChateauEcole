@@ -13,7 +13,7 @@
     "telephone_casse": "Cell phone (cracked screen, dead battery)",
     "chargeur": "Phone charger",
     "radis": "Bunch of radishes (fresh, crunchy)",
-    "cours_anglais": "Sheet of English irregular verbs",
+    "cours_anglais": "Sheet of French grammar",
     "craie": "Piece of chalk"
   },
   "rooms": [
@@ -109,7 +109,7 @@
             }
         ],
         "examine": {
-            "text": "A locker was left ajar. A laminated sheet sticks out of it: English irregular verbs, left behind by a student. You take it — in this school, you never know what might scare people. On the wall, under a thin layer of recent paint, you can also make out an old graffiti: « RUN AWAY {NOM} ». The paint looks about ten years old. You, on the other hand, arrived this year.",
+            "text": "A locker was left ajar. A laminated sheet sticks out of it: French grammar, left behind by a student. You take it — in this school, you never know what might scare people. On the wall, under a thin layer of recent paint, you can also make out an old graffiti: « RUN AWAY {NOM} ». The paint looks about ten years old. You, on the other hand, arrived this year.",
             "repeatText": "The half-open locker is empty now. The graffiti « RUN AWAY {NOM} » hasn't moved under the paint.",
             "grantsItems": [
                 "cours_anglais"
