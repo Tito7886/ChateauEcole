@@ -109,10 +109,12 @@ source et le repli** : une traduction manquante retombe sur le français, jamais
   ligne `<EmbeddedResource>` à ajouter au `.csproj`) pour l'embarquer dans l'exe unique.
   ⚠️ Nommage avec **underscore** (`world_en.json`, pas `world.en.json`) : sinon .NET prend « en »
   pour une culture et met le fichier dans un assembly satellite → le jeu retombe en français.
+- **L'interface** (menus, invites, classement, marques de score) **et tous les textes des
+  mini-jeux** se traduisent via un fichier plat **`ui_<langue>.json`** (`"français" → "traduit"`,
+  même règle d'underscore et de repli). `ui_en.json` et `ui_pl.json` sont fournis : le jeu est
+  **intégralement** en fr / en / pl, rien ne reste en français.
 - Procédure complète (consigne prête pour une IA + règles à respecter) et **validateur**
   (`outils/valider_langue.py`) : voir **`docs/TRADUCTION.md`**.
-- Les quelques chaînes d'interface C# (menus, mini-jeux) restent en français pour l'instant :
-  extraction dans des `ui.<langue>.json` prévue en phase 2.
 
 ## Progression v2 : 3 branches parallèles + un choix moral
 

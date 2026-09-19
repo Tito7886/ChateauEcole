@@ -25,4 +25,12 @@
     <EmbeddedResource Include="world_pl.json"><LogicalName>world_pl.json</LogicalName></EmbeddedResource>
   </ItemGroup>
 
+  <!-- Traductions de l'INTERFACE (menus, prompts, mini-jeux) : français = clé + repli.
+       Même règle d'UNDERSCORE que les mondes (ui_en.json, ui_pl.json...) pour éviter les
+       assemblys satellites. Ajouter une langue = ajouter une ligne ici (ex. ui_it.json). -->
+  <ItemGroup>
+    <EmbeddedResource Include="ui_en.json"><LogicalName>ui_en.json</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="ui_pl.json"><LogicalName>ui_pl.json</LogicalName></EmbeddedResource>
+  </ItemGroup>
+
 </Project>

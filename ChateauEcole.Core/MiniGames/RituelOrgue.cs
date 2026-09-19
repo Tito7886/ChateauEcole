@@ -37,8 +37,8 @@ public static class RituelOrgue
         {
             io.WriteLine("Tu déposes le médaillon dans l'encoche et tu poses la grenouille — « l'essence du savoir animalier » — sur le pupitre. Puis tu joues.");
             io.WriteLine("Les premières notes de l'Hymne de Saint-Léger s'élèvent sous la voûte. Le médaillon s'illumine.");
-            io.WriteLine(engine.T("La grande porte s'ouvre dans un grondement. Tu sors dans la nuit fraîche, {NOM}. Lapinou bondit devant toi, libre, vivant, et file vers les lampadaires comme s'il connaissait déjà le chemin."));
-            io.WriteLine(engine.T("Derrière toi, les fenêtres du lycée s'éteignent une à une. Quelque part, très loin, quelque chose murmure ton prénom une dernière fois, suivi d'un petit ricanement diabolique 'je reviendrais te hanter {NOM}, Nyhé! hé! hé!"));
+            io.WriteLine(engine.L("La grande porte s'ouvre dans un grondement. Tu sors dans la nuit fraîche, {NOM}. Lapinou bondit devant toi, libre, vivant, et file vers les lampadaires comme s'il connaissait déjà le chemin."));
+            io.WriteLine(engine.L("Derrière toi, les fenêtres du lycée s'éteignent une à une. Quelque part, très loin, quelque chose murmure ton prénom une dernière fois, suivi d'un petit ricanement diabolique 'je reviendrais te hanter {NOM}, Nyhé! hé! hé!"));
             engine.EndJuste();
             return;
         }
@@ -49,7 +49,7 @@ public static class RituelOrgue
 
         io.WriteLine("Tu déposes le médaillon dans l'encoche, tu poses la partition, tu joues l'Hymne...");
         io.WriteLine("Les notes résonnent — mais la porte ne bouge pas. Il manque quelque chose sur le pupitre : une encoche vide, humide, en forme de petit corps.");
-        io.WriteLine(engine.T("Une inscription s'éclaire : « il faut une essence du savoir animalier. » Tu comprends, {NOM}. Il faut une créature."));
+        io.WriteLine(engine.L("Une inscription s'éclaire : « il faut une essence du savoir animalier. » Tu comprends, {NOM}. Il faut une créature."));
         io.WriteLine();
 
         if (!s.LapinouSuit)
@@ -89,7 +89,7 @@ public static class RituelOrgue
         }
 
         io.WriteLine();
-        io.WriteLine(engine.T("L'idée est déjà là, immonde, évidente. Il t'a donné le médaillon de son cou. Il t'a suivie partout. Il te fait confiance. Et l'encoche est juste à sa taille."));
+        io.WriteLine(engine.L("L'idée est déjà là, immonde, évidente. Il t'a donné le médaillon de son cou. Il t'a suivie partout. Il te fait confiance. Et l'encoche est juste à sa taille."));
         int confirme = io.AskChoice("Personne ne le saura jamais. Personne, sauf toi.", new List<string>
         {
             "Renoncer. Le reprendre dans tes bras et faire le trajet honnête.",
@@ -113,10 +113,10 @@ public static class RituelOrgue
         engine.State.LapinouSuit = false;
         io.WriteLine();
         io.Pause("[gris]— (tu retiens ton souffle) —[/gris]");
-        io.WriteSlow(engine.T("Sacrifier un si gentil lapin. Si doux. Si jeune. Déjà si proche de toi — quelqu'un qui t'avait fait confiance, qui t'avait donné jusqu'au médaillon de son cou, qui te suivait partout sans se douter de rien."));
-        io.WriteSlow(engine.T("Tu es une personne [rouge]immonde[/rouge], {NOM}. Vraiment."));
+        io.WriteSlow(engine.L("Sacrifier un si gentil lapin. Si doux. Si jeune. Déjà si proche de toi — quelqu'un qui t'avait fait confiance, qui t'avait donné jusqu'au médaillon de son cou, qui te suivait partout sans se douter de rien."));
+        io.WriteSlow(engine.L("Tu es une personne [rouge]immonde[/rouge], {NOM}. Vraiment."));
         io.WriteLine("...");
-        io.WriteSlow(engine.T("Mais bon. La fin justifie les moyens. La porte s'ouvre en grinçant sur la nuit. Tu es sauvé(e). Bravo, {NOM}. Bravo."));
+        io.WriteSlow(engine.L("Mais bon. La fin justifie les moyens. La porte s'ouvre en grinçant sur la nuit. Tu es sauvé(e). Bravo, {NOM}. Bravo."));
         engine.EndImmoral();
     }
 }

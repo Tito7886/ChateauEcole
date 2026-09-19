@@ -35,7 +35,7 @@ public static class ChifoumiBernard
             return;
         }
 
-        io.WriteLine($"Mme Bernard : « Je sais bien que tu t'appelles {engine.State.PlayerName}, mais ici, tout le monde est Bichette. »");
+        io.WriteLine(engine.L("Mme Bernard : « Je sais bien que tu t'appelles {NOM}, mais ici, tout le monde est Bichette. »"));
         io.WriteLine("Mme Bernard : « Ahah Bichette ! J'ai bien envie d'une partie de pierre-feuille-ciseaux ! »");
         io.WriteLine("Vous voilà embarquée dans une partie endiablée... il y aura peut-être une récompense !");
 
@@ -47,7 +47,7 @@ public static class ChifoumiBernard
         {
             int j = io.AskChoice("Votre coup :", coups);
             int b = Random.Shared.Next(3);
-            io.WriteLine($"Mme Bernard joue : {coups[b]}");
+            io.WriteLine(engine.L("Mme Bernard joue : {0}", engine.L(coups[b])));
 
             if (j == b)
             {
@@ -63,7 +63,7 @@ public static class ChifoumiBernard
                 bernardWins++;
                 io.WriteLine("Mme Bernard gagne cette manche !");
             }
-            io.WriteLine($"Score — Mme Bernard : {bernardWins} | Toi : {joueurWins}");
+            io.WriteLine(engine.L("Score — Mme Bernard : {0} | Toi : {1}", bernardWins, joueurWins));
             io.WriteLine();
         }
 
@@ -71,10 +71,10 @@ public static class ChifoumiBernard
         {
             // Le 3e chiffre n'est PLUS donné en clair : Bernard le déguise en petit calcul.
             int code3 = engine.State.CodeCombination.Length == 4 ? engine.State.CodeCombination[2] - '0' : 0;
-            var (phrase, _) = GenererCalcul(code3);
+            var (phrase, _) = GenererCalcul(code3, engine);
             io.WriteLine("Mme Bernard : « Bravo Bichette, félicitations ! Tu sais quoi ? Le proviseur ADORAIT les codes. »");
             io.WriteLine("Mme Bernard : « Le 3e chiffre de la serrure du sous-sol ? Pour une matheuse comme toi, c'est cadeau : »");
-            io.WriteLine($"* « C'est {phrase}. Débrouille-toi, Bichette. Et note-le, je ne le répéterai pas. »");
+            io.WriteLine(engine.L("* « C'est {0}. Débrouille-toi, Bichette. Et note-le, je ne le répéterai pas. »", phrase));
             engine.State.Flags.Add("fragment_3_trouve");
             engine.State.Flags.Add("bernard_vaincue");
         }
@@ -92,23 +92,30 @@ public static class ChifoumiBernard
     /// vaut EXACTEMENT <paramref name="chiffre"/> (0-9), faisable de tête, non ambigu.
     /// La soustraction est toujours disponible (fallback garanti). Public pour le test.
     /// </summary>
-    public static (string Phrase, int Resultat) GenererCalcul(int chiffre)
+    public static (string Phrase, int Resultat) GenererCalcul(int chiffre, GameEngine? engine = null)
     {
-        string[] mots = { "zéro", "un", "deux", "trois", "quatre", "cinq", "six", "sept",
-                          "huit", "neuf", "dix", "onze", "douze" };
+        // Les nombres et opérateurs sont traduits (via engine.L) pour que l'indice reste lisible
+        // dans la langue du joueur. Sans engine (tests), on reste en français.
+        string L(string fr) => engine != null ? engine.L(fr) : fr;
+        string[] mots =
+        {
+            L("zéro"), L("un"), L("deux"), L("trois"), L("quatre"), L("cinq"), L("six"),
+            L("sept"), L("huit"), L("neuf"), L("dix"), L("onze"), L("douze")
+        };
+        string moins = L("moins"), plus = L("plus"), fois = L("fois");
         var candidats = new List<string>();
 
         // Soustraction : a - b = chiffre (a <= 12, b >= 1) — toujours au moins une possibilité.
         for (int b = 1; b <= 9; b++)
         {
             int a = chiffre + b;
-            if (a <= 12) candidats.Add($"{mots[a]} moins {mots[b]}");
+            if (a <= 12) candidats.Add($"{mots[a]} {moins} {mots[b]}");
         }
         // Addition : a + b = chiffre (a, b >= 1) — pour chiffre >= 2.
         for (int a = 1; a < chiffre; a++)
         {
             int b = chiffre - a;
-            if (b >= 1 && b <= 9) candidats.Add($"{mots[a]} plus {mots[b]}");
+            if (b >= 1 && b <= 9) candidats.Add($"{mots[a]} {plus} {mots[b]}");
         }
         // Multiplication : x * y = chiffre (x, y >= 2) — pour 4, 6, 8, 9.
         for (int x = 2; x <= 9; x++)
@@ -116,7 +123,7 @@ public static class ChifoumiBernard
             if (chiffre % x == 0)
             {
                 int y = chiffre / x;
-                if (y >= 2 && y <= 9) candidats.Add($"{mots[x]} fois {mots[y]}");
+                if (y >= 2 && y <= 9) candidats.Add($"{mots[x]} {fois} {mots[y]}");
             }
         }
 

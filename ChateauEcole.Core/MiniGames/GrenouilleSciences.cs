@@ -38,13 +38,13 @@ public static class GrenouilleSciences
         int prises = 0;
         for (int manche = 1; manche <= 3 && prises < 2; manche++)
         {
-            int c = io.AskChoice($"Manche {manche} — la grenouille fixe une direction. Où plonges-tu ton filet ?",
+            int c = io.AskChoice(engine.L("Manche {0} — la grenouille fixe une direction. Où plonges-tu ton filet ?", manche),
                                  new List<string> { "À gauche", "À droite" });
             int saut = Random.Shared.Next(2);
             if (c == saut)
             {
                 prises++;
-                io.WriteLine($"CLAC ! Le filet se referme dessus. ({prises}/2)");
+                io.WriteLine(engine.L("CLAC ! Le filet se referme dessus. ({0}/2)", prises));
             }
             else
             {
@@ -77,7 +77,7 @@ public static class GrenouilleSciences
         io.WriteLine();
         io.WriteSlow("Cette fois, la grenouille bondit trop loin — elle se faufile par une fissure du mur et [rouge]DISPARAÎT[/rouge].");
         io.WriteLine("Le bocal roule à terre et se brise. C'était ta dernière chance.");
-        io.WriteSlow(engine.T("La voie est morte, {NOM}. Il ne te reste qu'une seule chose à offrir à l'orgue... et elle trottine à tes côtés."));
+        io.WriteSlow(engine.L("La voie est morte, {NOM}. Il ne te reste qu'une seule chose à offrir à l'orgue... et elle trottine à tes côtés."));
         io.PauseThenClear();
         io.WriteSlow("Tes jambes te portent malgré toi vers l'église. Tu ne décides plus rien, maintenant.");
         io.Pause(); // laisser lire avant que l'écran-titre de l'église n'efface l'écran

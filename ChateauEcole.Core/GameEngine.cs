@@ -14,16 +14,18 @@ public class GameEngine
     private readonly IGameIO _io;
     private readonly SaveService _save;
     private readonly IScoreBoard? _online; // classement en ligne (optionnel, best-effort)
+    private readonly ILocalizer? _loc;     // traduction de l'interface (optionnel, repli FR)
     private readonly Dictionary<string, Action<GameEngine, IGameIO>> _specialActions;
 
     public GameState State { get; private set; }
 
-    public GameEngine(WorldData world, IGameIO io, SaveService save, IScoreBoard? online = null)
+    public GameEngine(WorldData world, IGameIO io, SaveService save, IScoreBoard? online = null, ILocalizer? loc = null)
     {
         _world = world;
         _io = io;
         _save = save;
         _online = online;
+        _loc = loc;
         State = new GameState();
 
         // Les mini-jeux et scènes scriptées sont enregistrés ici, par id.
@@ -56,6 +58,19 @@ public class GameEngine
                 .Replace("{CODE}", State.CodeCombination);
         }
         return text;
+    }
+
+    /// <summary>
+    /// Traduit une chaîne d'INTERFACE (français = clé + repli) vers la langue courante, résout
+    /// les placeholders {NOM}/{CODE...}, puis applique un format optionnel ({0}, {1}...).
+    /// Utilisé par le moteur ET les mini-jeux (via engine.L(...)). Sans localizer : renvoie le
+    /// français (formaté). Le contenu world.json passe par Emit/T, pas par L.
+    /// </summary>
+    public string L(string fr, params object[] args)
+    {
+        string s = _loc != null ? _loc.Tr(fr) : fr;
+        s = T(s);
+        return args.Length > 0 ? string.Format(s, args) : s;
     }
 
     /// <summary>
@@ -104,7 +119,7 @@ public class GameEngine
         }
 
         _io.WriteLine();
-        _io.WriteLine(T("À bientôt, {NOM}... "));
+        _io.WriteLine(L("À bientôt, {NOM}... "));
     }
 
     private void NewGame()
@@ -127,7 +142,7 @@ public class GameEngine
         State.PlayerName = string.IsNullOrWhiteSpace(nom) ? "Bichette" : nom;
 
         _io.WriteLine();
-        _io.WriteSlow(T("« {NOM} »... c'est noté. Quelque part, quelque chose vient de le noter aussi."));
+        _io.WriteSlow(L("« {NOM} »... c'est noté. Quelque part, quelque chose vient de le noter aussi."));
         _io.WriteLine();
         _io.WriteLine("* Règle du lycée : si tu meurs, une UNIQUE réanimation te sera proposée.");
         _io.WriteLine("* Elle te ramènera à l'entrée de la dernière salle... contre UN QUART de tes points.");
@@ -185,9 +200,9 @@ public class GameEngine
 
             _io.WriteLine();
             _io.WriteLine("Le temps se rembobine dans un grincement de craie...");
-            _io.WriteLine($"* La réanimation te coûte {malus} points. Rien n'est gratuit, ici.");
+            _io.WriteLine(L("* La réanimation te coûte {0} points. Rien n'est gratuit, ici.", malus));
             _io.WriteLine("* La sauvegarde s'est consumée dans l'opération : il n'y en aura PAS d'autre.");
-            _io.WriteLine(T("Te revoilà, {NOM}. Ne gaspille pas cette faveur."));
+            _io.WriteLine(L("Te revoilà, {NOM}. Ne gaspille pas cette faveur."));
             _io.Pause(); // lire avant que l'écran-titre de la salle de réanimation n'efface l'écran
             return true;
         }
@@ -223,7 +238,7 @@ public class GameEngine
             string marque = !string.IsNullOrEmpty(s.Mark) ? s.Mark! : (s.Victory ? "[ÉVADÉ]" : "[MORT]");
             // Date + heure locale du joueur (ex. « 18/09 04:12 »), quand elle est connue.
             string quand = s.Date > DateTime.MinValue ? $" · {s.Date:dd/MM HH:mm}" : "";
-            _io.WriteLine($"  {rang}. {s.Name} — {s.Score} pts {marque}{quand}");
+            _io.WriteLine(L("  {0}. {1} — {2} pts {3}{4}", rang, s.Name, s.Score, L(marque), quand));
             rang++;
         }
     }
@@ -420,7 +435,7 @@ public class GameEngine
                 foreach (string item in exit.RequiredItems)
                 {
                     State.Inventory.Remove(item);
-                    _io.WriteLine($"Vous utilisez : {ItemName(item)}");
+                    _io.WriteLine(L("Vous utilisez : {0}", ItemName(item)));
                 }
             }
         }
@@ -491,7 +506,7 @@ public class GameEngine
         if (!dejaFouille)
         {
             if (ex.ConsumeRequiredItem && ex.RequiredItem != null && State.Inventory.Remove(ex.RequiredItem))
-                _io.WriteLine($"Vous utilisez : {ItemName(ex.RequiredItem)}");
+                _io.WriteLine(L("Vous utilisez : {0}", ItemName(ex.RequiredItem)));
             foreach (string item in ex.GrantsItems)
                 AddItem(item);
             if (ex.SetsFlag != null)
@@ -510,7 +525,7 @@ public class GameEngine
     {
         if (State.Inventory.Contains(itemId))
         {
-            _io.WriteLine($"{ItemName(itemId)} est déjà dans votre inventaire.");
+            _io.WriteLine(L("{0} est déjà dans votre inventaire.", ItemName(itemId)));
             return;
         }
         if (State.Inventory.Count >= State.MaxInventory)
@@ -532,11 +547,11 @@ public class GameEngine
         if (State.Flags.Add("got_" + itemId))
         {
             State.Score += 5;
-            _io.WriteLine($"» {ItemName(itemId)} ajouté à votre inventaire (+5 pts)");
+            _io.WriteLine(L("» {0} ajouté à votre inventaire (+5 pts)", ItemName(itemId)));
         }
         else
         {
-            _io.WriteLine($"» {ItemName(itemId)} récupéré.");
+            _io.WriteLine(L("» {0} récupéré.", ItemName(itemId)));
         }
     }
 
@@ -554,9 +569,9 @@ public class GameEngine
             return true;
         }
 
-        _io.WriteLine($"Ton sac est plein ({State.MaxInventory} objets). Pour prendre {ItemName(itemId)}, il faut laisser quelque chose ici.");
-        var options = State.Inventory.Select(i => $"Laisser au sol : {ItemName(i)}").ToList();
-        options.Add($"Renoncer à {ItemName(itemId)} pour l'instant");
+        _io.WriteLine(L("Ton sac est plein ({0} objets). Pour prendre {1}, il faut laisser quelque chose ici.", State.MaxInventory, ItemName(itemId)));
+        var options = State.Inventory.Select(i => L("Laisser au sol : {0}", ItemName(i))).ToList();
+        options.Add(L("Renoncer à {0} pour l'instant", ItemName(itemId)));
 
         int c = _io.AskChoice("Que veux-tu laisser ?", options);
         if (c >= State.Inventory.Count) return false; // a renoncé
@@ -564,7 +579,7 @@ public class GameEngine
         string dropped = State.Inventory[c];
         State.Inventory.RemoveAt(c);
         DropToFloor(State.CurrentRoomId, dropped);
-        _io.WriteLine($"Tu poses {ItemName(dropped)} au sol. Il t'attendra ici.");
+        _io.WriteLine(L("Tu poses {0} au sol. Il t'attendra ici.", ItemName(dropped)));
         PutInInventory(itemId);
         return true;
     }
@@ -607,7 +622,7 @@ public class GameEngine
             DropToFloor(State.CurrentRoomId, item);
 
         if (action.ConsumesItem && action.RequiredItem != null && State.Inventory.Remove(action.RequiredItem))
-            _io.WriteLine($"Vous utilisez : {ItemName(action.RequiredItem)}");
+            _io.WriteLine(L("Vous utilisez : {0}", ItemName(action.RequiredItem)));
 
         if (action.SetsCompanion)
             State.LapinouSuit = true;
@@ -642,7 +657,7 @@ public class GameEngine
         // 2) Choisir la cible : autre objet de l'inventaire OU élément de décor de la salle.
         var targets = new List<(string Label, string Id, bool Decor)>();
         foreach (string it in State.Inventory)
-            if (it != itemA) targets.Add(($"Objet : {ItemName(it)}", it, false));
+            if (it != itemA) targets.Add((L("Objet : {0}", ItemName(it)), it, false));
         foreach (DecorTarget d in room.DecorTargets)
             targets.Add((d.Label, d.Id, true));
 
@@ -654,7 +669,7 @@ public class GameEngine
 
         var targetOptions = targets.Select(t => t.Label).ToList();
         targetOptions.Add("Annuler");
-        int b = _io.AskChoice($"Utiliser {ItemName(itemA)} sur quoi ?", targetOptions);
+        int b = _io.AskChoice(L("Utiliser {0} sur quoi ?", ItemName(itemA)), targetOptions);
         if (b >= targets.Count) return;
         var target = targets[b];
 
@@ -707,7 +722,7 @@ public class GameEngine
         }
         foreach (string it in recipe.RemovesItems)
             if (State.Inventory.Remove(it))
-                _io.WriteLine($"Vous utilisez : {ItemName(it)}");
+                _io.WriteLine(L("Vous utilisez : {0}", ItemName(it)));
         foreach (string it in recipe.GrantsItems)
             if (!AcquireOrSwap(it))
                 DropToFloor(State.CurrentRoomId, it);
@@ -752,20 +767,20 @@ public class GameEngine
     private void OfferItem(string itemId)
     {
         int c = _io.AskChoice(
-            $"Que fais-tu de {ItemName(itemId)} ?",
+            L("Que fais-tu de {0} ?", ItemName(itemId)),
             new List<string> { "Le prendre", "Le laisser au sol" });
 
         if (c == 1)
         {
             DropToFloor(State.CurrentRoomId, itemId);
-            _io.WriteLine($"Tu laisses {ItemName(itemId)} là, par terre. Il t'attendra, si tu changes d'avis.");
+            _io.WriteLine(L("Tu laisses {0} là, par terre. Il t'attendra, si tu changes d'avis.", ItemName(itemId)));
             return;
         }
 
         if (!AcquireOrSwap(itemId))
         {
             DropToFloor(State.CurrentRoomId, itemId);
-            _io.WriteLine($"Finalement, tu n'emportes pas {ItemName(itemId)}. Il reste au sol, à portée de main.");
+            _io.WriteLine(L("Finalement, tu n'emportes pas {0}. Il reste au sol, à portée de main.", ItemName(itemId)));
         }
     }
 
@@ -816,7 +831,7 @@ public class GameEngine
             foreach (string item in State.Inventory)
                 _io.WriteLine($"  - {ItemName(item)}");
         }
-        _io.WriteLine($"Score actuel : {State.Score} pts");
+        _io.WriteLine(L("Score actuel : {0} pts", State.Score));
     }
 
     // ------------------------------------------------------------------
@@ -828,8 +843,8 @@ public class GameEngine
         _io.WriteSlow(T(message)); // machine à écrire : poids dramatique de la mort
         _io.WriteLine();
         _io.WriteLine("* Le lycée devient très silencieux.");
-        _io.WriteLine(T("* Quelle négligence, {NOM}..."));
-        _io.WriteLine($"* Ton score : {State.Score} pts");
+        _io.WriteLine(L("* Quelle négligence, {NOM}..."));
+        _io.WriteLine(L("* Ton score : {0} pts", State.Score));
         State.IsDead = true;
     }
 
@@ -848,7 +863,7 @@ public class GameEngine
         _io.WriteLine("... et ton petit lutin diabolique en peluche Nestor qui te regarde intensément à l'autre bout du lit");
         _io.WriteLine("... serait-ce un radis frais à côté de lui ?!");
         _io.WriteLine();
-        _io.WriteLine($"Ton score : {State.Score} pts");
+        _io.WriteLine(L("Ton score : {0} pts", State.Score));
         State.IsVictory = true;
         State.VictoryImmoral = false;
     }
@@ -865,7 +880,7 @@ public class GameEngine
         _io.WriteLine("... et ton petit lutin diabolique en peluche Nestor qui te regarde affichant un sourire narquois à l'autre bout du lit");
         _io.WriteLine("... serait-ce un radis frais à côté de lui ?!");
         _io.WriteLine();
-        _io.WriteLine($"Ton score : {State.Score} pts");
+        _io.WriteLine(L("Ton score : {0} pts", State.Score));
         State.IsVictory = true;
         State.VictoryImmoral = true;
     }

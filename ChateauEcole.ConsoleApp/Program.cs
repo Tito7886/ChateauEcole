@@ -39,28 +39,15 @@ public static class Program
         WorldData world = JsonSerializer.Deserialize<WorldData>(worldSource, options)
             ?? throw new InvalidOperationException("world.json invalide.");
 
-        // [DIAGNOSTIC TEMPORAIRE] écrit un rapport dans %AppData%\ChateauEcole\diag_i18n.txt
-        // (l'écran est effacé par le jeu au démarrage, donc on écrit dans un fichier). À retirer ensuite.
-        try
-        {
-            var asmDiag = typeof(Program).Assembly;
-            string diag =
-                $"langue choisie      = {lang}\n" +
-                $"traduction chargee  = {traductionChargee}\n" +
-                $"1re salle chargee   = {world.Rooms.FirstOrDefault()?.Name}\n" +
-                $"BaseDirectory       = {AppContext.BaseDirectory}\n" +
-                $"world_en.json a cote = {File.Exists(Path.Combine(AppContext.BaseDirectory, "world_en.json"))}\n" +
-                $"ressources embarquees = {string.Join(" | ", asmDiag.GetManifestResourceNames())}\n";
-            File.WriteAllText(Path.Combine(saveDir, "diag_i18n.txt"), diag);
-        }
-        catch { /* diagnostic best-effort */ }
+        // Traduction de l'interface (menus, prompts, mini-jeux) ; français = repli.
+        var loc = new JsonLocalizer(lang);
 
         // Classement en ligne (scores.php sur Free). Pour changer d'URL/secret : éditer ici puis recompiler.
         const string ScoreUrl = "http://cefir.free.fr/scores.php";
         const string ScoreSecret = "cefir-chateau-2026";
         var online = new HttpScoreBoard(ScoreUrl, ScoreSecret);
 
-        var engine = new GameEngine(world, new ConsoleIO(), new SaveService(saveDir), online);
+        var engine = new GameEngine(world, new ConsoleIO(loc), new SaveService(saveDir), online, loc);
         engine.Run();
     }
 
@@ -176,6 +163,10 @@ public class ConsoleIO : IGameIO
     /// rapide ≈ 12.</summary>
     public static int VitesseParDefautMs = 50;
 
+    private readonly ILocalizer? _loc; // traduction des quelques chaînes de l'IO console
+    public ConsoleIO(ILocalizer? loc = null) { _loc = loc; }
+    private string L(string fr) => _loc != null ? _loc.Tr(fr) : fr;
+
     /// <summary>
     /// Découpe le texte en segments (texte, couleur?, vitesse ms/car) en interprétant les
     /// balises INLINE de rendu : couleur ([rouge]...[/rouge], fermeture générique [/]),
@@ -245,6 +236,7 @@ public class ConsoleIO : IGameIO
     /// puis un saut de ligne. vitesseBase = vitesse hors balise (0 = instantané).</summary>
     private void RenderLine(string text, int vitesseBase)
     {
+        text = L(text); // traduit les chaînes d'INTERFACE (le contenu world.json, déjà traduit, passe inchangé)
         if (Console.IsOutputRedirected) { Console.WriteLine(StripTags(text)); return; }
         foreach (var (seg, color, speed, pauseSec) in Segments(text, vitesseBase))
         {
@@ -267,7 +259,7 @@ public class ConsoleIO : IGameIO
 
     public void Pause(string? message = null)
     {
-        WriteLine(message ?? "[gris]— Appuie sur une touche pour continuer —[/gris]");
+        WriteLine(message ?? L("[gris]— Appuie sur une touche pour continuer —[/gris]"));
         if (Console.IsInputRedirected) return; // ne bloque pas les tests/pipes
         try { Console.ReadKey(intercept: true); } catch { /* pas de console interactive */ }
     }
@@ -326,7 +318,7 @@ public class ConsoleIO : IGameIO
     public string AskText(string prompt)
     {
         Console.WriteLine();
-        Console.Write(StripTags(prompt) + " ");
+        Console.Write(StripTags(L(prompt)) + " ");
         return Console.ReadLine() ?? "";
     }
 
@@ -337,9 +329,9 @@ public class ConsoleIO : IGameIO
             return AskChoice(prompt, options);
 
         WriteLine();
-        WriteLine($"{prompt}  (tu as {timeoutSeconds} secondes — appuie sur un chiffre !)");
+        WriteLine($"{L(prompt)}  {L("(tu as {0} secondes — appuie sur un chiffre !)").Replace("{0}", timeoutSeconds.ToString())}");
         for (int i = 0; i < options.Count; i++)
-            WriteLine($"  {i + 1}. {options[i]}");
+            WriteLine($"  {i + 1}. {L(options[i])}");
 
         try
         {
@@ -354,7 +346,7 @@ public class ConsoleIO : IGameIO
                 int secondes = (int)Math.Ceiling(restant);
                 if (secondes != dernierAffiche)
                 {
-                    Console.Write($"\r  Temps restant : {secondes,2} s   > ");
+                    Console.Write($"\r  {L("Temps restant :")} {secondes,2} s   > ");
                     dernierAffiche = secondes;
                 }
 
@@ -371,7 +363,7 @@ public class ConsoleIO : IGameIO
                 Thread.Sleep(25);
             }
             Console.WriteLine();
-            Console.WriteLine("TROP LENT !");
+            Console.WriteLine(L("TROP LENT !"));
             return defaultIndex;
         }
         catch (InvalidOperationException)
@@ -387,7 +379,7 @@ public class ConsoleIO : IGameIO
         WriteLine();
         WriteLine(prompt);
         for (int i = 0; i < options.Count; i++)
-            WriteLine($"  {i + 1}. {options[i]}");
+            WriteLine($"  {i + 1}. {L(options[i])}");
 
         while (true)
         {
@@ -397,7 +389,7 @@ public class ConsoleIO : IGameIO
                 return n - 1;
 
             onInvalid?.Invoke();
-            Console.WriteLine("Entrée invalide.... macaque ! (-2 pts)");
+            Console.WriteLine(L("Entrée invalide.... macaque ! (-2 pts)"));
         }
     }
 }
