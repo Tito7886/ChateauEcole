@@ -104,9 +104,11 @@ Le jeu détecte la langue de l'OS au lancement, propose un sélecteur (mémoris�
 `%AppData%\ChateauEcole\langue.cfg`) et charge le contenu correspondant. **Le français est la
 source et le repli** : une traduction manquante retombe sur le français, jamais d'écran vide.
 
-- Le contenu se traduit en fournissant un fichier **`world.<langue>.json`** (copie traduite de
-  `world.json`) — à poser **à côté de l'exe** (test sans recompiler) ou **dans le projet**
-  (embarqué automatiquement, exe unique).
+- Le contenu se traduit en fournissant un fichier **`world_<langue>.json`** (copie traduite de
+  `world.json`) — à poser **à côté de l'exe** (test sans recompiler) ou **dans le projet** (une
+  ligne `<EmbeddedResource>` à ajouter au `.csproj`) pour l'embarquer dans l'exe unique.
+  ⚠️ Nommage avec **underscore** (`world_en.json`, pas `world.en.json`) : sinon .NET prend « en »
+  pour une culture et met le fichier dans un assembly satellite → le jeu retombe en français.
 - Procédure complète (consigne prête pour une IA + règles à respecter) et **validateur**
   (`outils/valider_langue.py`) : voir **`docs/TRADUCTION.md`**.
 - Les quelques chaînes d'interface C# (menus, mini-jeux) restent en français pour l'instant :

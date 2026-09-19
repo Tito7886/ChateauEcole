@@ -32,7 +32,11 @@ public static class Program
             AllowTrailingCommas = true
         };
 
-        WorldData world = JsonSerializer.Deserialize<WorldData>(ReadWorldJson(lang), options)
+        (string worldSource, bool traductionChargee) = ReadWorldJson(lang);
+        if (lang != "fr" && !traductionChargee)
+            Console.WriteLine($"  (traduction « {lang} » introuvable — français par défaut)");
+
+        WorldData world = JsonSerializer.Deserialize<WorldData>(worldSource, options)
             ?? throw new InvalidOperationException("world.json invalide.");
 
         // Classement en ligne (scores.php sur Free). Pour changer d'URL/secret : éditer ici puis recompiler.
@@ -93,29 +97,31 @@ public static class Program
     }
 
     /// <summary>
-    /// Lit le contenu du monde pour la langue demandée. Ordre de recherche, pour chaque candidat
-    /// (world.&lt;langue&gt;.json puis world.json en repli) : d'abord un fichier posé À CÔTÉ de l'exe
-    /// (ajouter/tester une traduction sans recompiler), sinon la ressource embarquée. Le français
-    /// (world.json) est toujours le repli — jamais d'écran vide si une traduction manque.
+    /// Lit le monde pour la langue demandée. Renvoie (contenu, traductionChargée). Ordre :
+    /// pour la langue voulue, un fichier posé À CÔTÉ de l'exe puis la ressource embarquée ;
+    /// à défaut, le français (world.json) — jamais d'écran vide. Les fichiers de traduction sont
+    /// nommés world_&lt;langue&gt;.json (underscore : évite que .NET les prenne pour des cultures).
     /// </summary>
-    private static string ReadWorldJson(string lang)
+    private static (string source, bool traduction) ReadWorldJson(string lang)
     {
-        foreach (string name in LangFileCandidates(lang))
+        if (lang != "fr")
         {
-            string external = Path.Combine(AppContext.BaseDirectory, name);
-            if (File.Exists(external)) return File.ReadAllText(external);
-
-            string? embedded = ReadEmbedded(name);
-            if (embedded != null) return embedded;
+            string? tr = ReadWorldFile($"world_{lang}.json");
+            if (tr != null) return (tr, true);
         }
+        string? fr = ReadWorldFile("world.json");
+        if (fr != null) return (fr, false);
         throw new InvalidOperationException(
             "Monde introuvable : ni traduction, ni world.json (à côté de l'exe ou embarqué).");
     }
 
-    private static IEnumerable<string> LangFileCandidates(string lang)
+    /// <summary>Cherche un fichier de monde : d'abord à côté de l'exe (mod/test sans recompiler),
+    /// sinon embarqué. Renvoie null si absent des deux.</summary>
+    private static string? ReadWorldFile(string name)
     {
-        if (lang != "fr") yield return $"world.{lang}.json"; // la traduction demandée d'abord
-        yield return "world.json";                           // puis le français (source + repli)
+        string external = Path.Combine(AppContext.BaseDirectory, name);
+        if (File.Exists(external)) return File.ReadAllText(external);
+        return ReadEmbedded(name);
     }
 
     private static string? ReadEmbedded(string fileName)

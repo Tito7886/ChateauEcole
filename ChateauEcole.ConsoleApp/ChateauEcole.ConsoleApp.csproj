@@ -14,15 +14,15 @@
     <ProjectReference Include="..\ChateauEcole.Core\ChateauEcole.Core.csproj" />
   </ItemGroup>
 
-  <!-- world.json (FR source) ET ses traductions sont embarqués dans l'exe (fichier unique).
-       IMPORTANT : WithCulture=false, sinon .NET prend « en »/« pl »/« it » pour des CULTURES et
-       met les fichiers dans des assemblys satellites (dossiers en/, pl/...) au lieu de la DLL.
-       Chacun garde son nom comme LogicalName ; Program.cs charge la langue choisie (repli world.json).
-       Ajouter une langue = ajouter une ligne ici (ex. world.it.json). -->
+  <!-- world.json (FR source) et ses traductions sont embarqués dans l'exe (fichier unique).
+       Les traductions sont nommées avec un UNDERSCORE (world_en.json, world_pl.json...) :
+       ainsi .NET ne les prend jamais pour des cultures « en »/« pl » (sinon elles finissent
+       dans des assemblys satellites et le jeu retombe sur le français).
+       Ajouter une langue = ajouter une ligne ici (ex. world_it.json). -->
   <ItemGroup>
-    <EmbeddedResource Include="world.json"><WithCulture>false</WithCulture><LogicalName>world.json</LogicalName></EmbeddedResource>
-    <EmbeddedResource Include="world.en.json"><WithCulture>false</WithCulture><LogicalName>world.en.json</LogicalName></EmbeddedResource>
-    <EmbeddedResource Include="world.pl.json"><WithCulture>false</WithCulture><LogicalName>world.pl.json</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="world.json"><LogicalName>world.json</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="world_en.json"><LogicalName>world_en.json</LogicalName></EmbeddedResource>
+    <EmbeddedResource Include="world_pl.json"><LogicalName>world_pl.json</LogicalName></EmbeddedResource>
   </ItemGroup>
 
 </Project>
