@@ -98,6 +98,20 @@ Un classement en ligne partagé est disponible en plus des scores locaux, via un
   (« untel a fini le jeu à 4h du matin »).
 - **2D** : rien à refaire — la version graphique réutilise `HttpScoreBoard` via `IScoreBoard`.
 
+## Multilingue (fr / en / pl, it à venir)
+
+Le jeu détecte la langue de l'OS au lancement, propose un sélecteur (mémorisé dans
+`%AppData%\ChateauEcole\langue.cfg`) et charge le contenu correspondant. **Le français est la
+source et le repli** : une traduction manquante retombe sur le français, jamais d'écran vide.
+
+- Le contenu se traduit en fournissant un fichier **`world.<langue>.json`** (copie traduite de
+  `world.json`) — à poser **à côté de l'exe** (test sans recompiler) ou **dans le projet**
+  (embarqué automatiquement, exe unique).
+- Procédure complète (consigne prête pour une IA + règles à respecter) et **validateur**
+  (`outils/valider_langue.py`) : voir **`docs/TRADUCTION.md`**.
+- Les quelques chaînes d'interface C# (menus, mini-jeux) restent en français pour l'instant :
+  extraction dans des `ui.<langue>.json` prévue en phase 2.
+
 ## Progression v2 : 3 branches parallèles + un choix moral
 
 Fini la cascade linéaire. Pour ouvrir la porte de l'église (l'orgue), il faut réunir
