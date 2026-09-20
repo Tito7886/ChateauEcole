@@ -676,7 +676,7 @@
     {
       "id": "eglise",
       "name": "Saint-Léger Church",
-      "titleArt": "        [jaune]✝[/jaune]\n     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]SAINT-LÉGER CHURCH[/cyan]",
+      "titleArt": "╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]SAINT-LÉGER CHURCH[/cyan]",
       "companionText": "Lapinou presses against your leg and stares at the organ without moving. He's trembling a little. As if he already knew something you don't yet.",
       "description": "[slow]You emerge into the silent nave of Saint-Léger church. A great organ stands at the far end, majestic, patient. The main door is locked from the inside by a strange mechanism. The stained-glass windows let in the streetlight glow: the [vert]normal world[/vert] is right behind this door.[pause]",
       "exits": [

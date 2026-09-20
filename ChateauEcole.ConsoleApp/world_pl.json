@@ -679,7 +679,7 @@
 {
 "id": "eglise",
 "name": "Kościół św. Legera",
-"titleArt": "        [jaune]✝[/jaune]\n     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]KOŚCIÓŁ ŚW. LEGERA[/cyan]",
+"titleArt": "╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]KOŚCIÓŁ ŚW. LEGERA[/cyan]",
 "companionText": "Lapinou przytula się do twojej nogi i wpatruje się w organy bez ruchu. Drży nieco. Jakby wiedział już coś, czego ty jeszcze nie wiesz.",
 "description": "[slow]Wychodzisz w cichej nawie kościoła św. Legera. Wielkie organy pysznią się na końcu, majestatyczne, cierpliwe. Wielkie drzwi są zamknięte od wewnątrz przez dziwny mechanizm. Witraże przepuszczają światło latarni: [vert]normalny świat[/vert] jest tuż za tymi drzwiami.[pause]",
 "exits": [
