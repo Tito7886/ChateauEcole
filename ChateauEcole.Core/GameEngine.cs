@@ -154,7 +154,7 @@ public class GameEngine
 
     private void PlayOnce()
     {
-        while (!State.IsDead && !State.IsVictory)
+        while (!State.IsDead && !State.IsVictory && !State.Abandoned)
         {
             Room room = GetRoom(State.CurrentRoomId);
             ShowRoom(room);
@@ -165,6 +165,17 @@ public class GameEngine
     /// <summary>Gère la fin d'une partie. Retourne false pour quitter le jeu.</summary>
     private bool HandleGameEnd()
     {
+        // Abandon lâche : score déjà pénalisé (-10) et affiché dans Abandonner(). On enregistre
+        // le résultat avec la marque [LACHE], on l'envoie en ligne, et on quitte (« arrêter vraiment »).
+        if (State.Abandoned)
+        {
+            _save.DeleteCheckpoint();
+            _save.AddHighScore(State.PlayerName, State.Score, victory: false, mark: "[LACHE]");
+            PublishOnline("[LACHE]");
+            ShowHighScores();
+            return false;
+        }
+
         if (State.IsVictory)
         {
             _save.DeleteCheckpoint();
@@ -359,6 +370,7 @@ public class GameEngine
             choices.Add(("Combiner / utiliser un objet", () => DoCombine(room)));
 
         choices.Add(("Inventaire", ShowInventory));
+        choices.Add(("Menu", OpenMenu));
 
         int idx = _io.AskChoice(
             "Que voulez-vous faire ?",
@@ -380,7 +392,7 @@ public class GameEngine
     /// </summary>
     private void CheckPhoneAndSms()
     {
-        if (State.IsDead || State.IsVictory) return;
+        if (State.IsDead || State.IsVictory || State.Abandoned) return;
         if (!State.Flags.Contains("telephone_charge")) return; // téléphone pas encore chargé
 
         foreach (var sms in _world.Sms)
@@ -838,6 +850,46 @@ public class GameEngine
                 _io.WriteLine($"  - {ItemName(item)}");
         }
         _io.WriteLine(L("Score actuel : {0} pts", State.Score));
+    }
+
+    /// <summary>
+    /// Menu du joueur (accessible à chaque tour, sous « Inventaire »). Pour l'instant : abandonner
+    /// la partie. Extensible plus tard (changer de langue, revoir les meilleurs scores...).
+    /// </summary>
+    private void OpenMenu()
+    {
+        int c = _io.AskChoice("Menu — que veux-tu faire ?",
+                              new List<string> { "Abandonner la partie", "Retour" });
+        if (c == 0) Abandonner();
+        // "Retour" (ou toute autre valeur) : on ne fait rien, la partie continue.
+    }
+
+    /// <summary>
+    /// Abandon lâche, façon Undertale : triple confirmation de plus en plus culpabilisante.
+    /// Le moindre « Non » annule tout sans pénalité. Trois « Oui » : -10 pts, marque [LACHE],
+    /// et la partie se termine (HandleGameEnd enregistre et envoie le score, puis on quitte).
+    /// </summary>
+    private void Abandonner()
+    {
+        var ouiNon = new List<string> { "Oui", "Non" };
+
+        if (_io.AskChoice("Tu veux vraiment être un(e) lâche et arrêter la partie ?", ouiNon) != 0)
+        { _io.WriteLine(); _io.WriteLine(L("Tu reprends tes esprits. La partie continue... pour l'instant.")); return; }
+
+        if (_io.AskChoice("Cette décision de lâche fait de toi un(e) vrai(e) looser. Tu insistes vraiment ?", ouiNon) != 0)
+        { _io.WriteLine(); _io.WriteLine(L("Un sursaut de courage ? Tu restes. La partie continue.")); return; }
+
+        if (_io.AskChoice("Et Lapinou, alors ? Sans toi il n'aura plus jamais personne... Cet abandon pourrait même te plonger dans une profonde dépression. Tu confirmes MALGRÉ TOUT ?", ouiNon) != 0)
+        { _io.WriteLine(); _io.WriteLine(L("Tu ravales ta lâcheté au dernier moment. Lapinou ne saura jamais. La partie continue.")); return; }
+
+        // Trois fois « Oui » : l'abandon est acté.
+        State.Score -= 10;
+        if (State.Score < 0) State.Score = 0; // pas de score négatif au tableau
+        _io.WriteLine();
+        _io.WriteSlow(L("Très bien, {NOM}. Tu poses tout par terre et tu t'en vas. Lapinou te regarde partir, sans comprendre."));
+        _io.WriteLine(L("* Ta lâcheté te coûte 10 points. C'est bien peu, pour un abandon. [rouge][LACHE][/rouge]"));
+        _io.WriteLine(L("* Ton score : {0} pts", State.Score));
+        State.Abandoned = true;
     }
 
     // ------------------------------------------------------------------

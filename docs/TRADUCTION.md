@@ -51,7 +51,7 @@ style. Les `{placeholders}` doivent, eux, être strictement identiques.
 
 En plus du **contenu** (`world.json`), **toutes les chaînes d'interface écrites en C#** sont
 traduisibles : menus (« Que voulez-vous faire ? », « Inventaire »…), invites, en-têtes du
-classement, marques de score (`[ÉVADÉ]`/`[MORT]`/`[À QUEL PRIX]`) et **l'intégralité des textes
+classement, marques de score (`[ÉVADÉ]`/`[MORT]`/`[À QUEL PRIX]`/`[LACHE]`) et **l'intégralité des textes
 des mini-jeux** (chifoumi de Mme Bernard, prof de sport, cantine, grenouille, orgue, charge du
 téléphone). Même l'indice chiffré de Mme Bernard (« neuf moins deux ») est traduit.
 

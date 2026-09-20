@@ -38,6 +38,10 @@ public class GameState
     /// <summary>Vrai si la victoire a été obtenue par le sacrifice de Lapinou (fin immorale).</summary>
     public bool VictoryImmoral { get; set; }
 
+    /// <summary>Le joueur a lâchement abandonné la partie (via Menu -> Abandonner). Termine la
+    /// partie comme une mort/victoire, mais avec pénalité et marque [LACHE].</summary>
+    public bool Abandoned { get; set; }
+
     public void Reset(string startRoom)
     {
         CurrentRoomId = startRoom;
@@ -50,6 +54,7 @@ public class GameState
         IsDead = false;
         IsVictory = false;
         VictoryImmoral = false;
+        Abandoned = false;
         LapinouSuit = false;
         ResurrectionUsed = false;
     }

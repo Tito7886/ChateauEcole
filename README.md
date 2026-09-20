@@ -74,8 +74,12 @@ dictionnaire `_specialActions` de `GameEngine`, référencée par `specialAction
   début de partie, le coût est rappelé au moment du choix, et le joueur est
   prévenu après coup que la sauvegarde est consumée. Flag : GameState.ResurrectionUsed.
 - **Meilleurs scores** : top 10 avec prénom et marque de fin — `[ÉVADÉ]` (fin juste),
-  `[À QUEL PRIX]` (fin immorale), `[MORT]` (mort). Le score n'est enregistré que
-  lorsque la partie se termine vraiment.
+  `[À QUEL PRIX]` (fin immorale), `[MORT]` (mort), `[LACHE]` (abandon). Le score n'est
+  enregistré que lorsque la partie se termine vraiment.
+- **Menu en jeu** : un choix **« Menu »** (sous « Inventaire ») à chaque tour. Pour l'instant
+  il propose **d'abandonner la partie** — avec une triple confirmation culpabilisante (façon
+  Undertale) ; trois « Oui » = **-10 pts**, marque `[LACHE]` et fin de partie ; le moindre
+  « Non » annule sans pénalité. Extensible (langue, scores...) plus tard.
 - **Fichiers** : `%AppData%\ChateauEcole\sauvegarde.json` et `highscores.json`.
 
 ## Classement en ligne (optionnel)
