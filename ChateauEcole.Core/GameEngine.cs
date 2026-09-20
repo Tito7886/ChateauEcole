@@ -517,23 +517,27 @@ public class GameEngine
     }
 
     /// <summary>
-    /// Ajoute un objet à l'inventaire s'il reste de la place. API simple utilisée par
-    /// les mini-jeux : refuse si le sac est plein (pas d'échange). Pour un ajout qui
-    /// propose un échange en cas de sac plein, voir AcquireOrSwap.
+    /// Ajoute un objet à l'inventaire (API utilisée par les mini-jeux). ANTI-SOFTLOCK : un objet
+    /// n'est JAMAIS perdu. S'il reste de la place, il entre dans le sac ; sinon on propose
+    /// l'échange (lâcher un objet), et si le joueur renonce, l'objet tombe AU SOL de la salle
+    /// courante (récupérable via « Ramasser »). Renvoie true s'il a fini dans l'inventaire.
+    /// Important : les mini-jeux peuvent donc poser leur flag « objet obtenu » sans risque —
+    /// l'objet existe toujours quelque part (inventaire ou sol), il ne disparaît jamais.
     /// </summary>
-    public void AddItem(string itemId)
+    public bool AddItem(string itemId)
     {
         if (State.Inventory.Contains(itemId))
         {
             _io.WriteLine(L("{0} est déjà dans votre inventaire.", ItemName(itemId)));
-            return;
+            return true;
         }
-        if (State.Inventory.Count >= State.MaxInventory)
-        {
-            _io.WriteLine("Votre sac est plein ! Impossible de prendre cet objet.");
-            return;
-        }
-        PutInInventory(itemId);
+        if (AcquireOrSwap(itemId))
+            return true;
+
+        // Sac plein ET joueur qui renonce à l'échange : filet de sécurité, l'objet reste au sol.
+        DropToFloor(State.CurrentRoomId, itemId);
+        _io.WriteLine(L("Faute de place, {0} reste ici, au sol. Tu pourras revenir le chercher.", ItemName(itemId)));
+        return false;
     }
 
     /// <summary>

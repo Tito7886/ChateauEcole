@@ -42,6 +42,7 @@
   "Renoncer à {0} pour l'instant": "Give up {0} for now",
   "Que veux-tu laisser ?": "What do you want to leave?",
   "Tu poses {0} au sol. Il t'attendra ici.": "You set {0} down on the floor. It'll wait for you here.",
+  "Faute de place, {0} reste ici, au sol. Tu pourras revenir le chercher.": "For lack of space, {0} stays here, on the floor. You can come back for it.",
   "Tu n'as rien à combiner.": "You have nothing to combine.",
   "Annuler": "Cancel",
   "Utiliser quel objet ?": "Use which item?",
