@@ -246,11 +246,11 @@ public class GameEngine
         _io.WriteLine();
         _io.WriteLine(enLigne ? "--- Classement en ligne ---" : "--- Meilleurs scores (local) ---");
         int rang = 1;
-        foreach (var s in scores.Take(5))
+        foreach (var s in scores.Take(10))
         {
             string marque = !string.IsNullOrEmpty(s.Mark) ? s.Mark! : (s.Victory ? "[ÉVADÉ]" : "[MORT]");
-            // Date + heure locale du joueur (ex. « 18/09 04:12 »), quand elle est connue.
-            string quand = s.Date > DateTime.MinValue ? $" · {s.Date:dd/MM HH:mm}" : "";
+            // Date + heure locale du joueur, avec l'année (ex. « 18/09/2026 04:12 »), quand elle est connue.
+            string quand = s.Date > DateTime.MinValue ? $" · {s.Date:dd/MM/yyyy HH:mm}" : "";
             _io.WriteLine(L("  {0}. {1} — {2} pts {3}{4}", rang, s.Name, s.Score, L(marque), quand));
             rang++;
         }

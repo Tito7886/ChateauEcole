@@ -42,7 +42,7 @@ public class HttpScoreBoard : IScoreBoard
                 Name = string.IsNullOrEmpty(e.Name) ? "?" : e.Name!,
                 Score = e.Score,
                 Mark = e.Mark ?? "",
-                Victory = !string.IsNullOrEmpty(e.Mark) && e.Mark != "[MORT]" && e.Mark != "[disparu]",
+                Victory = !string.IsNullOrEmpty(e.Mark) && e.Mark != "[MORT]" && e.Mark != "[LACHE]" && e.Mark != "[disparu]",
                 Date = DateTime.TryParse(e.Date, out var d) ? d : DateTime.MinValue
             }).ToList();
         }
