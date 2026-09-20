@@ -4,13 +4,13 @@
     "masque_gaz": "Masque à gaz",
     "lampe_torche": "Lampe torche",
     "sandwich": "Sandwich de la cantine",
-    "carotte": "Carotte (fraîche, presque trop orange)",
+    "carotte": "Carotte",
     "laitue": "Superbe laitue",
     "medaillon": "Médaillon doré (le pendentif de Lapinou)",
     "partition": "Partition « Hymne de Saint-Léger »",
     "grenouille_morte": "Grenouille de dissection (« essence du savoir animalier »)",
     "digitale": "Jolie fleur violette à clochettes",
-    "telephone_casse": "Téléphone portable (écran fissuré, batterie morte)",
+    "telephone_casse": "Téléphone portable (écran fissuré)",
     "chargeur": "Chargeur de téléphone",
     "radis": "Botte de radis (frais, croquants)",
     "cours_anglais": "Feuille de verbes irréguliers anglais",
@@ -426,7 +426,7 @@
       "id": "sous_sol",
       "name": "Sous-sol",
       "companionText": "Lapinou hésite en haut des marches, puis descend en te collant, ses petites griffes cliquetant sur la pierre humide.",
-      "description": "Un sous-sol sombre et humide. Les anciennes « [gris]salles de torture[/gris]... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie [gris](du sang?! des larmes séchées?!)[/gris] : « Bureau de Mme Roy ». Sur les murs, les mêmes griffures parallèles que celles du chambranle, là-haut. Tu ne les recomptes pas : une fois suffisait.",
+      "description": "Un sous-sol sombre et humide. Les anciennes « [gris]salles de torture[/gris]... » ... rebaptisées salle de Musique et salle d'Anglais. Une troisième porte, tout au fond, porte une plaque ternie [gris](du sang?! des larmes séchées?!)[/gris] : « Bureau de Mme LeRoy ». Sur les murs, les mêmes griffures parallèles que celles du chambranle, là-haut. Tu ne les recomptes pas : une fois suffisait.",
       "exits": [
         {
           "target": "couloir_rdc",
@@ -442,17 +442,17 @@
         },
         {
           "target": "bureau_roy",
-          "label": "Bureau de Mme Roy (porte fermée)",
+          "label": "Bureau de Mme LeRoy (porte fermée)",
           "requiredFlags": [
             "bureau_roy_ouvert"
           ],
-          "lockedMessage": "Tu poses la main sur la poignée du bureau de Mme Roy. Verrouillée. Mais derrière la porte, il y a des voix : des plaintes d'anciens élèves, faibles, qui gémissent, grattent le bois, murmurent qu'on les laisse enfin sortir. Des bruits de fantômes. [pause=5][slow] Tu retires ta main très lentement et tu recules, frissonnante. Tu décides de ne pas insister. Vraiment pas."
+          "lockedMessage": "Tu poses la main sur la poignée du bureau de Mme LeRoy. Verrouillée. Mais derrière la porte, il y a des voix : des plaintes d'anciens élèves, faibles, qui gémissent, grattent le bois, murmurent qu'on les laisse enfin sortir. Des bruits de fantômes. [pause=5][slow] Tu retires ta main très lentement et tu recules, frissonnante. Tu décides de ne pas insister. Vraiment pas."
         }
       ]
     },
     {
       "id": "bureau_roy",
-      "name": "Bureau de Mme Roy",
+      "name": "Bureau de Mme LeRoy",
       "description": "Tu n'aurais jamais dû pouvoir entrer ici. Personne ne le devrait.",
       "exits": [
         {
@@ -676,7 +676,7 @@
     {
       "id": "eglise",
       "name": "Église Saint-Léger",
-      "titleArt": "        [jaune]✝[/jaune]\n     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]ÉGLISE SAINT-LÉGER[/cyan]",
+      "titleArt": "     ╒═══════════╕\n     │ █ █ █ █ █ │\n     │ █ █ █ █ █ │\n     ╘═══════════╛\n   [cyan]ÉGLISE SAINT-LÉGER[/cyan]",
       "companionText": "Lapinou se serre contre ta jambe et fixe l'orgue sans bouger. Il tremble un peu. Comme s'il savait déjà quelque chose que tu ignores encore.",
       "description": "[slow]Tu émerges dans la nef silencieuse de l'église Saint-Léger. Un grand orgue trône au fond, majestueux, patient. La grande porte est verrouillée de l'intérieur par un mécanisme étrange. Les vitraux laissent passer la lumière des lampadaires : le [vert]monde normal[/vert] est juste derrière cette porte.[pause]",
       "exits": [
