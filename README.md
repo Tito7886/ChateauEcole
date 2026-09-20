@@ -218,8 +218,10 @@ couleur, pas d'attente, pas de blocage, texte brut sans balise.
   plantage**. Fonction unique `ConsoleIO.StripTags(text)` pour obtenir le texte brut
   (mode redirigé, saisies) — les balises ne s'affichent jamais telles quelles en console.
 - **Machine à écrire** : `WriteSlow(text, msParCaractère = 0)` — égrène les caractères
-  visibles (les balises sont parsées d'abord, la couleur est respectée). Toujours joué
-  jusqu'au bout (non interruptible) ; **instantané** si la sortie est redirigée. **Vitesse
+  visibles (les balises sont parsées d'abord, la couleur est respectée). Le joueur peut
+  **appuyer sur la barre d'Espace pour passer** l'animation (le reste de la ligne, y compris
+  les pauses `[pause=N]` internes, s'affiche d'un coup) — un appui par ligne ;
+  **instantané** si la sortie est redirigée. **Vitesse
   réglable** : passer `msParCaractère` (ex. `WriteSlow(t, 12)` = rapide) ; `0` = vitesse par
   défaut **configurable à chaud** via `ConsoleIO.VitesseParDefautMs` (repères : lent ≈ 55,
   normal ≈ 30, rapide ≈ 12). Côté data : marqueur `[slow]` (défaut) ou `[slow=NN]` (ms explicites).
@@ -256,7 +258,8 @@ couleur, pas d'attente, pas de blocage, texte brut sans balise.
       `[pause]` (attend une touche après) ;
     - **de rendu** (affichage, comme la couleur) : `[slow]` (vitesse par défaut),
       `[slow=NN]` (NN ms/caractère), `[/slow]` (retour au normal instantané) et `[pause=N]`
-      (attend **N secondes au milieu** du texte, sans touche, puis repart). Vitesses et pauses
+      (attend **N secondes au milieu** du texte, sans touche, puis repart — **Espace** la passe
+      aussi). Vitesses et pauses
       peuvent survenir **plusieurs fois au milieu d'une même ligne** — ex.
       `"Normal [slow]lent [slow=100]très lent[/slow] et il attend[pause=2] puis repart."`.
       (À distinguer de `[pause]` structurel, qui attend une **touche** en fin de texte.)

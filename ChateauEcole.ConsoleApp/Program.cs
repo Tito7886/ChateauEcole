@@ -235,20 +235,72 @@ public class ConsoleIO : IGameIO
     }
 
     /// <summary>Rend une ligne en respectant couleur, vitesse ET pauses chronométrées inline,
-    /// puis un saut de ligne. vitesseBase = vitesse hors balise (0 = instantané).</summary>
+    /// puis un saut de ligne. vitesseBase = vitesse hors balise (0 = instantané).
+    /// La BARRE D'ESPACE « passe » l'effet : dès qu'on l'appuie, le reste de la ligne (typewriter
+    /// ET pauses [pause=N]) s'affiche d'un coup. Un appui suffit pour la ligne courante.</summary>
     private void RenderLine(string text, int vitesseBase)
     {
         text = L(text); // traduit les chaînes d'INTERFACE (le contenu world.json, déjà traduit, passe inchangé)
         if (Console.IsOutputRedirected) { Console.WriteLine(StripTags(text)); return; }
+
+        bool skip = false;   // Espace pressée : on cesse d'animer, le reste de la ligne sort d'un coup
+        bool animee = false; // la ligne portait-elle un effet (slow / pause=N) ? -> vider le clavier ensuite
         foreach (var (seg, color, speed, pauseSec) in Segments(text, vitesseBase))
         {
             if (color.HasValue) Console.ForegroundColor = color.Value;
-            if (speed > 0) foreach (char ch in seg) { Console.Write(ch); Thread.Sleep(speed); }
-            else Console.Write(seg);
+            if (speed > 0 && !skip)
+            {
+                animee = true;
+                foreach (char ch in seg)
+                {
+                    Console.Write(ch);
+                    if (!skip && AttendreOuSkip(speed)) skip = true; // Espace -> on arrête d'attendre
+                }
+            }
+            else Console.Write(seg); // instantané (vitesse 0, ou effet déjà passé)
             if (color.HasValue) Console.ResetColor();
-            if (pauseSec > 0) Thread.Sleep(pauseSec * 1000); // pause silencieuse, puis ça repart
+            if (pauseSec > 0)
+            {
+                animee = true;
+                if (!skip && AttendreOuSkip(pauseSec * 1000)) skip = true; // pause chronométrée sautable
+            }
         }
         Console.WriteLine();
+        if (animee) ViderTouches(); // un espace maintenu ne doit pas fuiter dans le prochain menu/pause
+    }
+
+    /// <summary>
+    /// Attend jusqu'à <paramref name="ms"/> ms, mais s'interrompt DÈS que la barre d'espace est
+    /// pressée (pour « passer » l'effet en cours). Les autres touches pressées pendant l'animation
+    /// sont ignorées mais consommées (pour ne pas polluer la saisie suivante). Renvoie true si
+    /// Espace a été pressée. En entrée redirigée (tests/pipes) : simple attente, jamais de skip.
+    /// </summary>
+    private static bool AttendreOuSkip(int ms)
+    {
+        if (Console.IsInputRedirected) { if (ms > 0) Thread.Sleep(ms); return false; }
+        const int pas = 15; // granularité de scrutation du clavier (ms)
+        int attendu = 0;
+        try
+        {
+            while (true)
+            {
+                while (Console.KeyAvailable)
+                    if (Console.ReadKey(intercept: true).Key == ConsoleKey.Spacebar) return true;
+                if (attendu >= ms) return false;
+                int tranche = Math.Min(pas, ms - attendu);
+                Thread.Sleep(tranche);
+                attendu += tranche;
+            }
+        }
+        catch { if (ms - attendu > 0) Thread.Sleep(ms - attendu); return false; } // pas de console interactive
+    }
+
+    /// <summary>Vide les touches en attente (ex. espaces maintenus) pour qu'elles ne « fuitent »
+    /// pas dans le prochain prompt (menu, pause).</summary>
+    private static void ViderTouches()
+    {
+        if (Console.IsInputRedirected) return;
+        try { while (Console.KeyAvailable) Console.ReadKey(intercept: true); } catch { }
     }
 
     // Ligne normale : instantanée par défaut, mais anime les régions [slow]/[slow=NN].
