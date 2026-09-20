@@ -128,8 +128,10 @@ public class GameEngine
         State.Reset(_world.StartRoom);
         _titledRoomId = null; // forcer l'écran-titre de la salle de départ
 
-        // Code de la serrure du sous-sol : tiré au sort à chaque partie (4 chiffres).
-        State.CodeCombination = $"{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}{Random.Shared.Next(10)}";
+        // Code de la serrure du sous-sol : tiré au sort à chaque partie (4 chiffres, 1-9, JAMAIS 0).
+        // Le 2e chiffre est révélé comme un NOMBRE de griffures autour de la porte (« 0 griffures »
+        // n'aurait aucun sens) ; interdire le 0 évite aussi tout zéro non significatif à la saisie.
+        State.CodeCombination = $"{Random.Shared.Next(1, 10)}{Random.Shared.Next(1, 10)}{Random.Shared.Next(1, 10)}{Random.Shared.Next(1, 10)}";
 
         // Objets au sol initiaux (déclarés en JSON) : semés une seule fois, puis sérialisés.
         foreach (Room room in _world.Rooms)
