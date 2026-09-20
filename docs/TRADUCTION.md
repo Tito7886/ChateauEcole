@@ -8,9 +8,10 @@ aucun souci d'affichage console.
 
 ## Comment ça marche
 
-- Au lancement, le jeu propose un sélecteur de langue (détecté depuis l'OS par défaut), puis
-  **mémorise** le choix dans `%AppData%\ChateauEcole\langue.cfg`. Pour rechoisir : supprimer ce
-  fichier.
+- **À chaque lancement**, le jeu affiche un sélecteur de langue. Le défaut proposé est la langue
+  courante (choix **mémorisé** dans `%AppData%\ChateauEcole\langue.cfg`, sinon langue de l'OS,
+  sinon français) : **Entrée** la garde, **un chiffre** en change. Changer ou réinitialiser la
+  langue ne demande donc **aucune** suppression de fichier.
 - Le contenu du jeu est dans `world.json` (français). Pour chaque autre langue, il suffit d'un
   fichier **`world_<langue>.json`** (copie traduite) : `world_en.json`, `world_pl.json`, …
 - Le jeu charge, dans l'ordre : `world_<langue>.json` **à côté de l'exe**, sinon la version

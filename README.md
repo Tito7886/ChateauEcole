@@ -100,9 +100,11 @@ Un classement en ligne partagé est disponible en plus des scores locaux, via un
 
 ## Multilingue (fr / en / pl, it à venir)
 
-Le jeu détecte la langue de l'OS au lancement, propose un sélecteur (mémorisé dans
-`%AppData%\ChateauEcole\langue.cfg`) et charge le contenu correspondant. **Le français est la
-source et le repli** : une traduction manquante retombe sur le français, jamais d'écran vide.
+À **chaque lancement**, le jeu affiche un sélecteur de langue dont le défaut est la langue
+courante (choix mémorisé dans `%AppData%\ChateauEcole\langue.cfg`, sinon langue de l'OS) :
+**Entrée** garde la langue, **un chiffre** en change — pas besoin de supprimer un fichier pour
+réinitialiser. **Le français est la source et le repli** : une traduction manquante retombe sur
+le français, jamais d'écran vide.
 
 - Le contenu se traduit en fournissant un fichier **`world_<langue>.json`** (copie traduite de
   `world.json`) — à poser **à côté de l'exe** (test sans recompiler) ou **dans le projet** (une

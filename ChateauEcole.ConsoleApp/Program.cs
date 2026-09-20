@@ -52,41 +52,43 @@ public static class Program
     }
 
     /// <summary>
-    /// Choisit la langue : préférence mémorisée (langue.cfg) si présente, sinon langue de l'OS
-    /// comme défaut, proposée dans un petit sélecteur universel (une seule fois, puis mémorisée).
-    /// Pour rechoisir plus tard : supprimer %AppData%\ChateauEcole\langue.cfg.
+    /// Choisit la langue. Le sélecteur est proposé À CHAQUE lancement : la langue courante
+    /// (préférence mémorisée dans langue.cfg, sinon langue de l'OS, sinon français) est le défaut
+    /// — Entrée la garde, un chiffre en change. Changer/réinitialiser la langue ne demande donc
+    /// plus de supprimer le moindre fichier. Le choix est re-mémorisé à chaque fois.
     /// </summary>
     private static string SelectLanguage(string saveDir)
     {
         string cfg = Path.Combine(saveDir, "langue.cfg");
 
+        // Défaut proposé : la préférence mémorisée si elle existe, sinon la langue de l'OS, sinon fr.
+        string defaut = "fr";
+        try
+        {
+            string two = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+            if (Array.IndexOf(Langues, two) >= 0) defaut = two;
+        }
+        catch { /* pas de culture dispo : fr par défaut */ }
         try
         {
             if (File.Exists(cfg))
             {
                 string saved = File.ReadAllText(cfg).Trim().ToLowerInvariant();
-                if (Array.IndexOf(Langues, saved) >= 0) return saved;
+                if (Array.IndexOf(Langues, saved) >= 0) defaut = saved; // la préférence prime sur l'OS
             }
         }
-        catch { /* config illisible : on redemande */ }
+        catch { /* config illisible : on garde le défaut OS/fr */ }
 
-        string detected = "fr";
-        try
-        {
-            string two = System.Globalization.CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
-            if (Array.IndexOf(Langues, two) >= 0) detected = two;
-        }
-        catch { /* pas de culture dispo : fr par défaut */ }
-
-        // Sélecteur volontairement multilingue (compréhensible quelle que soit la langue).
+        // Sélecteur volontairement multilingue (compréhensible quelle que soit la langue), affiché
+        // à chaque lancement. Entrée = on garde la langue courante ; un chiffre la remplace.
         Console.WriteLine();
         Console.WriteLine("  Langue / Language / Język :");
         for (int i = 0; i < LangChoix.Length; i++)
             Console.WriteLine($"    {i + 1}. {LangChoix[i].Label}");
-        string defLabel = LangChoix.First(l => l.Code == detected).Label;
+        string defLabel = LangChoix.First(l => l.Code == defaut).Label;
         Console.Write($"  > (Entrée = {defLabel}) ");
 
-        string chosen = detected;
+        string chosen = defaut;
         try
         {
             string? line = Console.ReadLine();
